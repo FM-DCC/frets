@@ -83,6 +83,7 @@ object FRTS:
                    names: Map[QName,Edge]):
     def toFRTS: FRTS =
       def findName(qn:QName): Set[Edge] =
+        println(s"finding name for ${qn}")
         val e1: Option[Edge] = names.get(qn) // from names
         val e2 = f.lbls.getOrElse(qn,Set()) // from action names
         if e1.isDefined && e2.nonEmpty then
@@ -95,7 +96,8 @@ object FRTS:
                 yield ea -> eb
       val off2 = for (a,bs) <- xoff.toSet; ea <- findName(a);
                      b <- bs; eb <- findName(b)
-      yield ea -> eb
+                 yield ea -> eb
+      println(s"## joining ${f.off} with ${off2} to get ${join(f.off, off2)}")
       f.copy(on = join(f.on, on2), off = join(f.off, off2))
 
     def addEdge(nm: Option[String],s1:State,s2:State,l:Action) =
@@ -122,7 +124,8 @@ object FRTS:
     def ++(r: XFRTS): XFRTS =
       if this.names.keySet.intersect(r.names.keySet).nonEmpty then
         sys.error(s"IDs of edges should be unique, but the common ID(s) was(were) found: ${this.names.keySet.intersect(r.names.keySet)}")
-      (this++(r.f)).copy(xon = Rel.join(this.xon,r.xon),
+      (this++(r.f)).copy(
+        xon  = Rel.join(this.xon,r.xon),
         xoff = Rel.join(this.xoff,r.xoff),
         names = this.names ++ r.names)
 

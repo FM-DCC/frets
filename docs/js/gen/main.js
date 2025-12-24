@@ -5625,6 +5625,35 @@ function $m_jl_StackTrace$StringRE$() {
   };
   return $n_jl_StackTrace$StringRE$
 }
+/** @constructor */
+function $c_jl_System$Streams$() {
+  this.jl_System$Streams$__f_out = null;
+  this.jl_System$Streams$__f_err = null;
+  $n_jl_System$Streams$ = this;
+  this.jl_System$Streams$__f_out = new $c_jl_JSConsoleBasedPrintStream(false);
+  this.jl_System$Streams$__f_err = new $c_jl_JSConsoleBasedPrintStream(true)
+}
+$c_jl_System$Streams$.prototype = new $h_O();
+$c_jl_System$Streams$.prototype.constructor = $c_jl_System$Streams$;
+/** @constructor */
+function $h_jl_System$Streams$() {
+  /*<skip>*/
+}
+$h_jl_System$Streams$.prototype = $c_jl_System$Streams$.prototype;
+var $d_jl_System$Streams$ = new $TypeData().initClass({
+  jl_System$Streams$: 0
+}, false, "java.lang.System$Streams$", {
+  jl_System$Streams$: 1,
+  O: 1
+});
+$c_jl_System$Streams$.prototype.$classData = $d_jl_System$Streams$;
+var $n_jl_System$Streams$;
+function $m_jl_System$Streams$() {
+  if ((!$n_jl_System$Streams$)) {
+    $n_jl_System$Streams$ = new $c_jl_System$Streams$()
+  };
+  return $n_jl_System$Streams$
+}
 function $p_jl_System$SystemProperties$__loadSystemProperties__O($thiz) {
   var result = {};
   result["java.version"] = "1.8";
@@ -9601,14 +9630,86 @@ $c_Lmarge_backend_Rel$.prototype.join__sci_Map__sci_Map__sci_Map = (function(r1,
   })))))
 });
 $c_Lmarge_backend_Rel$.prototype.join__sci_Map__sci_Set__sci_Map = (function(r1, r2) {
-  return $as_sci_Map($n(r1).$plus$plus__sc_IterableOnce__sc_IterableOps($as_sc_IterableOnce($n(r2).map__F1__O(new $c_sjsr_AnonFunction1(((ab) => {
-    var ab$1 = $as_T2(ab);
-    var self = $n(ab$1)._1__O();
-    var this$3 = $n($as_sci_SetOps($n(r1).apply__O__O($n(ab$1)._1__O())));
-    var elem = $n(ab$1)._2__O();
-    var y = this$3.incl__O__sci_SetOps(elem);
-    return new $c_T2(self, y)
-  }))))))
+  var this$1 = $n(r2);
+  var m = $as_scm_Map($m_scm_Map$().empty__O());
+  var it = this$1.iterator__sc_Iterator();
+  while ($n(it).hasNext__Z()) {
+    var elem = $n(it).next__O();
+    var _$1 = $as_T2(elem);
+    var key = $n(_$1)._1__O();
+    var this$2 = $n(m);
+    var f = ((this$1) => (() => this$1.newSpecificBuilder__scm_Builder()))(this$1);
+    var x = $objectGetClass(this$2);
+    if ((!(x === $d_scm_HashMap.getClassOf()))) {
+      var x1 = this$2.get__O__s_Option(key);
+      if ((x1 instanceof $c_s_Some)) {
+        var x2 = $as_s_Some(x1);
+        var v = $n(x2).s_Some__f_value;
+        var $$x1 = v
+      } else {
+        var x$1 = $m_s_None$();
+        if ((!(x$1 === x1))) {
+          throw new $c_s_MatchError(x1)
+        };
+        var d = f();
+        $p_scm_HashMap__put0__O__O__Z__s_Some(this$2, key, d, false);
+        var $$x1 = d
+      }
+    } else {
+      var originalHash = $m_sr_Statics$().anyHash__O__I(key);
+      var hash = (originalHash ^ ((originalHash >>> 16) | 0));
+      var idx = (hash & (((-1) + $n(this$2.scm_HashMap__f_scala$collection$mutable$HashMap$$table).u.length) | 0));
+      var x1$1 = $n(this$2.scm_HashMap__f_scala$collection$mutable$HashMap$$table).get(idx);
+      var nd = ((x1$1 === null) ? null : $n(x1$1).findNode__O__I__scm_HashMap$Node(key, hash));
+      if ((nd !== null)) {
+        var $$x1 = $n(nd).scm_HashMap$Node__f__value
+      } else {
+        var table0 = this$2.scm_HashMap__f_scala$collection$mutable$HashMap$$table;
+        var default$1 = f();
+        if ((((1 + this$2.scm_HashMap__f_contentSize) | 0) >= this$2.scm_HashMap__f_threshold)) {
+          $p_scm_HashMap__growTable__I__V(this$2, ($n(this$2.scm_HashMap__f_scala$collection$mutable$HashMap$$table).u.length << 1))
+        };
+        var newIdx = ((table0 === this$2.scm_HashMap__f_scala$collection$mutable$HashMap$$table) ? idx : (hash & (((-1) + $n(this$2.scm_HashMap__f_scala$collection$mutable$HashMap$$table).u.length) | 0)));
+        $p_scm_HashMap__put0__O__O__Z__I__I__s_Some(this$2, key, default$1, false, hash, newIdx);
+        var $$x1 = default$1
+      }
+    };
+    var bldr = $as_scm_Builder($$x1);
+    var this$3 = $n(bldr);
+    this$3.addOne__O__scm_Growable(elem)
+  };
+  var this$4 = $m_sci_HashMap$();
+  var result = this$4.sci_HashMap$__f_EmptyMap;
+  var mapIt = $n(m).iterator__sc_Iterator();
+  while ($n(mapIt).hasNext__Z()) {
+    var x1$2 = $as_T2($n(mapIt).next__O());
+    if ((x1$2 === null)) {
+      throw new $c_s_MatchError(x1$2)
+    };
+    var k = $n(x1$2)._1__O();
+    var v$1 = $as_scm_Builder($n(x1$2)._2__O());
+    result = $n(result).updated__O__O__sci_HashMap(k, $n(v$1).result__O())
+  };
+  var this$5 = $n(result);
+  $m_sci_HashMap$();
+  var b = new $c_sci_HashMapBuilder();
+  var it$1 = this$5.iterator__sc_Iterator();
+  while ($n(it$1).hasNext__Z()) {
+    var arg1 = $n(it$1).next__O();
+    var ab = $as_T2(arg1);
+    var self = $n(ab)._1__O();
+    var this$9 = $n($as_sc_SetOps($n(r1).apply__O__O($n(ab)._1__O())));
+    var that = $as_sc_IterableOnce($n($as_sc_IterableOps($n(ab)._2__O())).map__F1__O(new $c_sjsr_AnonFunction1(((_$2) => {
+      var _$2$1 = $as_T2(_$2);
+      return $n(_$2$1)._2__O()
+    }))));
+    var y = this$9.concat__sc_IterableOnce__sc_SetOps(that);
+    $p_sci_HashMapBuilder__ensureUnaliased__V(b);
+    var h = $m_sr_Statics$().anyHash__O__I(self);
+    var im = $m_sc_Hashing$().improve__I__I(h);
+    b.update__sci_MapNode__O__O__I__I__I__V(b.sci_HashMapBuilder__f_scala$collection$immutable$HashMapBuilder$$rootNode, self, y, h, im, 0)
+  };
+  return $as_sci_Map($n(r1).$plus$plus__sc_IterableOnce__sc_IterableOps(b.result__sci_HashMap()))
 });
 var $d_Lmarge_backend_Rel$ = new $TypeData().initClass({
   Lmarge_backend_Rel$: 0
@@ -9706,7 +9807,12 @@ $c_Lmarge_syntax_Parser$.prototype.parseProgram__T__Lmarge_syntax_FRTS$FRTS = (f
   };
   if ((x1 instanceof $c_s_util_Right)) {
     var c = $as_Lmarge_syntax_FRTS$XFRTS($n($as_s_util_Right(x1)).s_util_Right__f_value);
-    return $n(c).toFRTS__Lmarge_syntax_FRTS$FRTS()
+    var res = $n(c).toFRTS__Lmarge_syntax_FRTS$FRTS();
+    var x = ((("FROM:\n" + $m_Lmarge_syntax_Show$().apply__Lmarge_syntax_FRTS$XFRTS__T(c)) + "\nTO:\n") + $m_Lmarge_syntax_Show$().apply__Lmarge_syntax_FRTS$FRTS__T(res));
+    var this$2 = $m_s_Console$();
+    var this$3 = $n(this$2.out__Ljava_io_PrintStream());
+    this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
+    return res
   };
   throw new $c_s_MatchError(x1)
 });
@@ -10064,6 +10170,13 @@ $c_Lmarge_syntax_Show$.prototype.apply__sci_Set__T = (function(abc) {
     return this.apply__T3__T(e$1)
   })))));
   return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$2, "", ", ", "")
+});
+$c_Lmarge_syntax_Show$.prototype.apply__Lmarge_syntax_FRTS$XFRTS__T = (function(rx) {
+  var $$x3 = this.apply__Lmarge_syntax_FRTS$FRTS__T($n(rx).Lmarge_syntax_FRTS$XFRTS__f_f);
+  var $$x2 = $n(rx).Lmarge_syntax_FRTS$XFRTS__f_xon;
+  var $$x1 = $n(rx).Lmarge_syntax_FRTS$XFRTS__f_xoff;
+  var this$1 = $n($n(rx).Lmarge_syntax_FRTS$XFRTS__f_names);
+  return (((((($$x3 + "\n[xon] ") + $$x2) + "\n[xoff] ") + $$x1) + "\n[aliases] ") + $f_sc_IterableOnceOps__mkString__T__T__T__T(this$1, "", ",", ""))
 });
 $c_Lmarge_syntax_Show$.prototype.apply__Lmarge_syntax_FRTS$FRTS__T = (function(rx) {
   return ((((((((("[init]  " + $n(rx).Lmarge_syntax_FRTS$FRTS__f_inits) + "\n[act]   ") + this.apply__sci_Set__T($n(rx).Lmarge_syntax_FRTS$FRTS__f_act)) + "\n[edges] ") + $p_Lmarge_syntax_Show$__showEdges__sci_Map__T(this, $n(rx).Lmarge_syntax_FRTS$FRTS__f_edgs)) + "\n[on]    ") + $p_Lmarge_syntax_Show$__showReaction__sci_Map__T(this, $n(rx).Lmarge_syntax_FRTS$FRTS__f_on)) + "\n[off]   ") + $p_Lmarge_syntax_Show$__showReaction__sci_Map__T(this, $n(rx).Lmarge_syntax_FRTS$FRTS__f_off))
@@ -14958,6 +15071,28 @@ function $m_s_sys_package$() {
   };
   return $n_s_sys_package$
 }
+/** @constructor */
+function $c_s_util_DynamicVariable(init) {
+  this.s_util_DynamicVariable__f_v = null;
+  this.s_util_DynamicVariable__f_v = init
+}
+$c_s_util_DynamicVariable.prototype = new $h_O();
+$c_s_util_DynamicVariable.prototype.constructor = $c_s_util_DynamicVariable;
+/** @constructor */
+function $h_s_util_DynamicVariable() {
+  /*<skip>*/
+}
+$h_s_util_DynamicVariable.prototype = $c_s_util_DynamicVariable.prototype;
+$c_s_util_DynamicVariable.prototype.toString__T = (function() {
+  return (("DynamicVariable(" + this.s_util_DynamicVariable__f_v) + ")")
+});
+var $d_s_util_DynamicVariable = new $TypeData().initClass({
+  s_util_DynamicVariable: 0
+}, false, "scala.util.DynamicVariable", {
+  s_util_DynamicVariable: 1,
+  O: 1
+});
+$c_s_util_DynamicVariable.prototype.$classData = $d_s_util_DynamicVariable;
 /** @constructor */
 function $c_s_util_Sorting$() {
   /*<skip>*/
@@ -20055,11 +20190,11 @@ function $c_Lmarge_frontend_CaosConfig$() {
     return $m_Lmarge_syntax_Parser$().parseProgram__T__Lmarge_syntax_FRTS$FRTS(str$1)
   }));
   $n($m_s_package$().s_package$__f_List);
-  var elems = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_Lcaos_frontend_Configurator$Example.getArrayOf().constr)([new $c_Lcaos_frontend_Configurator$Example("init s0\ns0 --> s1: a\ns1 --> s0: b\na  --! a", "Simple", "Basic example"), new $c_Lcaos_frontend_Configurator$Example("init s0\ns0 --> s0 : act\nact --! act : offAct disabled\nact ->> offAct : on1 disabled\nact ->> on1", "Counter", "turns off a transition after 3 times."), new $c_Lcaos_frontend_Configurator$Example("init Son_of_Tweetie\nSon_of_Tweetie --> Special_Penguin\nSpecial_Penguin --> Penguin : Penguim\nPenguin --> Bird : Bird\nBird --> Does_Fly: Fly\n\nBird --! Fly : noFly\nPenguim --! noFly", "Penguim", "Figure 7.4 in Dov M Gabbay, Cognitive Technologies Reactive Kripke Semantics"), new $c_Lcaos_frontend_Configurator$Example("init Insert\nInsert --> Coffee : 50ct\nInsert --> Chocolate : 1eur\nCoffee --> Insert : Get_coffee\nChocolate --> Insert : Get_choc\n\n1eur --! 50ct\n1eur --! 1eur\n50ct --! 50ct : last50ct disabled\n50ct --! 1eur\n50ct ->> last50ct", "Vending (max 1eur)", "Example of a vending machine, presented in a recently accepted companion paper at FACS 2024. There is a total of 1eur to be spent, and some transitions are deactivated when there is not enough money."), new $c_Lcaos_frontend_Configurator$Example("init pay\npay --> select : insert_coin\nselect --> soda : ask_soda\nselect --> beer : ask_beer\nsoda --> pay : get_soda\nbeer --> pay : get_beer\n\nask_soda --! ask_soda : noSoda disabled\nask_beer --! ask_beer : noBeer\nask_soda ->> noSoda", "Vending (max 3prod)", "Variation of an example of a vending machine, presented in a recently accepted companion paper at FACS 2024. There is a total of 1 beer and 2 sodas available."), new $c_Lcaos_frontend_Configurator$Example("aut s {\n  init 0\n  0 --> 1 : a\n  1 --> 2 : b\n  2 --> 0 : d disabled\n  a --! b\n}\naut w {\n  init 0\n  0 --> 1 : a\n  1 --> 0 : c\n  a --! a : noAs disabled\n  a ->> noAs\n}\n// intrusion\nw.c ->> s.b", "Intrusive product", ""), new $c_Lcaos_frontend_Configurator$Example("init 0\n0 --> 1: a\n1 --> 2: b\n2 --> 3: c disabled\n\na ->> b: on\non --! b: off", "Conflict", "Possible conflict detected in the analysis."), new $c_Lcaos_frontend_Configurator$Example("init 0\n0 --> 1: a\n1 --> 2: b disabled\n2 --> 3: c disabled\na ->> b: on\non ->> c: off", "Higher-edge", "Example of a hyper-edge from a higher level (from another hyper-edge)."), new $c_Lcaos_frontend_Configurator$Example("aut A {\n  init 0\n  0 --> 1: look\n  1 --> 0: restart\n}\n\naut B {\n  init 0\n  0 --> 1: on\n  1 --> 2: goLeft disabled\n  1 --> 2: goRight disabled\n  goLeft --#-- goRight\n  2 --> 0: off\n}\n\n// dependencies\nA.look ----> B.goLeft\nA.look ----> B.goRight", "Dependencies", "Experimental syntax to describe dependencies, currently only as syntactic sugar."), new $c_Lcaos_frontend_Configurator$Example("init setup\nsetup --> setup : Safe\nsetup --> setup : Unsafe\nsetup --> setup : Encrypt\nsetup --> setup : Dencrypt\nsetup --> ready\nready --> setup\nready --> received : Receive\nreceived --> routed_safe : ERoute  disabled\nreceived --> routed_unsafe : Route\nrouted_safe --> sent : ESend       disabled\nrouted_unsafe --> sent : Send\nrouted_unsafe --> sent_encrypt : ESend disabled\nsent_encrypt --> ready : Ready\nsent --> ready : Ready\n\nSafe ->> ERoute\nSafe --! Route\nUnsafe --! ERoute\nUnsafe ->> Route\nEncrypt --! Send\nEncrypt ->> ESend\nDencrypt ->> Send\nDencrypt --! ESend", "Dynamic SPL", "Example of a Dynamic Software Product Line, borrowed from Fig 1 in Maxime Cordy et al. <em>Model Checking Adaptive Software with Featured Transition Systems</em>"), new $c_Lcaos_frontend_Configurator$Example("init 0\n0 --> 1: 0\n1 --> 0: 0\n1 --> 3: 1\n2 --> 1: 0\n2 --> 3: 1\n4 --> 3: 0\n4 --> 3: 1\n0 --> 3: 1\n3 --> 5: 0\n3 --> 5: 1\n5 --> 5: 0\n5 --> 5: 1", "NFA-DFA", "Experimenting with determinisatoin and minimisation of automata"), new $c_Lcaos_frontend_Configurator$Example("aut a {\n  init 0\n  0 --> 1 : a disabled\n}\naut b {\n  init 0\n  0 --> 1 : b0\n  1 --> 0 : b disabled\n}\naut c {\n  init 0\n  0 --> 1 : c0\n  1 --> 0 : c disabled\n}\n// intrusion\nb.b  ->> a.a\nc.c  ->> a.a\nb.b0 ->> c.c\nc.c0 ->> b.b\nb.b0 --#-- c.c0", "par-exp", "Experiments with multiple components.")]));
+  var elems = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_Lcaos_frontend_Configurator$Example.getArrayOf().constr)([new $c_Lcaos_frontend_Configurator$Example("init s0\ns0 --> s1: a\ns1 --> s0: b\na  --! a", "Simple", "Basic example"), new $c_Lcaos_frontend_Configurator$Example("aut s {\n  init 0\n  0 --> 1 : a\n  1 --> 2 : b\n  2 --> 0 : d disabled\n  a --! b\n}\naut w {\n  init 0\n  0 --> 1 : a\n  1 --> 0 : c\n  a --! a \n}\n// intrusion\nw.c ->> s.b", "Intrusive product", ""), new $c_Lcaos_frontend_Configurator$Example("init 0\n     0 --> 1: a\n[e2] 1 --> 2: b\n[e3] 2 --> 3: b disabled\n\na ->> b\na --! e3", "Conflict", "Possible conflict detected in the analysis."), new $c_Lcaos_frontend_Configurator$Example("aut A {\n  init 0\n  0 --> 1: look\n  1 --> 0: restart\n}\n\naut B {\n  init 0\n  0 --> 1: on\n  1 --> 2: goLeft disabled\n  1 --> 2: goRight disabled\n  goLeft --#-- goRight\n  2 --> 0: off\n}\n\n// dependencies\nA.look ----> B.goLeft\nA.look ----> B.goRight", "Dependencies", "Experimental syntax to describe dependencies, currently only as syntactic sugar."), new $c_Lcaos_frontend_Configurator$Example("init setup\nsetup --> setup : Safe\nsetup --> setup : Unsafe\nsetup --> setup : Encrypt\nsetup --> setup : Dencrypt\nsetup --> ready\nready --> setup\nready --> received : Receive\nreceived --> routed_safe : ERoute  disabled\nreceived --> routed_unsafe : Route\nrouted_safe --> sent : ESend       disabled\nrouted_unsafe --> sent : Send\nrouted_unsafe --> sent_encrypt : ESend disabled\nsent_encrypt --> ready : Ready\nsent --> ready : Ready\n\nSafe ->> ERoute\nSafe --! Route\nUnsafe --! ERoute\nUnsafe ->> Route\nEncrypt --! Send\nEncrypt ->> ESend\nDencrypt ->> Send\nDencrypt --! ESend", "Dynamic SPL", "Example of a Dynamic Software Product Line, borrowed from Fig 1 in Maxime Cordy et al. <em>Model Checking Adaptive Software with Featured Transition Systems</em>"), new $c_Lcaos_frontend_Configurator$Example("init 0\n0 --> 1: 0\n1 --> 0: 0\n1 --> 3: 1\n2 --> 1: 0\n2 --> 3: 1\n4 --> 3: 0\n4 --> 3: 1\n0 --> 3: 1\n3 --> 5: 0\n3 --> 5: 1\n5 --> 5: 0\n5 --> 5: 1", "NFA-DFA", "Experimenting with determinisatoin and minimisation of automata"), new $c_Lcaos_frontend_Configurator$Example("aut a {\n  init 0\n  0 --> 1 : a disabled\n}\naut b {\n  init 0\n  0 --> 1 : b0\n  1 --> 0 : b disabled\n}\naut c {\n  init 0\n  0 --> 1 : c0\n  1 --> 0 : c disabled\n}\n// intrusion\nb.b  ->> a.a\nc.c  ->> a.a\nb.b0 ->> c.c\nc.c0 ->> b.b\nb.b0 --#-- c.c0", "Parallel", "Experiments with multiple components."), new $c_Lcaos_frontend_Configurator$Example("init s1\ns1 --> s1: sodaRefill\ns1 --> s1: teaRefill\ns1 --> s2: pay\ns4 --> s1: return\ns2 --> s3: change\ns3 --> s4: cancel\ns3 --> s5: soda\ns3 --> s6: tea\ns5 --> s7: serve\ns5 --> s7: serveSodaGone\ns6 --> s7: serve\ns6 --> s7: serveTeaGone\ns7 --> s8: open\ns8 --> s9: take\ns9 --> s1: close\n\nsodaRefill ->> soda\nteaRefill ->> tea\nserveSodaGone --x soda\nserveTeaGone --x tea", "Vending", "Experiment from the ongoing paper")]));
   this.Lmarge_frontend_CaosConfig$__f_examples = $m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems);
   $n($m_s_package$().s_package$__f_List);
   var $$x4 = $m_sr_ScalaRunTime$();
-  var this$74 = $n($m_Lcaos_frontend_Configurator$().steps__F1__Lcaos_sos_SOS__F1__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e) => {
+  var this$50 = $n($m_Lcaos_frontend_Configurator$().steps__F1__Lcaos_sos_SOS__F1__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e) => {
     var e$1 = $as_Lmarge_syntax_FRTS$FRTS(e);
     return e$1
   })), $m_Lmarge_backend_FRTSSemantics$(), new $c_sjsr_AnonFunction1(((rx) => {
@@ -20069,9 +20204,9 @@ function $c_Lmarge_frontend_CaosConfig$() {
     var _$1$1 = $as_Lmarge_syntax_FRTS$QName(_$1);
     return $n(_$1$1).show__T()
   })), $m_Lcaos_view_Mermaid$()));
-  var y = $f_Lcaos_frontend_widgets_WidgetInfo__expand__Lcaos_frontend_widgets_WidgetInfo(this$74);
+  var y = $f_Lcaos_frontend_widgets_WidgetInfo__expand__Lcaos_frontend_widgets_WidgetInfo(this$50);
   var $$x3 = new $c_T2("Step-by-step", y);
-  var this$77 = $n($m_Lcaos_frontend_Configurator$().steps__F1__Lcaos_sos_SOS__F1__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e$2) => {
+  var this$53 = $n($m_Lcaos_frontend_Configurator$().steps__F1__Lcaos_sos_SOS__F1__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e$2) => {
     var e$3 = $as_Lmarge_syntax_FRTS$FRTS(e$2);
     return e$3
   })), $m_Lmarge_backend_FRTSSemantics$(), new $c_sjsr_AnonFunction1(((rx$2) => {
@@ -20081,7 +20216,7 @@ function $c_Lmarge_frontend_CaosConfig$() {
     var _$2$1 = $as_Lmarge_syntax_FRTS$QName(_$2);
     return $n(_$2$1).show__T()
   })), $m_Lcaos_view_Mermaid$()));
-  var y$1 = $f_Lcaos_frontend_widgets_WidgetInfo__expand__Lcaos_frontend_widgets_WidgetInfo(this$77);
+  var y$1 = $f_Lcaos_frontend_widgets_WidgetInfo__expand__Lcaos_frontend_widgets_WidgetInfo(this$53);
   var $$x2 = new $c_T2("Step-by-step (simpler)", y$1);
   var y$2 = $m_Lcaos_frontend_Configurator$().steps__F1__Lcaos_sos_SOS__F1__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e$3$1) => {
     var e$4 = $as_Lmarge_syntax_FRTS$FRTS(e$3$1);
@@ -20102,9 +20237,9 @@ function $c_Lmarge_frontend_CaosConfig$() {
     return $n($n(x$1).Lmarge_syntax_FRTS$FRTS__f_inits).toString__T()
   })), new $c_sjsr_AnonFunction1(((_$4) => {
     var _$4$1 = $as_Lmarge_syntax_FRTS$QName(_$4);
-    var this$82 = $n(_$4$1);
-    var this$83 = $n(this$82.Lmarge_syntax_FRTS$QName__f_n);
-    return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$83, "", "/", "")
+    var this$58 = $n(_$4$1);
+    var this$59 = $n(this$58.Lmarge_syntax_FRTS$QName__f_n);
+    return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$59, "", "/", "")
   })), 80);
   var elems$1 = $n($$x4).wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$$x3, $$x2, $$x1, new $c_T2("All steps", y$3)]));
   this.Lmarge_frontend_CaosConfig$__f_widgets = $m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems$1);
@@ -20357,6 +20492,39 @@ function $m_s_Array$() {
     $n_s_Array$ = new $c_s_Array$()
   };
   return $n_s_Array$
+}
+/** @constructor */
+function $c_s_Console$() {
+  this.s_Console$__f_outVar = null;
+  $n_s_Console$ = this;
+  this.s_Console$__f_outVar = new $c_s_util_DynamicVariable($m_jl_System$Streams$().jl_System$Streams$__f_out);
+  new $c_s_util_DynamicVariable($m_jl_System$Streams$().jl_System$Streams$__f_err);
+  new $c_s_util_DynamicVariable(null)
+}
+$c_s_Console$.prototype = new $h_O();
+$c_s_Console$.prototype.constructor = $c_s_Console$;
+/** @constructor */
+function $h_s_Console$() {
+  /*<skip>*/
+}
+$h_s_Console$.prototype = $c_s_Console$.prototype;
+$c_s_Console$.prototype.out__Ljava_io_PrintStream = (function() {
+  return $as_Ljava_io_PrintStream($n(this.s_Console$__f_outVar).s_util_DynamicVariable__f_v)
+});
+var $d_s_Console$ = new $TypeData().initClass({
+  s_Console$: 0
+}, false, "scala.Console$", {
+  s_Console$: 1,
+  O: 1,
+  s_io_AnsiColor: 1
+});
+$c_s_Console$.prototype.$classData = $d_s_Console$;
+var $n_s_Console$;
+function $m_s_Console$() {
+  if ((!$n_s_Console$)) {
+    $n_s_Console$ = new $c_s_Console$()
+  };
+  return $n_s_Console$
 }
 /** @constructor */
 function $c_s_LowPriorityImplicits() {
@@ -28360,6 +28528,17 @@ var $d_Lcats_parse_Parser$Error = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lcats_parse_Parser$Error.prototype.$classData = $d_Lcats_parse_Parser$Error;
+/** @constructor */
+function $c_Ljava_io_OutputStream() {
+  /*<skip>*/
+}
+$c_Ljava_io_OutputStream.prototype = new $h_O();
+$c_Ljava_io_OutputStream.prototype.constructor = $c_Ljava_io_OutputStream;
+/** @constructor */
+function $h_Ljava_io_OutputStream() {
+  /*<skip>*/
+}
+$h_Ljava_io_OutputStream.prototype = $c_Ljava_io_OutputStream.prototype;
 class $c_jl_AssertionError extends $c_jl_Error {
   constructor(detailMessage) {
     super();
@@ -30518,16 +30697,20 @@ function $p_Lmarge_syntax_FRTS$XFRTS__noLbs__T__s_Option__Lmarge_syntax_FRTS$QNa
   }
 }
 function $p_Lmarge_syntax_FRTS$XFRTS__findName$1__Lmarge_syntax_FRTS$QName__sci_Set($thiz, qn) {
+  var x = ("finding name for " + qn);
+  var this$2 = $m_s_Console$();
+  var this$3 = $n(this$2.out__Ljava_io_PrintStream());
+  this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
   var e1 = $n($thiz.Lmarge_syntax_FRTS$XFRTS__f_names).get__O__s_Option(qn);
   var e2 = $as_sci_Set($n($n($thiz.Lmarge_syntax_FRTS$XFRTS__f_f).lbls__sci_Map()).getOrElse__O__F0__O(qn, new $c_sjsr_AnonFunction0((() => {
-    var this$2 = $n($m_s_Predef$().s_Predef$__f_Set);
+    var this$5 = $n($m_s_Predef$().s_Predef$__f_Set);
     var elems = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_T3.getArrayOf().constr)([]));
-    return this$2.from__sc_IterableOnce__sci_Set(elems)
+    return this$5.from__sc_IterableOnce__sci_Set(elems)
   }))));
-  var this$3 = $n(e1);
-  if ((!this$3.isEmpty__Z())) {
-    var this$4 = $n(e2);
-    var $$x1 = (!this$4.isEmpty__Z())
+  var this$6 = $n(e1);
+  if ((!this$6.isEmpty__Z())) {
+    var this$7 = $n(e2);
+    var $$x1 = (!this$7.isEmpty__Z())
   } else {
     var $$x1 = false
   };
@@ -30537,10 +30720,10 @@ function $p_Lmarge_syntax_FRTS$XFRTS__findName$1__Lmarge_syntax_FRTS$QName__sci_
   if (($n(e1).isEmpty__Z() && $n(e2).isEmpty__Z())) {
     $m_s_sys_package$().error__T__E((("Name " + qn) + " not found, neither as an edge ID nor as an action."))
   };
-  var this$6 = $n(e2);
-  var this$5 = $n($m_s_Option$().option2Iterable__s_Option__sc_Iterable(e1));
-  var that = $m_sci_Set$().from__sc_IterableOnce__sci_Set(this$5);
-  return $as_sci_Set(this$6.concat__sc_IterableOnce__sc_SetOps(that))
+  var this$9 = $n(e2);
+  var this$8 = $n($m_s_Option$().option2Iterable__s_Option__sc_Iterable(e1));
+  var that = $m_sci_Set$().from__sc_IterableOnce__sci_Set(this$8);
+  return $as_sci_Set(this$9.concat__sc_IterableOnce__sc_SetOps(that))
 }
 /** @constructor */
 function $c_Lmarge_syntax_FRTS$XFRTS(f, xon, xoff, names) {
@@ -30682,14 +30865,18 @@ $c_Lmarge_syntax_FRTS$XFRTS.prototype.toFRTS__Lmarge_syntax_FRTS$FRTS = (functio
     };
     throw new $c_s_MatchError(x$1$5)
   }))));
+  var x = ((((("## joining " + $n(this.Lmarge_syntax_FRTS$XFRTS__f_f).Lmarge_syntax_FRTS$FRTS__f_off) + " with ") + off2) + " to get ") + $m_Lmarge_backend_Rel$().join__sci_Map__sci_Set__sci_Map($n(this.Lmarge_syntax_FRTS$XFRTS__f_f).Lmarge_syntax_FRTS$FRTS__f_off, off2));
+  var this$9 = $m_s_Console$();
+  var this$10 = $n(this$9.out__Ljava_io_PrintStream());
+  this$10.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
   var on$1 = $m_Lmarge_backend_Rel$().join__sci_Map__sci_Set__sci_Map($n(this.Lmarge_syntax_FRTS$XFRTS__f_f).Lmarge_syntax_FRTS$FRTS__f_on, on2);
   var off$1 = $m_Lmarge_backend_Rel$().join__sci_Map__sci_Set__sci_Map($n(this.Lmarge_syntax_FRTS$XFRTS__f_f).Lmarge_syntax_FRTS$FRTS__f_off, off2);
-  var this$8 = $n(this.Lmarge_syntax_FRTS$XFRTS__f_f);
-  var edgs$1 = this$8.Lmarge_syntax_FRTS$FRTS__f_edgs;
-  var this$9 = $n(this.Lmarge_syntax_FRTS$XFRTS__f_f);
-  var inits$1 = this$9.Lmarge_syntax_FRTS$FRTS__f_inits;
-  var this$10 = $n(this.Lmarge_syntax_FRTS$XFRTS__f_f);
-  var act$1 = this$10.Lmarge_syntax_FRTS$FRTS__f_act;
+  var this$11 = $n(this.Lmarge_syntax_FRTS$XFRTS__f_f);
+  var edgs$1 = this$11.Lmarge_syntax_FRTS$FRTS__f_edgs;
+  var this$12 = $n(this.Lmarge_syntax_FRTS$XFRTS__f_f);
+  var inits$1 = this$12.Lmarge_syntax_FRTS$FRTS__f_inits;
+  var this$13 = $n(this.Lmarge_syntax_FRTS$XFRTS__f_f);
+  var act$1 = this$13.Lmarge_syntax_FRTS$FRTS__f_act;
   $n(this.Lmarge_syntax_FRTS$XFRTS__f_f);
   return new $c_Lmarge_syntax_FRTS$FRTS(edgs$1, on$1, off$1, inits$1, act$1)
 });
@@ -35612,6 +35799,20 @@ var $d_Lcats_parse_Parser$Impl$WithContextP0 = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lcats_parse_Parser$Impl$WithContextP0.prototype.$classData = $d_Lcats_parse_Parser$Impl$WithContextP0;
+function $ct_Ljava_io_FilterOutputStream__Ljava_io_OutputStream__($thiz, out) {
+  return $thiz
+}
+/** @constructor */
+function $c_Ljava_io_FilterOutputStream() {
+  /*<skip>*/
+}
+$c_Ljava_io_FilterOutputStream.prototype = new $h_Ljava_io_OutputStream();
+$c_Ljava_io_FilterOutputStream.prototype.constructor = $c_Ljava_io_FilterOutputStream;
+/** @constructor */
+function $h_Ljava_io_FilterOutputStream() {
+  /*<skip>*/
+}
+$h_Ljava_io_FilterOutputStream.prototype = $c_Ljava_io_FilterOutputStream.prototype;
 class $c_jl_ArithmeticException extends $c_jl_RuntimeException {
   constructor(s) {
     super();
@@ -35773,6 +35974,28 @@ var $d_jl_IndexOutOfBoundsException = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_jl_IndexOutOfBoundsException.prototype.$classData = $d_jl_IndexOutOfBoundsException;
+/** @constructor */
+function $c_jl_JSConsoleBasedPrintStream$DummyOutputStream() {
+  /*<skip>*/
+}
+$c_jl_JSConsoleBasedPrintStream$DummyOutputStream.prototype = new $h_Ljava_io_OutputStream();
+$c_jl_JSConsoleBasedPrintStream$DummyOutputStream.prototype.constructor = $c_jl_JSConsoleBasedPrintStream$DummyOutputStream;
+/** @constructor */
+function $h_jl_JSConsoleBasedPrintStream$DummyOutputStream() {
+  /*<skip>*/
+}
+$h_jl_JSConsoleBasedPrintStream$DummyOutputStream.prototype = $c_jl_JSConsoleBasedPrintStream$DummyOutputStream.prototype;
+var $d_jl_JSConsoleBasedPrintStream$DummyOutputStream = new $TypeData().initClass({
+  jl_JSConsoleBasedPrintStream$DummyOutputStream: 0
+}, false, "java.lang.JSConsoleBasedPrintStream$DummyOutputStream", {
+  jl_JSConsoleBasedPrintStream$DummyOutputStream: 1,
+  Ljava_io_OutputStream: 1,
+  O: 1,
+  Ljava_io_Closeable: 1,
+  jl_AutoCloseable: 1,
+  Ljava_io_Flushable: 1
+});
+$c_jl_JSConsoleBasedPrintStream$DummyOutputStream.prototype.$classData = $d_jl_JSConsoleBasedPrintStream$DummyOutputStream;
 class $c_jl_NegativeArraySizeException extends $c_jl_RuntimeException {
   constructor() {
     super();
@@ -45842,6 +46065,30 @@ function $m_Lcats_instances_package$option$() {
   };
   return $n_Lcats_instances_package$option$
 }
+function $ct_Ljava_io_PrintStream__Ljava_io_OutputStream__Z__Ljava_nio_charset_Charset__($thiz, _out, autoFlush, charset) {
+  $ct_Ljava_io_FilterOutputStream__Ljava_io_OutputStream__($thiz, _out);
+  return $thiz
+}
+/** @constructor */
+function $c_Ljava_io_PrintStream() {
+  /*<skip>*/
+}
+$c_Ljava_io_PrintStream.prototype = new $h_Ljava_io_FilterOutputStream();
+$c_Ljava_io_PrintStream.prototype.constructor = $c_Ljava_io_PrintStream;
+/** @constructor */
+function $h_Ljava_io_PrintStream() {
+  /*<skip>*/
+}
+$h_Ljava_io_PrintStream.prototype = $c_Ljava_io_PrintStream.prototype;
+function $as_Ljava_io_PrintStream(obj) {
+  return (((obj instanceof $c_Ljava_io_PrintStream) || (obj === null)) ? obj : $throwClassCastException(obj, "java.io.PrintStream"))
+}
+function $isArrayOf_Ljava_io_PrintStream(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Ljava_io_PrintStream)))
+}
+function $asArrayOf_Ljava_io_PrintStream(obj, depth) {
+  return (($isArrayOf_Ljava_io_PrintStream(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Ljava.io.PrintStream;", depth))
+}
 /** @constructor */
 function $c_sc_ArrayOps$ArrayIterator$mcB$sp(xs$mcB$sp) {
   this.sc_ArrayOps$ArrayIterator__f_xs = null;
@@ -47908,6 +48155,73 @@ function $m_Lcats_parse_Parser$Impl$StartParser$() {
   };
   return $n_Lcats_parse_Parser$Impl$StartParser$
 }
+function $p_jl_JSConsoleBasedPrintStream__doWriteLine__T__V($thiz, line) {
+  if (($as_T((typeof console)) !== "undefined")) {
+    if (($thiz.jl_JSConsoleBasedPrintStream__f_isErr && $uZ((!(!console.error))))) {
+      console.error(line)
+    } else {
+      console.log(line)
+    }
+  }
+}
+/** @constructor */
+function $c_jl_JSConsoleBasedPrintStream(isErr) {
+  this.jl_JSConsoleBasedPrintStream__f_isErr = false;
+  this.jl_JSConsoleBasedPrintStream__f_buffer = null;
+  this.jl_JSConsoleBasedPrintStream__f_isErr = isErr;
+  var out = new $c_jl_JSConsoleBasedPrintStream$DummyOutputStream();
+  $ct_Ljava_io_PrintStream__Ljava_io_OutputStream__Z__Ljava_nio_charset_Charset__(this, out, false, null);
+  this.jl_JSConsoleBasedPrintStream__f_buffer = ""
+}
+$c_jl_JSConsoleBasedPrintStream.prototype = new $h_Ljava_io_PrintStream();
+$c_jl_JSConsoleBasedPrintStream.prototype.constructor = $c_jl_JSConsoleBasedPrintStream;
+/** @constructor */
+function $h_jl_JSConsoleBasedPrintStream() {
+  /*<skip>*/
+}
+$h_jl_JSConsoleBasedPrintStream.prototype = $c_jl_JSConsoleBasedPrintStream.prototype;
+$c_jl_JSConsoleBasedPrintStream.prototype.java$lang$JSConsoleBasedPrintStream$$printString__T__V = (function(s) {
+  var rest = s;
+  while ((rest !== "")) {
+    var this$1 = $n(rest);
+    var nlPos = $uI(this$1.indexOf("\n"));
+    if ((nlPos < 0)) {
+      this.jl_JSConsoleBasedPrintStream__f_buffer = (("" + this.jl_JSConsoleBasedPrintStream__f_buffer) + rest);
+      rest = ""
+    } else {
+      var $$x1 = this.jl_JSConsoleBasedPrintStream__f_buffer;
+      var this$2 = $n(rest);
+      if ((nlPos > this$2.length)) {
+        $charAt(this$2, nlPos)
+      };
+      if ((nlPos < 0)) {
+        $charAt(this$2, (-1))
+      };
+      $p_jl_JSConsoleBasedPrintStream__doWriteLine__T__V(this, (("" + $$x1) + $as_T(this$2.substring(0, nlPos))));
+      this.jl_JSConsoleBasedPrintStream__f_buffer = "";
+      var this$3 = $n(rest);
+      var beginIndex = ((1 + nlPos) | 0);
+      if (((beginIndex < 0) || (beginIndex > this$3.length))) {
+        $charAt(this$3, beginIndex)
+      };
+      rest = $as_T(this$3.substring(beginIndex))
+    }
+  }
+});
+var $d_jl_JSConsoleBasedPrintStream = new $TypeData().initClass({
+  jl_JSConsoleBasedPrintStream: 0
+}, false, "java.lang.JSConsoleBasedPrintStream", {
+  jl_JSConsoleBasedPrintStream: 1,
+  Ljava_io_PrintStream: 1,
+  Ljava_io_FilterOutputStream: 1,
+  Ljava_io_OutputStream: 1,
+  O: 1,
+  Ljava_io_Closeable: 1,
+  jl_AutoCloseable: 1,
+  Ljava_io_Flushable: 1,
+  jl_Appendable: 1
+});
+$c_jl_JSConsoleBasedPrintStream.prototype.$classData = $d_jl_JSConsoleBasedPrintStream;
 function $f_sc_BitSetOps__contains__I__Z($thiz, elem) {
   if ((elem >= 0)) {
     var this$1 = $thiz.word__I__J((elem >> 6));

@@ -14,7 +14,10 @@ object Parser :
   def parseProgram(str:String):FRTS =
     pp(program,str) match
       case Left(e) => error(e)
-      case Right(c) => c.toFRTS
+      case Right(c) =>
+        val res = c.toFRTS
+        println(s"FROM:\n${Show(c)}\nTO:\n${Show(res)}")
+        res
 
   /** Applies a parser to a string, and prettifies the error message */
   def pp[A](parser:P[A], str:String): Either[String,A] =

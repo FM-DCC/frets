@@ -1,7 +1,7 @@
 package marge.syntax
 
 //import marge.syntax.Syntax.{Edge, EdgeMap, Edges, RxGraph}
-import marge.syntax.FRTS.{Edge,EdgeMap,Edges,Reaction,FRTS}
+import marge.syntax.FRTS.{Edge, EdgeMap, Edges, FRTS, Reaction, XFRTS}
 
 object Show:
 
@@ -25,6 +25,9 @@ object Show:
 //
 //  def simple(rx:RxGraph): String =
 //    s"[at] ${rx.inits.mkString(",")} [active] ${apply(rx.act)}"
+
+  def apply(rx: XFRTS): String =
+    s"${apply(rx.f)}\n[xon] ${rx.xon}\n[xoff] ${rx.xoff}\n[aliases] ${rx.names.mkString(",")}"
 
 
   def apply(rx: FRTS): String =
