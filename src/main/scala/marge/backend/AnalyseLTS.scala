@@ -1,16 +1,17 @@
 package marge.backend
 
-import marge.syntax.FRTS.{Edges, FRTS,QName,Edge,Action,State}
+import marge.syntax.RTS
+import marge.syntax.RTS.{Edges, QName,Edge,Action,State}
 import marge.syntax.Show
 
 object AnalyseLTS:
 
 
-  def randomWalk(rx:FRTS, max:Int=5000): (Set[FRTS],Int,Edges,List[String]) =
+  def randomWalk(rx:RTS, max:Int=5000): (Set[RTS],Int,Edges,List[String]) =
     val states = for (a,bs)<-rx.edgs.toSet; (b,_)<-bs; s<-Set(a,b) yield s
-    def aux(next:Set[FRTS], done:Set[FRTS],
+    def aux(next:Set[RTS], done:Set[RTS],
             nEdges:Int, fired:Edges, probs:List[String],
-            limit:Int): (Set[FRTS],Int,Edges,List[String]) =
+            limit:Int): (Set[RTS],Int,Edges,List[String]) =
       if limit <=0 then
         // error 1: too big
         return (done,nEdges,fired, s"Reached limit - traversed +$max edges."::probs)
@@ -35,7 +36,7 @@ object AnalyseLTS:
         case Some(st) if done contains st =>
           aux(next-st,done,nEdges,fired,probs,limit)
         case Some(st) => //visiting new state
-          val more = FRTSSemantics.nextEdge(st)
+          val more = RTSSemantics.nextEdge(st)
           val nEdges2 = more.size
           val newEdges = more.map(_._1)
           var incons = Set[String]()
@@ -49,7 +50,7 @@ object AnalyseLTS:
             val shared = toAct.intersect(toDeact)
             if shared.nonEmpty then
               //val triggers = FRTSSemantics.from(e,st) -- shared
-              incons = incons + s"activating and deactivating `${Show(shared)}`" // by `${Show(triggers)}`"
+              incons = incons + s"activating and deactivating `${Show(shared)}` by `${Show(e)}`"
           var newProbs = probs
           if more.isEmpty then newProbs ::= s"Deadlock found: ${Show.simple(st)}"
           if incons.nonEmpty then newProbs ::= s"Found inconsistency: ${incons.mkString(", ")}"

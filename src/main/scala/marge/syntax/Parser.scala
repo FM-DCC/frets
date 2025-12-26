@@ -4,20 +4,19 @@ import cats.parse.Parser.*
 import cats.parse.{LocationMap, Parser as P, Parser0 as P0}
 import cats.parse.Rfc5234.{alpha, digit, sp}
 //import marge.syntax.Syntax.{QName, RxGraph}
-import marge.syntax.FRTS.{QName, FRTS, XFRTS}
+import marge.syntax.RTS.{QName}
+import marge.syntax.RTS
+import marge.syntax.XFRTS
 
 import scala.sys.error
 
 object Parser :
 
   // /** Parse a command  */
-  def parseProgram(str:String):FRTS =
+  def parseProgram(str:String):RTS =
     pp(program,str) match
       case Left(e) => error(e)
-      case Right(c) =>
-        val res = c.toFRTS
-        println(s"FROM:\n${Show(c)}\nTO:\n${Show(res)}")
-        res
+      case Right(c) => c.toRTS
 
   /** Applies a parser to a string, and prettifies the error message */
   def pp[A](parser:P[A], str:String): Either[String,A] =
