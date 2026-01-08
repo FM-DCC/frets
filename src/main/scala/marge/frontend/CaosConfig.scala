@@ -22,7 +22,7 @@ object CaosConfig extends Configurator[FRTS]:
   val examples: Seq[Example] = List(
     "Simple" -> "init s0\ns0 --> s1: a\ns1 --> s0: b\na  --! a"
       -> "Basic example",
-    "FM experiment" -> "init s0\ns0 --> s1: a\ns1 --> s0: b\na  --! a\n\nfm fa -> fb && (!fa || fb);"
+    "FM experiment" -> "init s0\ns0 --> s1: a if sec\ns1 --> s0: b if !sec\na  --! a\n\nfm fa -> fb && (!fa || fb);"
       -> "Experimenting with FM solutions",
 //    "Counter" -> "init s0\ns0 --> s0 : act\nact --! act : offAct disabled\nact ->> offAct : on1 disabled\nact ->> on1"
 //      -> "turns off a transition after 3 times.",
@@ -63,7 +63,13 @@ object CaosConfig extends Configurator[FRTS]:
    val widgets = List(
 //     "View State (DB)" -> view[FRTS](_.toString, Text).expand,
      "View State" -> view[FRTS](Show.apply, Text),
-     "Solve FM" -> view[FRTS](x => Show.showDNF(x.fm.dnf), Text),
+     "Solve FM" -> view[FRTS](x =>
+                  "== FM to DNF ==\n" +
+                  Show.showDNF(x.fm.dnf) +
+                  "\n== Features ==\n" +
+                  x.feats.mkString(", ") +
+                  "\n== Products ==\n" +
+                  x.products.map(_.mkString(", ")).map("- "+_).mkString("\n"), Text),
      // "View debug (simpler)" -> view[RxGraph](RxGraph.toMermaidPlain, Text).expand,
      // "View debug (complx)" -> view[RxGraph](RxGraph.toMermaid, Text).expand,
 //     "experiment" -> view[FRTS](x => test.map(_.dnf).mkString("\n"), Text).expand,

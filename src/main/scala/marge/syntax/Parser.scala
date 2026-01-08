@@ -88,14 +88,15 @@ object Parser :
       qname ~ // n1
       arrow.surroundedBy(sps) ~ // n2
       (qname <* sps) ~ // ar
-      ((char(':') *> sps *> (qname <* sps))).? ~ // mn3
+      (char(':') *> sps *> (qname <* sps)).? ~ // mn3
+      (string("if") *> sps *> (fexp <* sps)).? ~ // fe
       string("disabled").? // off
       //      <* char(';')))
     ).map{
-        case (((((al,n1),ar),n2),mn3),None) =>
-          ar(al,n1,n2,mn3.getOrElse(QName(List())))
-        case (((((al,n1), ar), n2), mn3), Some(_)) =>
-          ar(al,n1,n2,mn3.getOrElse(QName(List())))
+        case ((((((al,n1),ar),n2),mn3),fe),None) =>
+          ar(al,n1,n2,mn3.getOrElse(QName(List())),fe)
+        case ((((((al,n1), ar), n2), mn3), fe), Some(_)) =>
+          ar(al,n1,n2,mn3.getOrElse(QName(List())),fe)
             .deactivate(n1, n2, mn3.getOrElse(QName(List())))
     }
 
@@ -106,15 +107,15 @@ object Parser :
     alphaDigit.rep.string.repSep(char('.'))
       .map(l => QName(l.toList))
 
-  def arrow: P[(Option[String],QName,QName,QName)=>XFRTS] =
+  def arrow: P[(Option[String],QName,QName,QName,Option[FExp])=>XFRTS] =
     string("-->").as(XFRTS().addEdge) |
     string("->>").as(XFRTS().addOn) |
     string("--!").as(XFRTS().addOff) |
     string("--x").as(XFRTS().addOff) |
-    string("--#--").as((al:Option[String],a:QName,b:QName,c:QName) => XFRTS()
-      .addOff(al,a,b,c).addOff(al,b,a,c)) |
-    string("---->").as((al:Option[String],a:QName,b:QName,c:QName) => XFRTS()
-      .addOn(al,a,b,c).addOff(al,b,b,c))
+    string("--#--").as((al:Option[String],a:QName,b:QName,c:QName,fe:Option[FExp]) => XFRTS()
+      .addOff(al,a,b,c,fe).addOff(al,b,a,c,fe)) |
+    string("---->").as((al:Option[String],a:QName,b:QName,c:QName,fe:Option[FExp]) => XFRTS()
+      .addOn(al,a,b,c,fe).addOff(al,b,b,c,fe))
 
     /** Parse a feature expression */
   def fexp: P[FExp] = P.recursive((recFExp:P[FExp]) => {

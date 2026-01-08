@@ -34,7 +34,8 @@ object Show:
     s"${apply(rx.f)}\n[xon] ${rx.xon}\n[xoff] ${rx.xoff}\n[aliases] ${rx.names.mkString(",")}"
 
   def apply(f: FRTS): String =
-    s"${apply(f.rts)}\n[FM] ${apply(f.fm)}\n[FCond] ${f.pk.map(kv => apply(kv._1) + " -> " + apply(kv._2))}"
+    s"${apply(f.rts)}\n[FM] ${apply(f.fm)}\n[FCond] ${
+      f.pk.map(kv => apply(kv._1) + " -> " + apply(kv._2)).mkString("; ")}"
 
   def apply(fe: FExp): String = fe match
     case FTrue => "true"

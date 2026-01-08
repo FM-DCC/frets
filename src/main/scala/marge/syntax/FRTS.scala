@@ -1,11 +1,17 @@
 package marge.syntax
 
-import marge.syntax.FExp.FTrue
+import marge.syntax.FExp.{FTrue, Literal}
 import marge.syntax.RTS.Edge
 import marge.backend.Rel.{Rel, add, join}
 
 case class FRTS(rts: RTS, fm: FExp, pk: Map[Edge,FExp]):
   def getRTS: RTS = rts
+
+  def feats: Set[String] =
+    pk.values.toSet.flatMap(_.feats) ++ fm.feats
+    
+  def products: Set[Set[String]] =
+    fm.products(feats)
   
   def addFM(newFM: FExp) =
     this.copy(fm = if fm==FTrue then newFM else fm && newFM)

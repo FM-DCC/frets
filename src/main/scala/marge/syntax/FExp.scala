@@ -13,9 +13,9 @@ enum FExp:
   case FImp(e1:FExp,e2:FExp)
   case FEq(e1:FExp,e2:FExp)
 
-  def feats: List[String] = this match
-    case FTrue        => List()
-    case Feat(name)   => List(name)
+  def feats: Set[String] = this match
+    case FTrue        => Set()
+    case Feat(name)   => Set(name)
     case FAnd(e1, e2) => e1.feats ++ e2.feats
     case FOr(e1, e2)  => e1.feats ++ e2.feats
     case FNot(e)      => e.feats
@@ -79,8 +79,8 @@ enum FExp:
     * @return the set of all valid feature selections, i.e., a set of valid products
     */
   def products(fts:Set[String]): Set[Set[String]] =
-    val used = feats.toSet
-    val ftsNotUsed = fts -- feats.toSet
+    val used = feats
+    val ftsNotUsed = fts -- feats
     val sols = for sol <- dnf yield
       expand(sol,used,ftsNotUsed)
       //println(s"== $this ==\nexpanding ${sol.mkString(" & ")} (with $used / ${ftsNotUsed})\ngot ${res.mkString(" -- ")}")

@@ -45,16 +45,17 @@ case class XFRTS(f:FRTS,
 //
   //    f.copy(rx = f.rx.copy(on = join(f.rx.on, on2), off = join(f.rx.off, off2)))
 
-  def addEdge(nm: Option[String],s1:State,s2:State,l:Action) =
+  def addEdge(nm: Option[String],s1:State,s2:State,l:Action,fe:Option[FExp]) =
     val newNames = if nm.isEmpty then Map() else Map(QName(nm.toList) -> (s1,s2,l))
     val updF = XFRTS().copy(
-      f = f.copy(rts = f.rts.copy(edgs = Map(s1->Set(s2->l)), act = f.rts.act + ((s1,s2,l)))),
+      f = f.copy(rts = f.rts.copy(edgs = Map(s1->Set(s2->l)), act = f.rts.act + ((s1,s2,l))),
+        pk = if fe.isEmpty then f.pk else f.pk + ((s1,s2,l) -> fe.get)),
       names = newNames)
     this ++ updF
-  def addOn(nm: Option[String],s1:State,s2:State,l:Action) =
+  def addOn(nm: Option[String],s1:State,s2:State,l:Action, fe:Option[FExp]) =
     noLbs("activating",nm,l)
     this.copy(xon = add(s1->s2,xon))
-  def addOff(nm: Option[String],s1:State,s2:State,l:Action) =
+  def addOff(nm: Option[String],s1:State,s2:State,l:Action, fe:Option[FExp]) =
     noLbs("deactivating",nm,l)
     this.copy(xoff = add(s1->s2,xoff))
   //    def addOff(es:(Edge,Edge)) =
