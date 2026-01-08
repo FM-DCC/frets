@@ -38,6 +38,13 @@ case class RTS(edgs: EdgeMap,
   lazy val rxEdges: Edges =
     for (e1, upd) <- (on.toSet ++ off.toSet); e2 <- upd; s <- Set(e1, e2) yield s
 
+  def ++(rts:RTS): RTS =
+    RTS(join(rts.edgs.withDefaultValue(Set()), edgs),
+      join(rts.on, on),
+      join(rts.off, off),
+      rts.inits ++ inits,
+      rts.act ++ act)
+
 object RTS:
 
   type State = QName
@@ -67,6 +74,8 @@ object RTS:
     //      ns.map(n => this/n)
 //    def /-(ns:List[QName]): List[QName] =
 //      ns.map(n => this/n)
+    def /(rx: FRTS): FRTS =
+      FRTS(this/rx.rts, rx.fm, rx.pk)
     def /(rx: XFRTS): XFRTS =
       XFRTS(this / rx.f,
         rx.xon.map( kv => this/kv._1 -> kv._2.map(this / _)),

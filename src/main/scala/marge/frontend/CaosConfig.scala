@@ -5,22 +5,25 @@ import caos.frontend.{Configurator, Documentation}
 import caos.sos.SOS
 import caos.view.*
 import marge.backend.*
-import marge.syntax.{Parser, Show, Syntax}
+import marge.syntax.FExp.{FNot, Feat}
+import marge.syntax.{FRTS, Parser, Show, Syntax}
 //import marge.syntax.Syntax.RxGraph
 import marge.syntax.RTS
 import marge.backend.RxSemantics
 
 /** Object used to configure which analysis appear in the browser */
-object CaosConfig extends Configurator[RTS]:
+object CaosConfig extends Configurator[FRTS]:
   val name = "Animator of Labelled Reactive Graphs"
   override val languageName: String = "Input Reactive Graphs"
 
-  val parser = marge.syntax.Parser.parseProgram
+  val parser: String => FRTS = marge.syntax.Parser.parseProgram
 
   /** Examples of programs that the user can choose from. The first is the default one. */
-  val examples = List(
+  val examples: Seq[Example] = List(
     "Simple" -> "init s0\ns0 --> s1: a\ns1 --> s0: b\na  --! a"
       -> "Basic example",
+    "FM experiment" -> "init s0\ns0 --> s1: a\ns1 --> s0: b\na  --! a\n\nfm fa -> fb && (!fa || fb);"
+      -> "Experimenting with FM solutions",
 //    "Counter" -> "init s0\ns0 --> s0 : act\nact --! act : offAct disabled\nact ->> offAct : on1 disabled\nact ->> on1"
 //      -> "turns off a transition after 3 times.",
 //    "Penguim" -> "init Son_of_Tweetie\nSon_of_Tweetie --> Special_Penguin\nSpecial_Penguin --> Penguin : Penguim\nPenguin --> Bird : Bird\nBird --> Does_Fly: Fly\n\nBird --! Fly : noFly\nPenguim --! noFly"
@@ -48,33 +51,45 @@ object CaosConfig extends Configurator[RTS]:
       -> "Experiment from the ongoing paper"
   )
 
+//   val a = Feat("a")
+//   val b = Feat("b")
+//   val c = Feat("c")
+//   val d = Feat("d")
+////   val test1 = List((a && b) || c, a && (b || c), a || b, a-->b)
+//   val test1 = List(a, a&&b, a||b)
+//   val test = test1 ++ test1.map(x => FNot(x))
+
    /** Description of the widgets that appear in the dashboard. */
    val widgets = List(
-//     "View State" -> view[FRTS](_.toString, Text).expand,
-//     "View State" -> view[FRTS](Show.apply, Text).expand,
+//     "View State (DB)" -> view[FRTS](_.toString, Text).expand,
+     "View State" -> view[FRTS](Show.apply, Text),
+     "Solve FM" -> view[FRTS](x => Show.showDNF(x.fm.dnf), Text),
      // "View debug (simpler)" -> view[RxGraph](RxGraph.toMermaidPlain, Text).expand,
      // "View debug (complx)" -> view[RxGraph](RxGraph.toMermaid, Text).expand,
-     "Step-by-step" -> steps((e:RTS)=>e, RTSSemantics, RTS.toMermaid, _.show, Mermaid).expand,
-     "Step-by-step (simpler)" -> steps((e:RTS)=>e, RTSSemantics, RTS.toMermaidPlain, _.show, Mermaid),
+//     "experiment" -> view[FRTS](x => test.map(_.dnf).mkString("\n"), Text).expand,
+//     "experiment2" -> view[FRTS](x => test.map(_.products(Set("a","b"))).mkString("\n"), Text).expand,
+     "Step-by-step" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, RTS.toMermaid, _.show, Mermaid).expand,
+     "Step-by-step (simpler)" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, RTS.toMermaidPlain, _.show, Mermaid),
 //     "Step-by-step DB" -> steps((e:FRTS)=>e, FRTSSemantics, FRTS.toMermaid, _.show, Text).expand,
 //     "Step-by-step DB (simpler)" -> steps((e:FRTS)=>e, FRTSSemantics, FRTS.toMermaidPlain, _.show, Text).expand,
-     "Step-by-step (txt)" -> steps((e:RTS)=>e, RTSSemantics, Show.apply, _.show, Text),
+     "Step-by-step (txt)" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, Show.apply, _.show, Text),
 ////     "Step-by-step (debug)" -> steps((e:RxGraph)=>e, Program2.RxSemantics, RxGraph.toMermaid, _.show, Text),
-     "All steps" -> lts((e:RTS)=>e, RTSSemantics, x => x.inits.toString, _.toString),
-     "All steps (DFA)" -> lts((e:RTS)=>Set(e), caos.sos.ToDFA(RTSSemantics), x => x.map(_.inits.toString).mkString(","), _.toString),
+     "All steps" -> lts((e:FRTS)=>e.getRTS, RTSSemantics, x => x.inits.toString, _.toString),
+     "All steps (DFA)" -> lts((e:FRTS)=>Set(e.getRTS), caos.sos.ToDFA(RTSSemantics), x => x.map(_.inits.toString).mkString(","), _.toString),
 ////     "All steps (Min DFA)" -> lts((e:RxGraph)=>Set(e), caos.sos.ToDFA.minLTS(RxSemantics), x => x.map(_.inits.mkString(",")).mkString("-"), _.toString),
-     "Possible problems" -> view[RTS](r=>AnalyseLTS.randomWalk(r)._4 match
+     "Possible problems" -> view[FRTS](r=>AnalyseLTS.randomWalk(r.getRTS)._4 match
         case Nil => "No deadlocks, unreachable states/edges, nor inconsistencies"
         case m => m.mkString("\n")
        , Text).expand,
      "Number of states and edges"
-      -> view((frts:RTS) => {
-          val (st,eds,done) = SOS.traverse(RTSSemantics,frts,2000)
-          val (stD, edsD, doneD) = SOS.traverse(caos.sos.ToDFA(RTSSemantics), Set(frts), 2000)
-          val rstates = frts.states.size
-          val simpleEdges = (for (_,dests) <- frts.edgs yield dests.size).sum
-          val reactions = (for (_,dests) <- frts.on yield dests.size).sum +
-                          (for (_,dests) <- frts.off yield dests.size).sum
+      -> view((frts:FRTS) => {
+          val rts = frts.getRTS
+          val (st,eds,done) = SOS.traverse(RTSSemantics,rts,2000)
+          val (stD, edsD, doneD) = SOS.traverse(caos.sos.ToDFA(RTSSemantics), Set(rts), 2000)
+          val rstates = rts.states.size
+          val simpleEdges = (for (_,dests) <- rts.edgs yield dests.size).sum
+          val reactions = (for (_,dests) <- rts.on yield dests.size).sum +
+                          (for (_,dests) <- rts.off yield dests.size).sum
           s"== Reactive Graph (size: ${
             rstates + simpleEdges + reactions
           }) ==\nstates: ${

@@ -1,6 +1,8 @@
 package marge.syntax
 
 //import marge.syntax.Syntax.{Edge, EdgeMap, Edges, RxGraph}
+import marge.syntax
+import FExp.*
 import marge.syntax.RTS
 import marge.syntax.RTS.{Edge, EdgeMap, Edges, Reaction}
 import marge.syntax.XFRTS
@@ -30,6 +32,29 @@ object Show:
 
   def apply(rx: XFRTS): String =
     s"${apply(rx.f)}\n[xon] ${rx.xon}\n[xoff] ${rx.xoff}\n[aliases] ${rx.names.mkString(",")}"
+
+  def apply(f: FRTS): String =
+    s"${apply(f.rts)}\n[FM] ${apply(f.fm)}\n[FCond] ${f.pk.map(kv => apply(kv._1) + " -> " + apply(kv._2))}"
+
+  def apply(fe: FExp): String = fe match
+    case FTrue => "true"
+    case Feat(n) => n
+    case FAnd(e1, e2) => s"${applyP(e1)} /\\ ${applyP(e2)}"
+    case FOr(e1, e2) => s"${applyP(e1)} \\/ ${applyP(e2)}"
+    case FNot(e) => s"¬${applyP(e)}"
+    case FImp(e1, e2) => s"${applyP(e1)} -> ${applyP(e2)}"
+    case FEq(e1, e2) => s"${applyP(e1)} <-> ${applyP(e2)}"
+  def applyP(fe: FExp): String = fe match
+    case e: (FOr | FAnd | FImp | FEq) => s"(${apply(e)})"
+    case _ => apply(fe)
+
+  def showDNF(dnf: Set[Set[Literal]]): String =
+    if dnf.isEmpty then "False"
+    else if dnf == Set(Set()) then "True"
+    else dnf
+      .map(con => con.map(l => l.fold(x=>s"¬$x",x=>x))
+      .mkString(" & "))
+      .mkString("\n")
 
 
   def apply(rx: RTS): String =

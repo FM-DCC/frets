@@ -13,10 +13,10 @@ import scala.sys.error
 object Parser :
 
   // /** Parse a command  */
-  def parseProgram(str:String):RTS =
+  def parseProgram(str:String):FRTS =
     pp(program,str) match
       case Left(e) => error(e)
-      case Right(c) => c.toRTS
+      case Right(c) => c.toFRTS
 
   /** Applies a parser to a string, and prettifies the error message */
   def pp[A](parser:P[A], str:String): Either[String,A] =
@@ -70,7 +70,8 @@ object Parser :
       .map(res => res.toList.fold(XFRTS())(_ ++ _))
   )
   def statement(rx:P[XFRTS]): P[XFRTS] =
-    init | aut(rx) | edge
+    init | aut(rx) | fm | edge
+
   def init: P[XFRTS] =
     (string("init") *> sps *> qname) // <* (sps<*char(';')))
       .map(XFRTS().addInit(_))
@@ -78,6 +79,9 @@ object Parser :
     ((string("aut") *> sps *> qname) ~
       (sps *> char('{') *> sps *> (rx <* sps <* char('}')))
     ).map(x => x._1 / x._2)
+  def fm: P[XFRTS] =
+    ((string("fm") *> sps *> (fexp <* sps <* char(';'))))
+      .map(XFRTS().addFM(_))
 
   def edge: P[XFRTS] =
     ( (alias <* sps).?.with1 ~ // optional alias
@@ -112,138 +116,40 @@ object Parser :
     string("---->").as((al:Option[String],a:QName,b:QName,c:QName) => XFRTS()
       .addOn(al,a,b,c).addOff(al,b,b,c))
 
-//  private def on:  P[Boolean] = P.string("ON").map( x => true)
-//  private def off: P[Boolean] = P.string("OFF").map( x => false)
-//  private def bullet: P[Boolean] = P.string("Bullet").map(x => true)
-//  private def circ:   P[Boolean] = P.string("Circ").map(x => false)
-//  private def state: P[State] = alphaDigit.rep.string
-//  private def edgeaction: P[Action] = alphaDigit.rep.string
-//  private def edgeweight: P[Weight] = ((char('-').?.with1 ~ digit.rep(1) ~ (char('.').with1 ~ digit.rep(1)).?).string).map(_.toDouble)
-//  private def edgeactive: P[Boolean] = bullet | circ
-//  private def edgefunction: P[Boolean] = on | off
-//  private def div: P[String] = P.string("||").string
-//
-//  private def bullet2: P[Boolean] = P.string("-->").map(x => true)
-//  private def circ2:   P[Boolean] = P.string("-.->").map(x => false)
-//  private def edgeactive2: P[Boolean] = bullet2 | circ2
-//
-//  // Verison with parantesis
-//  private def simpleEdge: P[(SimpleEdge,Boolean)] =
-//    (((((P.char('(') *>
-//      state.surroundedBy(sps) <* P.string(",")) ~
-//      state.surroundedBy(sps) <* P.string(",")) ~
-//      edgeaction.surroundedBy(sps) <* P.char(',')) ~
-//      edgeweight.surroundedBy(sps) <* P.char(',')) ~
-//      edgeactive.surroundedBy(sps) <* P.char(')'))
-//      .map { case (((((from,to),action),w),active)) =>
-//        (SimpleEdge(from, to, action, w),active)}
-//
-//  // verison a --> b by a,0,
-//  private def simpleEdge2: P[(SimpleEdge,Boolean)] =
-//    (((( state.surroundedBy(sps) ~
-//      edgeactive2.surroundedBy(sps)) ~
-//      state.surroundedBy(sps) <* P.string("by")) ~
-//      edgeaction.surroundedBy(sps) <* P.char(',')) ~
-//      edgeweight.surroundedBy(sps))
-//      .map { case (((((from,active),to),action),w)) =>
-//        (SimpleEdge(from, to, action, w),active)}
-//
-//  //verison without weight
-//  private def simpleEdge_withoutWeight: P[(SimpleEdge,Boolean)] =
-//    ((( state.surroundedBy(sps) ~
-//      edgeactive2.surroundedBy(sps)) ~
-//      state.surroundedBy(sps) <* P.string("by")) ~
-//      edgeaction.surroundedBy(sps))
-//      .map { case ((((from,active),to),action)) =>
-//        (SimpleEdge(from, to, action, 0),active)}
-//
-//  private def simpleEdgeN: P[(SimpleEdge,Boolean)] =
-//    (((((P.char('(') *>
-//      state.surroundedBy(sps) <* P.string(",")) ~
-//      state.surroundedBy(sps) <* P.string(",")) ~
-//      edgeaction.surroundedBy(sps) <* P.char(',')) ~
-//      edgeweight.surroundedBy(sps) <* P.char(')')))
-//      .map { case (((from,to),action),w) => (SimpleEdge(from, to, action, w), true)}
-//
-//  //version without weight
-//  private def simpleEdgeN_withoutWeight: P[(SimpleEdge,Boolean)] =
-//    (((P.char('(') *>
-//      state.surroundedBy(sps) <* P.string(",")) ~
-//      state.surroundedBy(sps) <* P.string(",")) ~
-//      edgeaction.surroundedBy(sps) <* P.char(')'))
-//      .map { case ((from,to),action) => (SimpleEdge(from, to, action, 0), true)}
-//
-//  private def edge: P[(Edge,Boolean)] =  P.defer(simpleEdgeN.backtrack | hyperEdge)
-//  //version without weight
-//  private def edge_withoutWeight: P[(Edge,Boolean)] =  P.defer(simpleEdgeN_withoutWeight.backtrack | hyperEdge_withoutWeight)
-//
-//  private def hyperEdge: P[(HyperEdge,Boolean)] =
-//    (((((P.char('(') *> edge.surroundedBy(sps) <* P.string(",")) ~
-//      (edge.surroundedBy(sps)) <* P.char(',')) ~
-//      edgeweight.surroundedBy(sps) <* P.char(',')) ~
-//      edgeactive.surroundedBy(sps) <* P.char(',')) ~
-//      edgefunction.surroundedBy(sps) <* P.char(')'))
-//      .map{ case (((((from,to),w),active),function)) =>
-//        (HyperEdge(from._1, to._1, w, function),active)
-//      }
-//
-//  //version without weight
-//  private def hyperEdge_withoutWeight: P[(HyperEdge,Boolean)] =
-//    ((((P.char('(') *> edge_withoutWeight.surroundedBy(sps) <* P.string(",")) ~
-//      (edge_withoutWeight.surroundedBy(sps)) <* P.char(',')) ~
-//      edgeactive.surroundedBy(sps) <* P.char(',')) ~
-//      edgefunction.surroundedBy(sps) <* P.char(')'))
-//      .map{ case ((((from,to),active),function)) =>
-//        (HyperEdge(from._1, to._1, 0, function),active)
-//      }
-//
-//  private def level0: P[(Map[State, Set[SimpleEdge]], Set[Edge])] =
-//    (((P.string("l0") *> P.char('=').surroundedBy(sps)) *> P.char('{').surroundedBy(sps)) *>
-//      (simpleEdge_withoutWeight.repSep(char(',').surroundedBy(sps))).surroundedBy(sps) <* P.char('}').surroundedBy(sps))
-//      .map(edges => {
-//        val edgesMap = edges.collect { case (edge, _) => edge.from -> edge }.groupBy(_._1).view.mapValues(_.map(_._2).toSet).toMap
-//        val activeEdgesSet:Set[Edge] = edges.collect { case (edge, true) => edge }.toSet
-//        (edgesMap, activeEdgesSet)
-//      })
-//
-//  private def levelN: P[(Map[Edge,Set[Edge]],Set[Edge])] =
-//    (((P.string("ln") *> P.char('=').surroundedBy(sps)) *> P.char('{').surroundedBy(sps)) *>
-//      (hyperEdge_withoutWeight.repSep0(char(',').surroundedBy(sps))).surroundedBy(sps) <* P.char('}').surroundedBy(sps))
-//      .map(edges => {
-//        val edgesMap:Map[Edge,Set[Edge]] = edges.collect { case (edge, _) => edge.from -> edge }.groupBy(_._1).view.mapValues(_.map(_._2).toSet).toMap
-//        val activeEdgesSet:Set[Edge] = edges.collect { case (edge, true) => edge }.toSet
-//        (edgesMap, activeEdgesSet)
-//      })
-//  private def levelNI: P[(Map[Edge,Set[Edge]],Set[Edge])] =
-//    (((P.string("lnI") *> P.char('=').surroundedBy(sps)) *> P.char('{').surroundedBy(sps)) *>
-//      (hyperEdge_withoutWeight.repSep0(char(',').surroundedBy(sps))).surroundedBy(sps) <* P.char('}').surroundedBy(sps))
-//      .map(edges => {
-//        val edgesMap:Map[Edge,Set[Edge]] = edges.collect { case (edge, _) => edge.from -> edge }.groupBy(_._1).view.mapValues(_.map(_._2).toSet).toMap
-//        val activeEdgesSet:Set[Edge] = edges.collect { case (edge, true) => edge }.toSet
-//        (edgesMap, activeEdgesSet)
-//      })
-//
-//  private def init: P[State] = ((P.string("init") *> P.char('=').surroundedBy(sps)) *> state).map(x => String(x))
-//
-//  private def oneProgram: P[RxGr] =
-//    (( init.surroundedBy(sps) <* P.char(';').surroundedBy(sps)) ~
-//      (level0.surroundedBy(sps) <* P.char(';').surroundedBy(sps)) ~
-//      levelN.surroundedBy(sps))
-//      .map{ case (((init,se),he)) =>
-//        RxGr(se._1, he._1, init, se._2 ++ he._2)
-//      }
-//
-//  // private def program: P[System] =
-//  //   ((oneProgram.surroundedBy(sps)) ~
-//  //   ((char('~').surroundedBy(sps) *> oneProgram.surroundedBy(sps)).?))
-//  //     .map((x,y) => System(x,y))
-//
-//  private def program: P[System] =
-//    ((oneProgram.surroundedBy(sps)) ~
-//      ((div.surroundedBy(sps) *> oneProgram.surroundedBy(sps)).?) ~
-//      ((div.surroundedBy(sps) *> levelNI.surroundedBy(sps)).?))
-//      .map{case (((x,y),z)) => System(x,y,(z.map(_._1).getOrElse(Map.empty),z.map(_._2).getOrElse(Set.empty)))}
-//
+    /** Parse a feature expression */
+  def fexp: P[FExp] = P.recursive((recFExp:P[FExp]) => {
+    def lit: P[FExp] = P.recursive( (recLit:P[FExp]) =>
+      string("true").as(FExp.FTrue) |
+      string("false").as(FExp.FNot(FExp.FTrue)) |
+      (char('!') *> recLit).map(FExp.FNot.apply) |
+      qname.map(q => FExp.Feat(q.toString)) |
+      char('(') *> recFExp.surroundedBy(sps) <* char(')')
+    )
+
+    def or: P[(FExp, FExp) => FExp] =
+      (string("||")|string("\\/")).as(FExp.FOr.apply)
+
+    def and: P[(FExp, FExp) => FExp] =
+      (string("&&")|string("/\\")).as(FExp.FAnd.apply)
+
+    def impl: P[(FExp, FExp) => FExp] =
+      (string("->")|string("=>")).as(FExp.FImp.apply)
+
+    def equiv: P[(FExp, FExp) => FExp] =
+      (string("<->")|string("<=>")).as(FExp.FEq.apply)
+
+    listSep(listSep(listSep(lit, and), or), impl | equiv)
+  })
+
+  //// Auxiliary functions
+
+  def listSep[A](elem: P[A], op: P[(A, A) => A]): P[A] =
+    (elem ~ (op.surroundedBy(sps).backtrack ~ elem).rep0)
+      .map(x => {
+        val pairlist = x._2
+        val first = x._1;
+        pairlist.foldLeft(first)((rest, pair) => pair._1(rest, pair._2))
+      })
 
   //////////////////////////////
   // Examples and experiments //
