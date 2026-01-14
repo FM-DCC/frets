@@ -23,7 +23,7 @@ object CaosConfig extends Configurator[FRTS]:
   val examples: Seq[Example] = List(
     "Simple" -> "init s0\ns0 --> s1: a\ns1 --> s0: b\na  --! a"
       -> "Basic example",
-    "FM experiment" -> "init s0\ns0 --> s1: a if sec\ns1 --> s0: b if !sec\na  --! a\n\nfm fa -> fb && (!fa || fb);"
+    "FM experiment" -> "init s0\ns0 --> s1: a if sec\ns1 --> s0: b if !sec\na  --! a\n\nfm fa -> fb && (!fa || fb)"
       -> "Experimenting with FM solutions",
 //    "Counter" -> "init s0\ns0 --> s0 : act\nact --! act : offAct disabled\nact ->> offAct : on1 disabled\nact ->> on1"
 //      -> "turns off a transition after 3 times.",
@@ -92,13 +92,14 @@ object CaosConfig extends Configurator[FRTS]:
                rtsid += rts -> seed
                seed += 1
                s"s${seed-1}"
+           def clean(s:String) = s.replaceAll("/","_")
            val rts = e.getRTS
            val init = fresh(rts)
            val (nfa,done) = caos.sos.FinAut.sosToNFA(RTSSemantics,Set(rts))
            val procs = for (src,edgs) <- nfa.e.groupBy(_._1) yield
-             s"  ${fresh(src)} = ${edgs.map(e => s"${e._2} . ${fresh(e._3)}").mkString(" + ")};"
+             s"  ${fresh(src)} = ${edgs.map(e => s"${clean(e._2.toString)} . ${fresh(e._3)}").mkString(" + ")};"
            s"init $init;\n"+
-             s"act\n  ${e.getRTS.act.map(_._3).mkString(",")};\n" +
+             s"act\n  ${e.getRTS.act.map(x=>clean(x._3.toString)).mkString(",")};\n" +
              s"proc\n${procs.toSet.mkString("\n")}"
          ,Text),
      "All steps (DFA)" -> lts((e:FRTS)=>Set(e.getRTS), caos.sos.FinAut.detSOS(RTSSemantics), x => x.map(_.inits.toString).mkString(","), _.toString),

@@ -80,7 +80,7 @@ object Parser :
       (sps *> char('{') *> sps *> (rx <* sps <* char('}')))
     ).map(x => x._1 / x._2)
   def fm: P[XFRTS] =
-    ((string("fm") *> sps *> (fexp <* sps <* char(';'))))
+    (string("fm") *> sps *> fexp) // (fexp <* sps <* char(';')))
       .map(XFRTS().addFM(_))
 
   def edge: P[XFRTS] =
