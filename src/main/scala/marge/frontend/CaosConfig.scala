@@ -21,10 +21,12 @@ object CaosConfig extends Configurator[FRTS]:
 
   /** Examples of programs that the user can choose from. The first is the default one. */
   val examples: Seq[Example] = List(
-    "FM experiment" -> "init s0\ns0 --> s1: a if sec\ns1 --> s0: b if !sec\na  --! a\n\nfm fa -> fb && (!fa || fb)"
+    "FM experiment" -> "init s0\ns0 --> s1: a if sec\ns1 --> s0: b if !sec\na  --! a\n\nfm fa -> fb && (!fa || fb)\nselect sec,fb;"
       -> "Experimenting with FM solutions",
-    "Simple" -> "init s0\ns0 --> s1: a\ns1 --> s0: b\na  --! a"
+    "Simple RTS" -> "init s0\ns0 --> s1: a\ns1 --> s0: b\na  --! a"
       -> "Basic example",
+    "Simple FRTS" -> "init s0\ns0 --> s0: a if fa\ns0 --> s0: b if fb\na --x a\nb --x b\n\nfm fa\nselect fa,fb; // try also just \"fa\""
+      -> "Illustrative example of an FRTS, used to motivate the core ideas",
 //    "Counter" -> "init s0\ns0 --> s0 : act\nact --! act : offAct disabled\nact ->> offAct : on1 disabled\nact ->> on1"
 //      -> "turns off a transition after 3 times.",
 //    "Penguim" -> "init Son_of_Tweetie\nSon_of_Tweetie --> Special_Penguin\nSpecial_Penguin --> Penguin : Penguim\nPenguin --> Bird : Bird\nBird --> Does_Fly: Fly\n\nBird --! Fly : noFly\nPenguim --! noFly"

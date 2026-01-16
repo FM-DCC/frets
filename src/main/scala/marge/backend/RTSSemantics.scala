@@ -13,7 +13,7 @@ object RTSSemantics extends SOS[Action,RTS]:
   def next[Name >: Action](rx: RTS): Set[(Name, RTS)] =
     for (st,i) <- rx.inits.data.toSet
         _ <- 1 to i
-        (st2, lbl) <- rx.edgs(st) if rx.act((st, st2, lbl))
+        (st2, lbl) <- Rel.get(st,rx.edgs) if rx.act((st, st2, lbl))
     yield
       val toAct = Rel.get((st,st2,lbl),rx.on)
       val toDeact = Rel.get((st,st2,lbl),rx.off)
@@ -25,7 +25,7 @@ object RTSSemantics extends SOS[Action,RTS]:
   def nextEdge(rx: RTS): Set[(Edge, RTS)] =
     for (st,i) <- rx.inits.data.toSet
         _ <- 1 to i
-        (st2, lbl) <- rx.edgs(st) if rx.act((st, st2, lbl))
+        (st2, lbl) <- Rel.get(st,rx.edgs) if rx.act((st, st2, lbl))
     yield
       val toAct = Rel.get((st, st2, lbl),rx.on)
       val toDeact = Rel.get((st, st2, lbl),rx.off)
