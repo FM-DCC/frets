@@ -2,7 +2,7 @@ package marge.frontend
 
 import caos.frontend.Configurator.*
 import caos.frontend.{Configurator, Documentation}
-import caos.sos.SOS
+import caos.sos.{FinAut, SOS}
 import caos.view.*
 import marge.backend.*
 import marge.syntax.FExp.{FNot, Feat}
@@ -25,8 +25,10 @@ object CaosConfig extends Configurator[FRTS]:
       -> "Experimenting with FM solutions",
     "Simple RTS" -> "init s0\ns0 --> s1: a\ns1 --> s0: b\na  --! a"
       -> "Basic example",
-    "Simple FRTS" -> "init s0\ns0 --> s0: a if fa\ns0 --> s0: b if fb\na --x a\nb --x b\n\nfm fa\nselect fa,fb; // try also just \"fa\""
+    "Simple FRTS" -> "init s0\ns0 --> s0: a if f1\ns0 --> s0: b if f2\na --x a\nb --x b\n\nfm f1\nselect f1,f2; // try also just \"f1\""
       -> "Illustrative example of an FRTS, used to motivate the core ideas",
+    "Other FRTS" -> "init s0\ns0 --> s0: a if f1\ns0 --> s0: b if f2\ns0 --> s1: c if f2\na --x a\nb --x b\na --x c\nb ->> c\n\nfm f1\nselect f1,f2; // try also just \"f1\""
+      -> "Second (slightly larger) illustrative example of an FRTS, used to motivate the core ideas",
 //    "Counter" -> "init s0\ns0 --> s0 : act\nact --! act : offAct disabled\nact ->> offAct : on1 disabled\nact ->> on1"
 //      -> "turns off a transition after 3 times.",
 //    "Penguim" -> "init Son_of_Tweetie\nSon_of_Tweetie --> Special_Penguin\nSpecial_Penguin --> Penguin : Penguim\nPenguin --> Bird : Bird\nBird --> Does_Fly: Fly\n\nBird --! Fly : noFly\nPenguim --! noFly"
@@ -67,27 +69,31 @@ object CaosConfig extends Configurator[FRTS]:
    /** Description of the widgets that appear in the dashboard. */
    val widgets = List(
 //     "View State (DB)" -> view[FRTS](_.toString, Text).expand,
-     "View FRTS" -> view[FRTS](Show.apply, Text),
-     "View RTS" -> view[FRTS](x => Show(x.getRTS), Text),
-     "Solve FM" -> view[FRTS](x =>
-                  "== FM to DNF ==\n" +
-                  Show.showDNF(x.fm.dnf) +
-                  "\n== Features ==\n" +
+     "View FRTS" -> view[FRTS](Show.apply, Text).moveTo(1),
+     "View RTS" -> view[FRTS](x => Show(x.getRTS), Text).moveTo(1),
+     "Products (feature combinations)" -> view[FRTS](x =>
+//                  "== FM to DNF ==\n" +
+//                  Show.showDNF(x.fm.dnf) +
+                  "== All features ==\n" +
                   x.feats.mkString(", ") +
                   "\n== Products ==\n" +
-                  x.products.map(_.mkString(", ")).map("- "+_).mkString("\n"), Text),
+                  x.products
+                    .toList.sorted
+                    .zipWithIndex
+                    .map((x,i)=>s" ${i+1}. ${x.mkString(", ")}")
+                    .mkString("\n"), Text),
      // "View debug (simpler)" -> view[RxGraph](RxGraph.toMermaidPlain, Text).expand,
      // "View debug (complx)" -> view[RxGraph](RxGraph.toMermaid, Text).expand,
 //     "experiment" -> view[FRTS](x => test.map(_.dnf).mkString("\n"), Text).expand,
 //     "experiment2" -> view[FRTS](x => test.map(_.products(Set("a","b"))).mkString("\n"), Text).expand,
-     "Step-by-step" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, RTS.toMermaid, _.show, Mermaid).expand,
-     "Step-by-step (simpler)" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, RTS.toMermaidPlain, _.show, Mermaid),
+     "RTS: Step-by-step" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, RTS.toMermaid, _.show, Mermaid).expand,
+     "RTS: Step-by-step (simpler)" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, RTS.toMermaidPlain, _.show, Mermaid),
 //     "Step-by-step DB" -> steps((e:FRTS)=>e, FRTSSemantics, FRTS.toMermaid, _.show, Text).expand,
 //     "Step-by-step DB (simpler)" -> steps((e:FRTS)=>e, FRTSSemantics, FRTS.toMermaidPlain, _.show, Text).expand,
-     "Step-by-step (txt)" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, Show.apply, _.show, Text),
+     "RTS: Step-by-step (txt)" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, Show.apply, _.show, Text),
 ////     "Step-by-step (debug)" -> steps((e:RxGraph)=>e, Program2.RxSemantics, RxGraph.toMermaid, _.show, Text),
-     "All steps" -> lts((e:FRTS)=>e.getRTS, RTSSemantics, x => x.inits.toString, _.toString),
-     "All steps (txt)" ->
+     "TS: flattened" -> lts((e:FRTS)=>e.getRTS, RTSSemantics, x => x.inits.toString, _.toString),
+     "TS: as mCRL2" ->
        view((e:FRTS)=>
            var seed = 0;
            var rtsid = Map[RTS,Int]()
@@ -107,24 +113,36 @@ object CaosConfig extends Configurator[FRTS]:
              s"act\n  ${e.getRTS.act.map(x=>clean(x._3.toString)).mkString(",")};\n" +
              s"proc\n${procs.toSet.mkString("\n")}"
          ,Text),
-     "All steps (DFA)" -> lts((e:FRTS)=>Set(e.getRTS), caos.sos.FinAut.detSOS(RTSSemantics), x => x.map(_.inits.toString).mkString(","), _.toString),
-//     "All steps (min-DFA)" -> {
-//       var s0: Option[RTS] = None
-//       lts((e:FRTS)=>{s0 = Some(e.getRTS); Set(Set(s0.get))},
-//           {lazy val sos2 = caos.sos.FinAut.minSOS(RTSSemantics,s0.get)._1; sos2},
-//           x => x.map(_.inits.toString).mkString(","),
-//           _.toString)
-//     },
-     "All steps (min2-DFA)" -> lts2[FRTS,QName,Set[Set[RTS]]](
-       (e:FRTS)=>
-         val (sss,init,done) = caos.sos.FinAut.minSOS(RTSSemantics,e.getRTS)
-         init,
-       s =>
-         val (sss,init,done) = caos.sos.FinAut.minSOS(RTSSemantics,s.getRTS)
-         //println(s"Initial states: ${init.flatten.map(_.map(_.inits).mkString(",")).mkString("\n")}")
-         sss,
-       x => x.map(_.map(_.inits).mkString(";")).mkString(","),
+     "TS: flattened (DFA)" -> lts((e:FRTS)=>Set(e.getRTS), FinAut.detSOS(RTSSemantics), x => x.map(_.inits.toString).mkString(","), _.toString),
+     "TS: flatenned (minimal DFA)" -> lts2(
+       (e:FRTS)=> FinAut.minSOS(RTSSemantics,Set(e.getRTS)),
+       x => x.map(_.inits.toString).mkString(","),
        _.toString),
+//     "TS: equivalent states" -> view(e =>
+//       val p = FinAut.partitionNFA( FinAut.sosToNFA(RTSSemantics,Set(e.getRTS))._1)
+//       p.map(r => r.map(x => x.inits.toString).mkString(",")).mkString(" - ")
+//       , Text),
+//     "2.All steps (rev-NFA)" -> lts2( //[FRTS,QName,Set[Set[RTS]]](
+//       (e:FRTS)=>
+//         val nfa = FinAut.revNFA(FinAut.sosToNFA(FinAut.detSOS(RTSSemantics),Set(Set(e.getRTS)))._1)
+//         val (sos,ini) = FinAut.nfaToSOS(nfa)
+//         (ini,sos),
+//       xx => xx.map(x => x.inits.toString).mkString(" - "), //x.map(_.map(_.inits).mkString(";")).mkString(","),
+//       _.toString),
+//     "3.All steps (rev-DFA)" -> lts2( //[FRTS,QName,Set[Set[RTS]]](
+//       (e:FRTS)=>
+//         val nfa = FinAut.revNFA(FinAut.sosToNFA(FinAut.detSOS(RTSSemantics),Set(Set(e.getRTS)))._1)
+//         val (nfaSOS, ini) = FinAut.nfaToSOS(nfa)
+//         val dfaSOS = FinAut.detSOS(nfaSOS)
+//         (ini.map(Set(_)), dfaSOS),
+//       xxx => xxx.map(xx => xx.map( x => x.inits.toString).mkString(";")).mkString(","), //x.map(_.map(_.inits).mkString(";")).mkString(","),
+//       _.toString),
+//     "4.All steps (min-DFA)" -> lts2[FRTS,QName,Set[Set[RTS]]](
+//       (e:FRTS)=>
+//         val (sss,init,done) = caos.sos.FinAut.minSOS(RTSSemantics,e.getRTS)
+//         (init,sss),
+//       x => x.map(_.map(_.inits).mkString(";")).mkString(","),
+//       _.toString),
 //     "All steps (min-DFA)" -> lts2[FRTS,QName,Set[Set[RTS]]]((e:FRTS)=>Set(Set(e.getRTS)),
 //         s => caos.sos.FinAut.minSOS(RTSSemantics,s.getRTS)._1,
 //         x => x.map(_.map(_.inits).mkString(";")).mkString(","),
@@ -143,7 +161,19 @@ object CaosConfig extends Configurator[FRTS]:
           val simpleEdges = (for (_,dests) <- rts.edgs yield dests.size).sum
           val reactions = (for (_,dests) <- rts.on yield dests.size).sum +
                           (for (_,dests) <- rts.off yield dests.size).sum
-          s"== Reactive Graph (size: ${
+          val frstates = frts.rts.states.size
+          val fsimpleEdges = (for (_,dests) <- frts.rts.edgs yield dests.size).sum
+          val freactions = (for (_,dests) <- frts.rts.on yield dests.size).sum +
+                          (for (_,dests) <- frts.rts.off yield dests.size).sum
+          s"== FRTS (size: ${
+            frstates + fsimpleEdges + freactions
+          }) ==\nstates: ${
+            frstates
+          }\nsimple edges: ${
+            fsimpleEdges
+          }\nhyper edges: ${
+            freactions
+          }\n== RTS (size: ${
             rstates + simpleEdges + reactions
           }) ==\nstates: ${
             rstates
@@ -151,12 +181,12 @@ object CaosConfig extends Configurator[FRTS]:
            simpleEdges
           }\nhyper edges: ${
             reactions
-          }\n== Encoded LTS (size: ${
+          }\n== Flattened TS (size: ${
             if !done then ">2000" else st.size + eds
           }) ==\n" +
           (if !done then s"Stopped after traversing 2000 states"
            else s"States: ${st.size}\nEdges: $eds") +
-          s"\n== Encoded DFA (size: ${
+          s"\n== Flattened TS as DFA (size: ${
            if !done then ">2000" else stD.size + edsD
           }) ==\n" +
             (if !doneD then s"Stopped after traversing 2000 states"

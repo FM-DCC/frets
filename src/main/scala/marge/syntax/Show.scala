@@ -66,3 +66,6 @@ object Show:
 
   def simple(rx:RTS): String =
     s"[at] ${rx.inits} [active] ${apply(rx.act)}"
+
+  def simpler(rx: RTS): String =
+    s"${rx.inits}[${rx.act.size}]"

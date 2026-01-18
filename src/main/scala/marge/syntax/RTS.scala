@@ -21,7 +21,7 @@ case class RTS(edgs: EdgeMap,
                on: Reaction, off: Reaction,
                inits: Multiset[State],
                act: Edges):
-  //override def toString: String = ??? //Show(this)
+  override def toString: String = Show.simpler(this)
 
   /** Collect all states */
   lazy val states =
