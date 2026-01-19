@@ -179,31 +179,40 @@ object CaosConfig extends Configurator[FRTS]:
              s"act\n  ${e.getRTS.edgs.flatMap(x=>x._2.map(y => clean(y._2.toString))).mkString(",")};\n" +
              s"proc\n${procs.toSet.mkString("\n")}"
          ,Text),
-     "TS: flattened (DFA)" -> lts((e:FRTS)=>Set(e.getRTS), FinAut.detSOS(RTSSemantics), x => x.map(_.inits.toString).mkString(","), _.toString),
-     "TS: flatenned (minimal DFA - WiP)" -> lts2(
+     "TS: flattened (DFA)" -> lts((e:FRTS)=>
+       Set(e.getRTS), FinAut.detSOS(RTSSemantics),
+       x => x.map(_.inits.toString).mkString(","),
+       _.toString),
+     "TS: flatenned (minimal DFA)" -> lts2(
        (e:FRTS)=> FinAut.minSOS(RTSSemantics,Set(e.getRTS)),
        x => x.map(_.inits.toString).mkString(","),
        _.toString),
-//     "TS: equivalent states" -> view(e =>
-//       val p = FinAut.partitionNFA( FinAut.sosToNFA(RTSSemantics,Set(e.getRTS))._1)
-//       p.map(r => r.map(x => x.inits.toString).mkString(",")).mkString(" - ")
-//       , Text),
-//     "2.All steps (rev-NFA)" -> lts2( //[FRTS,QName,Set[Set[RTS]]](
+     "TS: equivalent states" -> view(e =>
+       val p = FinAut.partitionNFA( FinAut.sosToNFA(RTSSemantics,Set(e.getRTS))._1)
+       p.map(r => r.map(x => x.inits.toString).mkString(",")).mkString(" - ")
+       , Text),
+//     "1. NFA -> DFA (DFA)" -> lts((e:FRTS)=>Set(e.getRTS), FinAut.detSOS(RTSSemantics), x => x.map(_.inits.toString).mkString(","), _.toString),
+//     "2. DFA -> revNFA)" -> lts2( //[FRTS,QName,Set[Set[RTS]]](
 //       (e:FRTS)=>
-//         val nfa = FinAut.revNFA(FinAut.sosToNFA(FinAut.detSOS(RTSSemantics),Set(Set(e.getRTS)))._1)
+//         val dfaLazy = FinAut.detSOS(RTSSemantics)
+//         val dfa = FinAut.sosToNFA(dfaLazy,Set(Set(e.getRTS)))._1
+//         val nfa = FinAut.revNFA(dfa)
 //         val (sos,ini) = FinAut.nfaToSOS(nfa)
 //         (ini,sos),
 //       xx => xx.map(x => x.inits.toString).mkString(" - "), //x.map(_.map(_.inits).mkString(";")).mkString(","),
 //       _.toString),
-//     "3.All steps (rev-DFA)" -> lts2( //[FRTS,QName,Set[Set[RTS]]](
+//     "3. revNDA -> revDFA" -> lts2( //[FRTS,QName,Set[Set[RTS]]](
 //       (e:FRTS)=>
-//         val nfa = FinAut.revNFA(FinAut.sosToNFA(FinAut.detSOS(RTSSemantics),Set(Set(e.getRTS)))._1)
-//         val (nfaSOS, ini) = FinAut.nfaToSOS(nfa)
-//         val dfaSOS = FinAut.detSOS(nfaSOS)
-//         (ini.map(Set(_)), dfaSOS),
+//         val dfaLazy = FinAut.detSOS(RTSSemantics)
+//         val dfa = FinAut.sosToNFA(dfaLazy, Set(Set(e.getRTS)))._1
+//         val rnfa = FinAut.revNFA(dfa)
+//         val (rnfaSOS, ini) = FinAut.nfaToSOS(rnfa) // initial states of the revNFA
+//         val rdfaSOS = FinAut.detSOS(rnfaSOS) // DFA - we do not know its initial states!
+////         val rdfa = FinAut.sosToNFA(rdfaSOS)
+//         (ini.map(Set(_)), rdfaSOS),
 //       xxx => xxx.map(xx => xx.map( x => x.inits.toString).mkString(";")).mkString(","), //x.map(_.map(_.inits).mkString(";")).mkString(","),
 //       _.toString),
-//     "4.All steps (min-DFA)" -> lts2[FRTS,QName,Set[Set[RTS]]](
+//     "4. revDFA -> rev^2NFA -> rev^2DFA" -> lts2[FRTS,QName,Set[Set[RTS]]](
 //       (e:FRTS)=>
 //         val (sss,init,done) = caos.sos.FinAut.minSOS(RTSSemantics,e.getRTS)
 //         (init,sss),
