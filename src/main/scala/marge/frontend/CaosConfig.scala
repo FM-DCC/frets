@@ -29,6 +29,8 @@ object CaosConfig extends Configurator[FRTS]:
       -> "Illustrative example of an FRTS, used to motivate the core ideas",
     "Other FRTS" -> "init s0\ns0 --> s0: a if f1\ns0 --> s0: b if f2\ns0 --> s1: c if f2\na --x a\nb --x b\na --x c\nb ->> c\n\nfm f1\nselect f1,f2; // try also just \"f1\""
       -> "Second (slightly larger) illustrative example of an FRTS, used to motivate the core ideas",
+    "Other FRTS2" -> "init s0\ns0 --> s0: a if f1\ns0 --> s0: b if f2\ns0 --> s1: c if f2 disabled\na --x a\nb ->> c\n\nfm f1\nselect f1,f2; // try also just \"f1\""
+      -> "Third illustrative example of an FRTS, used to motivate the core ideas",
 //    "Counter" -> "init s0\ns0 --> s0 : act\nact --! act : offAct disabled\nact ->> offAct : on1 disabled\nact ->> on1"
 //      -> "turns off a transition after 3 times.",
 //    "Penguim" -> "init Son_of_Tweetie\nSon_of_Tweetie --> Special_Penguin\nSpecial_Penguin --> Penguin : Penguim\nPenguin --> Bird : Bird\nBird --> Does_Fly: Fly\n\nBird --! Fly : noFly\nPenguim --! noFly"
@@ -50,6 +52,8 @@ object CaosConfig extends Configurator[FRTS]:
       -> "Experimenting with determinisatoin and minimisation of automata",
     "NFA-DFA 2" -> "init q0\nq0 --> q0: a\nq0 --> q0: b\nq0 --> q1: a\nq1 --> q2: b"
       -> "Simple example of an NFA that could be determinised",
+    "Bad min1" -> "init q0\nq0 --> q1: a\nq1 --> q1: a" -> "Experiment to minimise automata",
+    "Bad min2" -> "init q0\nq0 --> q1: a\nq0 --> q2: b" -> "Experiment to minimise automata",
     "Parallel" -> "aut a {\n  init 0\n  0 --> 1 : a disabled\n}\naut b {\n  init 0\n  0 --> 1 : b0\n  1 --> 0 : b disabled\n}\naut c {\n  init 0\n  0 --> 1 : c0\n  1 --> 0 : c disabled\n}\n// intrusion\nb.b  ->> a.a\nc.c  ->> a.a\nb.b0 ->> c.c\nc.c0 ->> b.b\nb.b0 --#-- c.c0"
       -> "Experiments with multiple components.",
     "Vending" -> "init s1\ns1 --> s1: sodaRefill\ns1 --> s1: teaRefill\ns1 --> s2: pay\ns4 --> s1: return\ns2 --> s3: change\ns3 --> s4: cancel\ns3 --> s5: soda\ns3 --> s6: tea\ns5 --> s7: serve\ns5 --> s7: serveSodaGone\ns6 --> s7: serve\ns6 --> s7: serveTeaGone\ns7 --> s8: open\ns8 --> s9: take\ns9 --> s1: close\n\nsodaRefill ->> soda\nteaRefill ->> tea\nserveSodaGone --x soda\nserveTeaGone --x tea"
@@ -94,7 +98,11 @@ object CaosConfig extends Configurator[FRTS]:
 ////     "Step-by-step (debug)" -> steps((e:RxGraph)=>e, Program2.RxSemantics, RxGraph.toMermaid, _.show, Text),
      "TS: flattened" -> lts((e:FRTS)=>e.getRTS,
        RTSSemantics,
-       x => x.inits.toString,
+       x => Show.simpler(x),//x.inits.toString,
+       _.toString),
+     "TS: flattened (verbose)" -> lts((e:FRTS)=>e.getRTS,
+       RTSSemantics,
+       x => Show.simple(x),//x.inits.toString,
        _.toString),
      "FTS: flattened" -> lts2((e:FRTS)=>
        (Set(e.getRTS), RTSSemantics.asFTS(e.pk)),
@@ -161,14 +169,18 @@ object CaosConfig extends Configurator[FRTS]:
            val rts = e.getRTS
            val init = fresh(rts)
            val (nfa,done) = caos.sos.FinAut.sosToNFA(RTSSemantics,Set(rts))
-           val procs = for (src,edgs) <- nfa.e.groupBy(_._1) yield
-             s"  ${fresh(src)} = ${edgs.map(e => s"${clean(e._2.toString)} . ${fresh(e._3)}").mkString(" + ")};"
+           val emap = nfa.e.groupBy(_._1)
+           val procs = for (src,edgs) <- emap yield
+             s"  ${fresh(src)} = ${edgs.map(e =>
+               val rest = if emap.contains(e._3) then s". ${fresh(e._3)}" else ""
+               s"${clean(e._2.toString)} $rest"
+             ).mkString(" + ")};"
            s"init $init;\n"+
-             s"act\n  ${e.getRTS.act.map(x=>clean(x._3.toString)).mkString(",")};\n" +
+             s"act\n  ${e.getRTS.edgs.flatMap(x=>x._2.map(y => clean(y._2.toString))).mkString(",")};\n" +
              s"proc\n${procs.toSet.mkString("\n")}"
          ,Text),
      "TS: flattened (DFA)" -> lts((e:FRTS)=>Set(e.getRTS), FinAut.detSOS(RTSSemantics), x => x.map(_.inits.toString).mkString(","), _.toString),
-     "TS: flatenned (minimal DFA)" -> lts2(
+     "TS: flatenned (minimal DFA - WiP)" -> lts2(
        (e:FRTS)=> FinAut.minSOS(RTSSemantics,Set(e.getRTS)),
        x => x.map(_.inits.toString).mkString(","),
        _.toString),
