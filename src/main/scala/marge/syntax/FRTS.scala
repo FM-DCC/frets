@@ -1,7 +1,7 @@
 package marge.syntax
 
 import marge.syntax.FExp.{FTrue, Literal}
-import marge.syntax.RTS.Edge
+import marge.syntax.RTS.{Edge, QName, toMermaid}
 import marge.backend.Rel.{Rel, add, join}
 
 case class FRTS(rts: RTS, fm: FExp, pk: Map[Edge,FExp], main: Set[String]):
@@ -51,5 +51,9 @@ case class FRTS(rts: RTS, fm: FExp, pk: Map[Edge,FExp], main: Set[String]):
     rts.copy(edgs = newEdges, on = newOn, off = newOff, act = newAct)
   }
 
-//object FRTS:
+
+object FRTS:
+  def toMermaid(f: FRTS): String =
+    RTS.toMermaid(f.rts)(using f.pk)
+
 

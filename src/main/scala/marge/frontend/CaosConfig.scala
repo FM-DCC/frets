@@ -6,6 +6,7 @@ import caos.sos.{FinAut, SOS}
 import caos.view.*
 import marge.backend.*
 import marge.syntax.FExp.{FNot, Feat}
+import marge.syntax.FRTS.toMermaid
 import marge.syntax.RTS.{Action, Edge, QName}
 import marge.syntax.{FExp, FRTS, Parser, Show, Syntax}
 //import marge.syntax.Syntax.RxGraph
@@ -75,6 +76,7 @@ object CaosConfig extends Configurator[FRTS]:
 //     "View State (DB)" -> view[FRTS](_.toString, Text).expand,
      "View FRTS" -> view[FRTS](Show.apply, Text).moveTo(1),
      "View RTS" -> view[FRTS](x => Show(x.getRTS), Text).moveTo(1),
+     html("<h2>Main analysis</h2>"),
      "Products (feature combinations)" -> view[FRTS](x =>
 //                  "== FM to DNF ==\n" +
 //                  Show.showDNF(x.fm.dnf) +
@@ -90,26 +92,20 @@ object CaosConfig extends Configurator[FRTS]:
      // "View debug (complx)" -> view[RxGraph](RxGraph.toMermaid, Text).expand,
 //     "experiment" -> view[FRTS](x => test.map(_.dnf).mkString("\n"), Text).expand,
 //     "experiment2" -> view[FRTS](x => test.map(_.products(Set("a","b"))).mkString("\n"), Text).expand,
+     "FRTS: draw" -> view[FRTS](g => toMermaid(g), Mermaid),
      "RTS: Step-by-step" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, RTS.toMermaid, _.show, Mermaid).expand,
-     "RTS: Step-by-step (simpler)" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, RTS.toMermaidPlain, _.show, Mermaid),
-//     "Step-by-step DB" -> steps((e:FRTS)=>e, FRTSSemantics, FRTS.toMermaid, _.show, Text).expand,
-//     "Step-by-step DB (simpler)" -> steps((e:FRTS)=>e, FRTSSemantics, FRTS.toMermaidPlain, _.show, Text).expand,
-     "RTS: Step-by-step (txt)" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, Show.apply, _.show, Text),
-////     "Step-by-step (debug)" -> steps((e:RxGraph)=>e, Program2.RxSemantics, RxGraph.toMermaid, _.show, Text),
      "TS: flattened" -> lts((e:FRTS)=>e.getRTS,
        RTSSemantics,
        x => Show.simpler(x),//x.inits.toString,
        _.toString),
-     "TS: flattened (verbose)" -> lts((e:FRTS)=>e.getRTS,
-       RTSSemantics,
-       x => Show.simple(x),//x.inits.toString,
-       _.toString),
-     "FTS: flattened" -> lts2((e:FRTS)=>
-       (Set(e.getRTS), RTSSemantics.asFTS(e.pk)),
-       x => x.inits.toString,
-       (ae:(Action,FExp)) => if ae._2==FExp.FTrue
-        then ae._1.toString
-        else s"${ae._1} if ${Show(ae._2)}"),
+     "FTS: flattened" ->
+       ltsCustom((e:FRTS)=> (
+         Set(e.getRTS),
+         RTSSemantics.asFTS(e.pk),
+         x => x.inits.toString,
+         (ae:(Action,FExp)) => if ae._2==FExp.FTrue
+          then ae._1.toString
+          else s"${ae._1} if ${Show(ae._2)}")),
      "Possible problems" -> view[FRTS](r=>AnalyseLTS.randomWalk(r.getRTS)._4 match
        case Nil => "No deadlocks, unreachable states/edges, nor inconsistencies"
        case m => m.mkString("\n")
@@ -155,6 +151,16 @@ object CaosConfig extends Configurator[FRTS]:
          else s"States: ${stD.size}\nEdges: $edsD")
      },
        Text),
+     html("<h2>Other analysis</h2>"),
+     "RTS: Step-by-step (simpler)" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, RTS.toMermaidPlain, _.show, Mermaid),
+     //     "Step-by-step DB" -> steps((e:FRTS)=>e, FRTSSemantics, FRTS.toMermaid, _.show, Text).expand,
+     //     "Step-by-step DB (simpler)" -> steps((e:FRTS)=>e, FRTSSemantics, FRTS.toMermaidPlain, _.show, Text).expand,
+     "RTS: Step-by-step (txt)" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, Show.apply, _.show, Text),
+     ////     "Step-by-step (debug)" -> steps((e:RxGraph)=>e, Program2.RxSemantics, RxGraph.toMermaid, _.show, Text),
+     "TS: flattened (verbose)" -> lts((e:FRTS)=>e.getRTS,
+       RTSSemantics,
+       x => Show.simple(x),//x.inits.toString,
+       _.toString),
      "TS: as mCRL2" ->
        view((e:FRTS)=>
            var seed = 0;
@@ -183,10 +189,10 @@ object CaosConfig extends Configurator[FRTS]:
        Set(e.getRTS), FinAut.detSOS(RTSSemantics),
        x => x.map(_.inits.toString).mkString(","),
        _.toString),
-     "TS: flatenned (minimal DFA)" -> lts2(
-       (e:FRTS)=> FinAut.minSOS(RTSSemantics,Set(e.getRTS)),
-       x => x.map(_.inits.toString).mkString(","),
-       _.toString),
+     "TS: flatenned (minimal DFA)" -> ltsCustom(
+       (e:FRTS)=>
+         val (i,s,_) = FinAut.minSOS(RTSSemantics,Set(e.getRTS))
+         (i,s, x => x.map(_.inits.toString).mkString(","), _.toString)),
      "TS: equivalent states" -> view(e =>
        val p = FinAut.partitionNFA( FinAut.sosToNFA(RTSSemantics,Set(e.getRTS))._1)
        p.map(r => r.map(x => x.inits.toString).mkString(",")).mkString(" - ")

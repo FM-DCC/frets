@@ -86,7 +86,7 @@ object RTS:
           this/-rx.inits, this/rx.act)
 
 
-  def toMermaid(rx: RTS): String =
+  def toMermaid(rx: RTS)(using extension: Map[Edge,FExp] = Map()): String =
       var i = -1
       def fresh(): Int = {i += 1; i}
       s"flowchart LR\n${
@@ -99,7 +99,7 @@ object RTS:
       }"
 
     /** Generates a mermaid graph with only the ground edges */
-  def toMermaidPlain(rx: RTS): String =
+  def toMermaidPlain(rx: RTS)(using extension: Map[Edge,FExp] = Map()): String =
       var i = -1
       def fresh(): Int = {i += 1; i}
       s"flowchart LR\n${
@@ -110,11 +110,13 @@ object RTS:
       for (a,b,c) <- rx.lbls.getOrElse(n,Set()) yield s"$a$b$c"
 
   private def drawEdges(es:EdgeMap, rx:RTS, fresh:()=>Int, tip:String,
-                          style:String, simple:Boolean=false): String =
+                          style:String, simple:Boolean=false)(using pk:Map[Edge,FExp]): String =
       (for (a,bs)<-es.toList; (b,c) <- bs.toList  yield
+        val c2 = if !pk.contains((a,b,c)) || pk((a,b,c))==FExp.FTrue
+                 then c.toString else s"$c if ${Show(pk((a,b,c))).replaceAll("¬","!")}"
         val isRx = rx.rxEdges.contains((a,b,c))
         val line = if rx.act.contains((a,b,c)) then "---" else "-.-"
-        val lbl = if c.n.isEmpty then "" else s"|$c|"
+        val lbl = if c.n.isEmpty then "" else s"|$c2|"
         if simple || !isRx then // no middle point needed
           s"  $a $line$tip $lbl $b\n"+
           s"  linkStyle ${fresh()} $style\n"

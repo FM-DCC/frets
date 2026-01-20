@@ -37,7 +37,7 @@ object Show:
     s"${apply(f.rts)}\n[FM] ${apply(f.fm)}\n[FCond] ${
       f.pk.map(kv => apply(kv._1) + " -> " + apply(kv._2)).mkString("; ")}\n[Sel] ${
       f.main.mkString("{",",","}")}"
-
+  
   def apply(fe: FExp): String = fe match
     case FTrue => "true"
     case Feat(n) => n

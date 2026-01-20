@@ -14,6 +14,10 @@
     display: none;
 }
 
+p,h1,h2,h3,h4 {
+    margin-left: 5pt;
+    margin-right: 5pt;
+}
 /*.active{
     display: block;
 }*/
