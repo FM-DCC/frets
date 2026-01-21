@@ -15,7 +15,7 @@ import marge.backend.RxSemantics
 
 /** Object used to configure which analysis appear in the browser */
 object CaosConfig extends Configurator[FRTS]:
-  val name = "Frets: Animator of Featured Reactive Transition Systems"
+  val name = "FRETS: Animator of Featured Reactive Transition Systems"
   override val languageName: String = "Input Reactive Graphs"
 
   val parser: String => FRTS = marge.syntax.Parser.parseProgram
@@ -76,8 +76,9 @@ object CaosConfig extends Configurator[FRTS]:
 //     "View State (DB)" -> view[FRTS](_.toString, Text).expand,
      "View FRTS" -> view[FRTS](Show.apply, Text).moveTo(1),
      "View RTS" -> view[FRTS](x => Show(x.getRTS), Text).moveTo(1),
-     html("<h2>Main analysis</h2>"),
+     html("<h2>Main functionalities</h2>"),
      "Products (feature combinations)" -> view[FRTS](x =>
+                  val sel = x.main.toList.sorted.mkString(", ")
 //                  "== FM to DNF ==\n" +
 //                  Show.showDNF(x.fm.dnf) +
                   "== All features ==\n" +
@@ -86,7 +87,8 @@ object CaosConfig extends Configurator[FRTS]:
                   x.products
                     .toList.sorted
                     .zipWithIndex
-                    .map((x,i)=>s" ${i+1}. ${x.mkString(", ")}")
+                    .map((p,i)=>s" ${i+1}. ${p.mkString(", ")}${
+                      if p==x.main then " [selected]" else ""}")
                     .mkString("\n"), Text),
      // "View debug (simpler)" -> view[RxGraph](RxGraph.toMermaidPlain, Text).expand,
      // "View debug (complx)" -> view[RxGraph](RxGraph.toMermaid, Text).expand,
@@ -102,10 +104,11 @@ object CaosConfig extends Configurator[FRTS]:
        ltsCustom((e:FRTS)=> (
          Set(e.getRTS),
          RTSSemantics.asFTS(e.pk),
-         x => x.inits.toString,
-         (ae:(Action,FExp)) => if ae._2==FExp.FTrue
-          then ae._1.toString
-          else s"${ae._1} if ${Show(ae._2)}")),
+         x => Show.simpler(x), //x.inits.toString,
+         (ae:(Action,FExp)) =>
+           if ae._2==FExp.FTrue
+           then ae._1.toString
+           else s"${ae._1} if ${Show(ae._2)}")),
      "Possible problems" -> view[FRTS](r=>AnalyseLTS.randomWalk(r.getRTS)._4 match
        case Nil => "No deadlocks, unreachable states/edges, nor inconsistencies"
        case m => m.mkString("\n")
@@ -144,14 +147,14 @@ object CaosConfig extends Configurator[FRTS]:
        }) ==\n" +
          (if !done then s"Stopped after traversing 2000 states"
          else s"States: ${st.size}\nEdges: $eds") +
-         s"\n== Flattened TS as DFA (size: ${
+         s"\n== Flattened TS as minimal DFA (size: ${
            if !done then ">2000" else stD.size + edsD
          }) ==\n" +
          (if !doneD then s"Stopped after traversing 2000 states"
          else s"States: ${stD.size}\nEdges: $edsD")
      },
        Text),
-     html("<h2>Other analysis</h2>"),
+     html("<h2>Other functionalities</h2>"),
      "RTS: Step-by-step (simpler)" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, RTS.toMermaidPlain, _.show, Mermaid),
      //     "Step-by-step DB" -> steps((e:FRTS)=>e, FRTSSemantics, FRTS.toMermaid, _.show, Text).expand,
      //     "Step-by-step DB (simpler)" -> steps((e:FRTS)=>e, FRTSSemantics, FRTS.toMermaidPlain, _.show, Text).expand,
@@ -189,11 +192,11 @@ object CaosConfig extends Configurator[FRTS]:
        Set(e.getRTS), FinAut.detSOS(RTSSemantics),
        x => x.map(_.inits.toString).mkString(","),
        _.toString),
-     "TS: flatenned (minimal DFA)" -> ltsCustom(
+     "TS: flatenned (trace-equivalence minimal DFA)" -> ltsCustom(
        (e:FRTS)=>
          val (i,s,_) = FinAut.minSOS(RTSSemantics,Set(e.getRTS))
          (i,s, x => x.map(_.inits.toString).mkString(","), _.toString)),
-     "TS: equivalent states" -> view(e =>
+     "TS: trace-equivalent states" -> view(e =>
        val p = FinAut.partitionNFA( FinAut.sosToNFA(RTSSemantics,Set(e.getRTS))._1)
        p.map(r => r.map(x => x.inits.toString).mkString(",")).mkString(" - ")
        , Text),
@@ -255,8 +258,31 @@ object CaosConfig extends Configurator[FRTS]:
   private val sosRules: String =
     """ """.stripMargin
 
-//  override val documentation: Documentation = List(
-//    languageName -> "More information on the syntax of Reactive Graph" ->
+  override val documentation: Documentation = List(
+    languageName -> "More information on the syntax of Reactive Graph" ->
+      "A Feature Reactive Transition System is ...",
+    "TS: flattened" -> "More information on the TS visualization" ->
+      """<p>This widget depicts the flattened variant for the selected product of the given FRTS.</p>
+        |
+        |<p>The names of the states include both the original name in the given FRTS and a number
+        |indicating the number of active transitions. E.g., <code>s0[2]</code> represents
+        |the state <code>s0</code> in the FRTS with 2 active transitions. Note that this name is not
+        |unique. To see the list of all active transitions, which provides unique names,
+        |please use the widget "TS: flattened (verbose)." </p>
+        |""".stripMargin,
+    "TS: flatenned (trace-equivalence minimal DFA)" -> "More information on how to mininmise the TS)"
+      ->
+      """We use Hopcroft's algorithm to find and merge indistinguishable states
+        |(<a href="https://en.wikipedia.org/wiki/DFA_minimization#Hopcroft's_algorithm">https://en.wikipedia.org/wiki/DFA_minimization</a>),
+        |based on partition refinement of the underlying equivalence class.
+        |This notion of indistinguishable relies on trace-equivalence and not on bisimilarity.""".stripMargin,
+    "TS: trace-equivalent states" -> "More information on how to mininmise the TS)"
+      ->
+      """We use Hopcroft's algorithm to find indistinguishable states
+      |(<a href="https://en.wikipedia.org/wiki/DFA_minimization#Hopcroft's_algorithm">https://en.wikipedia.org/wiki/DFA_minimization</a>),
+      |based on partition refinement of the underlying equivalence class.
+      |This notion of indistinguishable relies on trace-equivalence and not on bisimilarity.""".stripMargin,
+  )
 //      """|A program <code>RG</code> is a Reactive Graph with a syntax that follows the following template:
 //         |<pre>
 //         |init = Initial State;
