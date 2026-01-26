@@ -21532,7 +21532,7 @@ function $c_Lmarge_frontend_CaosConfig$() {
   $n_Lmarge_frontend_CaosConfig$ = this;
   $f_Lcaos_frontend_Configurator__$init$__V(this);
   this.Lmarge_frontend_CaosConfig$__f_name = "FRETS: Animator of Featured Reactive Transition Systems";
-  this.Lmarge_frontend_CaosConfig$__f_languageName = "Input Reactive Graphs";
+  this.Lmarge_frontend_CaosConfig$__f_languageName = "Input Featured Reactive TS";
   this.Lmarge_frontend_CaosConfig$__f_parser = new $c_sjsr_AnonFunction1(((str) => {
     var str$1 = $as_T(str);
     return $m_Lmarge_syntax_Parser$().parseProgram__T__Lmarge_syntax_FRTS(str$1)
@@ -22032,13 +22032,13 @@ function $c_Lmarge_frontend_CaosConfig$() {
   })), $m_Lcaos_view_Text$());
   var elems$8 = $n($$x70).wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$$x69, $$x68, $$x66, $$x65, $$x62, $$x61, $$x60, $$x59, $$x57, $$x55, $$x52, $$x51, $$x50, $$x49, $$x48, $$x43, $$x39, new $c_T2("TS variant: trace-equivalent states", y$17)]));
   this.Lmarge_frontend_CaosConfig$__f_widgets = $m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems$8);
-  this.Lmarge_frontend_CaosConfig$__f_footer = ($m_sc_StringOps$(), $m_sc_StringOps$().stripMargin$extension__T__C__T("Source code at: <a target=\"_blank\"\n      | href=\"https://github.com/fm-dcc/marge\">\n      | https://github.com/fm-dcc/marge</a>. This is a companion tool for\n      | a paper accepted at FACS 2024, based on <a target=\"_blank\"\n      | href=\"https://github.com/arcalab/CAOS\">\n      | CAOS</a>. The original version used for FACS can be found at <a target=\"_blank\"\n      | href=\"https://fm-dcc.github.io/MARGe/marge-0.1.html\">\n      | https://fm-dcc.github.io/MARGe/marge-0.1.html</a>.", 124));
+  this.Lmarge_frontend_CaosConfig$__f_footer = ($m_sc_StringOps$(), $m_sc_StringOps$().stripMargin$extension__T__C__T("Source code at: <a target=\"_blank\"\n      | href=\"https://github.com/fm-dcc/frets\">\n      | https://github.com/fm-dcc/frets</a>. This is a companion tool for\n      | a paper submitted to VARS 2026, using <a target=\"_blank\"\n      | href=\"https://github.com/arcalab/CAOS\">\n      | CAOS</a> backend. Click the (?) on the headers of the widgets for more information.", 124));
   $m_sc_StringOps$();
   $m_sc_StringOps$().stripMargin$extension__T__C__T(" ", 124);
   var $$x74 = $m_Lcaos_frontend_Configurator$();
   var self$15 = this.Lmarge_frontend_CaosConfig$__f_languageName;
   var self$16 = new $c_T2(self$15, "More information on the syntax of Reactive Graph");
-  var $$x73 = new $c_T2(self$16, "A Feature Reactive Transition System is ...");
+  var $$x73 = new $c_T2(self$16, "A Feature Reactive Transition System is a transition system where transitions can be <ul><li>enabled or disabled at compile time based on feature expressions.<li>enabled or disabled at runtime based reactions.</li></ul>The syntax for defining an FRTS is illustrated by the following example: <pre>init &lt;initial-state&gt;\n// Add two lablelled transitions with a feature expression (optional)\n&lt;source-state&gt;  --&gt; &lt;target-state&gt; by &lt;action&gt; if &lt;feature-expression&gt;\n&lt;source-state&gt;  --&gt; &lt;target-state&gt; by &lt;action&gt; disabled // starts disabled\n// (add more transitions)\n\n// Enable an transition action2 when action1 is performed\n&lt;action1&gt; -&gt; &lt;action2&gt;\n\n// Disable an transition action2 when action1 is performed\n&lt;action1&gt; --x &lt;action2&gt;\n// Define a feature model as a constraint over feature names\nfm &lt;feature-expression&gt;\n// Select a set of features to be used in the analsyses\nselect &lt;feature-names*&gt;;</pre><p> where <code>feature_expression</code> is a boolean expression over features, and <code>feature-names*</code> is a comma-separated list of features chosen for the current product.</p>");
   var self$17 = new $c_T2("TS: flattened", "More information on the TS visualization");
   $m_sc_StringOps$();
   var y$18 = $m_sc_StringOps$().stripMargin$extension__T__C__T("<p>This widget depicts the flattened variant for the selected product of the given FRTS.</p>\n        |\n        |<p>The names of the states include both the original name in the given FRTS and a number\n        |indicating the number of active transitions. E.g., <code>s0[2]</code> represents\n        |the state <code>s0</code> in the FRTS with 2 active transitions. Note that this name is not\n        |unique. To see the list of all active transitions, which provides unique names,\n        |please use the widget \"TS: flattened (verbose).\" </p>\n        |", 124);

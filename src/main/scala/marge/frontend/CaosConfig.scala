@@ -16,7 +16,7 @@ import marge.backend.RxSemantics
 /** Object used to configure which analysis appear in the browser */
 object CaosConfig extends Configurator[FRTS]:
   val name = "FRETS: Animator of Featured Reactive Transition Systems"
-  override val languageName: String = "Input Reactive Graphs"
+  override val languageName: String = "Input Featured Reactive TS"
 
   val parser: String => FRTS = marge.syntax.Parser.parseProgram
 
@@ -245,25 +245,38 @@ object CaosConfig extends Configurator[FRTS]:
 
   override val footer: String =
     """Source code at: <a target="_blank"
-      | href="https://github.com/fm-dcc/marge">
-      | https://github.com/fm-dcc/marge</a>. This is a companion tool for
-      | a paper accepted at FACS 2024, based on <a target="_blank"
+      | href="https://github.com/fm-dcc/frets">
+      | https://github.com/fm-dcc/frets</a>. This is a companion tool for
+      | a paper submitted to VARS 2026, using <a target="_blank"
       | href="https://github.com/arcalab/CAOS">
-      | CAOS</a>. The original version used for FACS can be found at <a target="_blank"
-      | href="https://fm-dcc.github.io/MARGe/marge-0.1.html">
-      | https://fm-dcc.github.io/MARGe/marge-0.1.html</a>.""".stripMargin
-  // Simple animator of Labelled Reactive Graphs, meant to exemplify the
-  // | CAOS libraries, used to generate this website.""".stripMargin
-  // Source code available online:
-  // | <a target="_blank" href="https://github.com/arcalab/CAOS">
-  // | https://github.com/arcalab/CAOS</a> (CAOS).""".stripMargin
+      | CAOS</a> backend. Click the (?) on the headers of the widgets for more information.""".stripMargin
 
   private val sosRules: String =
     """ """.stripMargin
 
   override val documentation: Documentation = List(
-    languageName -> "More information on the syntax of Reactive Graph" ->
-      "A Feature Reactive Transition System is ...",
+    languageName -> "More information on the syntax of Reactive Graph" -> (
+      "A Feature Reactive Transition System is a transition system where transitions can be " +
+        "<ul><li>enabled or disabled at compile time based on feature expressions." +
+        "<li>enabled or disabled at runtime based reactions.</li></ul>" +
+        "The syntax for defining an FRTS is illustrated by the following example: " +
+        "<pre>" +
+        "init &lt;initial-state&gt;\n" +
+        "// Add two lablelled transitions with a feature expression (optional)\n" +
+        "&lt;source-state&gt;  --&gt; &lt;target-state&gt; by &lt;action&gt; if &lt;feature-expression&gt;\n" +
+        "&lt;source-state&gt;  --&gt; &lt;target-state&gt; by &lt;action&gt; disabled // starts disabled\n" +
+        "// (add more transitions)\n" +
+        "\n// Enable an transition action2 when action1 is performed\n" +
+        "&lt;action1&gt; -&gt; &lt;action2&gt;\n" +
+        "\n// Disable an transition action2 when action1 is performed\n" +
+        "&lt;action1&gt; --x &lt;action2&gt;\n" +
+        "// Define a feature model as a constraint over feature names\n" +
+        "fm &lt;feature-expression&gt;\n" +
+        "// Select a set of features to be used in the analsyses\n" +
+        "select &lt;feature-names*&gt;;" +
+        "</pre>" +
+        "<p> where <code>feature_expression</code> is a boolean expression over features, and " +
+        "<code>feature-names*</code> is a comma-separated list of features chosen for the current product.</p>"),
     "TS: flattened" -> "More information on the TS visualization" ->
       """<p>This widget depicts the flattened variant for the selected product of the given FRTS.</p>
         |
