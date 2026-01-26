@@ -24,14 +24,14 @@ object CaosConfig extends Configurator[FRTS]:
   val examples: Seq[Example] = List(
     "FM experiment" -> "init s0\ns0 --> s1: a if sec\ns1 --> s0: b if !sec\na  --! a\n\nfm fa -> fb && (!fa || fb)\nselect sec,fb;"
       -> "Experimenting with FM solutions",
-    "Simple RTS" -> "init s0\ns0 --> s1: a\ns1 --> s0: b\na  --! a"
-      -> "Basic example",
-    "Simple FRTS" -> "init s0\ns0 --> s0: a if f1\ns0 --> s0: b if f2\na --x a\nb --x b\n\nfm f1\nselect f1,f2; // try also just \"f1\""
-      -> "Illustrative example of an FRTS, used to motivate the core ideas",
-    "Other FRTS" -> "init s0\ns0 --> s0: a if f1\ns0 --> s0: b if f2\ns0 --> s1: c if f2\na --x a\nb --x b\na --x c\nb ->> c\n\nfm f1\nselect f1,f2; // try also just \"f1\""
-      -> "Second (slightly larger) illustrative example of an FRTS, used to motivate the core ideas",
-    "Other FRTS2" -> "init s0\ns0 --> s0: a if f1\ns0 --> s0: b if f2\ns0 --> s1: c if f2 disabled\na --x a\nb ->> c\n\nfm f1\nselect f1,f2; // try also just \"f1\""
-      -> "Third illustrative example of an FRTS, used to motivate the core ideas",
+    "Simple FRTS" -> "init s0\ns0 --> s0: a if f1\ns0 --> s0: b if f2\ns0 --> s1: c if f2 disabled\na --x a\nb ->> c\n\nfm f1\nselect f1,f2; // try also just \"f1\""
+      -> "Simple illustrative example of an FRTS, used to motivate the core ideas",
+    "Simple FRTS 2" -> "init s0\ns0 --> s1: a\ns1 --> s0: b\na  --! a"
+      -> "Simpler variation of the simple FRTS example, without features",
+    "Simple FRTS 3" -> "init s0\ns0 --> s0: a if f1\ns0 --> s0: b if f2\na --x a\nb --x b\n\nfm f1\nselect f1,f2; // try also just \"f1\""
+      -> "Another variation of the simple FRTS example",
+    "Simple FRTS 4" -> "init s0\ns0 --> s0: a if f1\ns0 --> s0: b if f2\ns0 --> s1: c if f2\na --x a\nb --x b\na --x c\nb ->> c\n\nfm f1\nselect f1,f2; // try also just \"f1\""
+      -> "Forth (slightly larger) illustrative example of an FRTS, used to motivate the core ideas",
 //    "Counter" -> "init s0\ns0 --> s0 : act\nact --! act : offAct disabled\nact ->> offAct : on1 disabled\nact ->> on1"
 //      -> "turns off a transition after 3 times.",
 //    "Penguim" -> "init Son_of_Tweetie\nSon_of_Tweetie --> Special_Penguin\nSpecial_Penguin --> Penguin : Penguim\nPenguin --> Bird : Bird\nBird --> Does_Fly: Fly\n\nBird --! Fly : noFly\nPenguim --! noFly"
@@ -53,8 +53,8 @@ object CaosConfig extends Configurator[FRTS]:
       -> "Experimenting with determinisatoin and minimisation of automata",
     "NFA-DFA 2" -> "init q0\nq0 --> q0: a\nq0 --> q0: b\nq0 --> q1: a\nq1 --> q2: b"
       -> "Simple example of an NFA that could be determinised",
-    "Bad min1" -> "init q0\nq0 --> q1: a\nq1 --> q1: a" -> "Experiment to minimise automata",
-    "Bad min2" -> "init q0\nq0 --> q1: a\nq0 --> q2: b" -> "Experiment to minimise automata",
+    "Min 1" -> "init q0\nq0 --> q1: a\nq1 --> q1: a" -> "Experiment to minimise automata",
+    "Min 2" -> "init q0\nq0 --> q1: a\nq0 --> q2: b" -> "Experiment to minimise automata",
     "Parallel" -> "aut a {\n  init 0\n  0 --> 1 : a disabled\n}\naut b {\n  init 0\n  0 --> 1 : b0\n  1 --> 0 : b disabled\n}\naut c {\n  init 0\n  0 --> 1 : c0\n  1 --> 0 : c disabled\n}\n// intrusion\nb.b  ->> a.a\nc.c  ->> a.a\nb.b0 ->> c.c\nc.c0 ->> b.b\nb.b0 --#-- c.c0"
       -> "Experiments with multiple components.",
     "Vending" -> "init s1\ns1 --> s1: sodaRefill\ns1 --> s1: teaRefill\ns1 --> s2: pay\ns4 --> s1: return\ns2 --> s3: change\ns3 --> s4: cancel\ns3 --> s5: soda\ns3 --> s6: tea\ns5 --> s7: serve\ns5 --> s7: serveSodaGone\ns6 --> s7: serve\ns6 --> s7: serveTeaGone\ns7 --> s8: open\ns8 --> s9: take\ns9 --> s1: close\n\nsodaRefill ->> soda\nteaRefill ->> tea\nserveSodaGone --x soda\nserveTeaGone --x tea"
