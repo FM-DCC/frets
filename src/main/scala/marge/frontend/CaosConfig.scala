@@ -30,6 +30,8 @@ object CaosConfig extends Configurator[FRTS]:
       -> "Another variation of the simple FRTS example",
     "Simple FRTS 4" -> "init s0\ns0 --> s0: a if f1\ns0 --> s0: b if f2\ns0 --> s1: c if f2\na --x a\nb --x b\na --x c\nb ->> c\n\nfm f1\nselect f1,f2; // try also just \"f1\""
       -> "Forth (slightly larger) illustrative example of an FRTS, used to motivate the core ideas",
+    "Simple FRTS aliases" -> "init s0\n[e1] s0 --> s0: a if f1\n[e2]s0 --> s0: b if f2\n[e3] s0 --> s1: b if f2 disabled\n\ne1 --x e1\ne2 ->> e3\n\nfm f1\nselect f1,f2; // try also just \"f1\""
+      -> "Variation of the simple FRTS example, using aliases for edges",
     "FM experiment" -> "init s0\ns0 --> s1: a if sec\ns1 --> s0: b if !sec\na  --! a\n\nfm fa -> fb && (!fa || fb)\nselect sec,fb;"
       -> "Experimenting with FM solutions",
     "perm-TS"
@@ -86,25 +88,12 @@ object CaosConfig extends Configurator[FRTS]:
      "View FRTS" -> view[FRTS](Show.apply, Text).moveTo(1),
      "View RTS variant" -> view[FRTS](x => Show(x.getRTS), Text).moveTo(1),
      html("<h2>Main functionalities</h2>"),
-     "Products (feature combinations)" -> view[FRTS](x =>
-                  val sel = x.main.toList.sorted.mkString(", ")
-//                  "== FM to DNF ==\n" +
-//                  Show.showDNF(x.fm.dnf) +
-                  "== All features ==\n" +
-                  x.feats.mkString(", ") +
-                  "\n== Products ==\n" +
-                  x.products
-                    .toList.sortWith(_.size < _.size)
-                    .zipWithIndex
-                    .map((p,i)=>s" ${i+1}. ${p.toList.sorted.mkString(", ")}${
-                      if p==x.main then " [selected]" else ""}")
-                    .mkString("\n"), Text),
      // "View debug (simpler)" -> view[RxGraph](RxGraph.toMermaidPlain, Text).expand,
      // "View debug (complx)" -> view[RxGraph](RxGraph.toMermaid, Text).expand,
 //     "experiment" -> view[FRTS](x => test.map(_.dnf).mkString("\n"), Text).expand,
 //     "experiment2" -> view[FRTS](x => test.map(_.products(Set("a","b"))).mkString("\n"), Text).expand,
-     "FRTS: draw" -> view[FRTS](g => toMermaid(g), Mermaid),
-     "RTS variant: Step-by-step" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, RTS.toMermaid, _.show, Mermaid).expand,
+     "FRTS: draw" -> view[FRTS](g => toMermaid(g), Mermaid).expand,
+     "RTS variant: Step-by-step" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, RTS.toMermaid, _.show, Mermaid),
      "TS variant: flattened" -> lts((e:FRTS)=>e.getRTS,
        RTSSemantics,
        x => Show.simpler(x),//x.inits.toString,
@@ -118,6 +107,19 @@ object CaosConfig extends Configurator[FRTS]:
            if ae._2==FExp.FTrue
            then ae._1.toString
            else s"${ae._1} if ${Show(ae._2)}")),
+     "Products (feature combinations)" -> view[FRTS](x =>
+                  val sel = x.main.toList.sorted.mkString(", ")
+//                  "== FM to DNF ==\n" +
+//                  Show.showDNF(x.fm.dnf) +
+                  "== All features ==\n" +
+                  x.feats.mkString(", ") +
+                  "\n== Products ==\n" +
+                  x.products
+                    .toList.sortWith(_.size < _.size)
+                    .zipWithIndex
+                    .map((p,i)=>s" ${i+1}. ${p.toList.sorted.mkString(", ")}${
+                      if p==x.main then " [selected]" else ""}")
+                    .mkString("\n"), Text),
      "Possible problems of the RTS variant" -> view[FRTS](r=>AnalyseLTS.randomWalk(r.getRTS)._4 match
         case Nil => "No deadlocks, unreachable states/edges, nor inconsistencies"
         case m => m.mkString("\n")
