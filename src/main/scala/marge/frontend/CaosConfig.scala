@@ -85,8 +85,23 @@ object CaosConfig extends Configurator[FRTS]:
    /** Description of the widgets that appear in the dashboard. */
    val widgets = List(
 //     "View State (DB)" -> view[FRTS](_.toString, Text).expand,
+     htmlLeft[FRTS]("""
+            |<button class="tgBtn" id="frtsBtn">FRTS</button>
+            |<button class="tgBtn" id="rtsBtn">RTS</button>
+            |<button class="tgBtn" id="ftsBtn">FTS</button>
+            |<button class="tgBtn" id="tsBtn">TS</button>
+            |""".stripMargin),
      "View FRTS" -> view[FRTS](Show.apply, Text).moveTo(1),
      "View RTS variant" -> view[FRTS](x => Show(x.getRTS), Text).moveTo(1),
+// <script>
+//   const button = document.getElementById("tttoggleBtn");
+
+//   button.addEventListener("click", () => {
+//     const div = document.getElementById("id-344744587");
+//     div.classList.toggle("hidden");
+//     button.classList.toggle("offBt")
+//   });
+// </script>"""),
      html("<h2>Main functionalities</h2>"),
      // "View debug (simpler)" -> view[RxGraph](RxGraph.toMermaidPlain, Text).expand,
      // "View debug (complx)" -> view[RxGraph](RxGraph.toMermaid, Text).expand,
@@ -251,6 +266,13 @@ object CaosConfig extends Configurator[FRTS]:
 //     -> view(MCRL2.apply, Text),
 
    )
+
+  override val toggles: Map[String, Set[String]] = Map(
+    "frtsBtn" -> widgets.map(ex => ex._1).toSet.filter(_.startsWith("FRTS")),
+    "rtsBtn"  -> widgets.map(ex => ex._1).toSet.filter(_.startsWith("RTS")),
+    "ftsBtn"  -> widgets.map(ex => ex._1).toSet.filter(_.startsWith("FTS")),
+    "tsBtn"   -> widgets.map(ex => ex._1).toSet.filter(_.startsWith("TS"))
+  )
 
   //// Documentation below
 

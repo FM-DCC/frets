@@ -172,6 +172,17 @@ p,h1,h2,h3,h4 {
 .dropdown>a:focus {
     border-color: black;
 }
+
+/* optional: hidden state */
+.hidden {
+  display: none;
+}
+.offBt {
+    background-color: red;
+}
+.tgBtn {
+    margin-left: 5px;
+}
 .overlay { 
     position: fixed;
     display: none;
