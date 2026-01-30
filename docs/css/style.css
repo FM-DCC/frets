@@ -253,6 +253,7 @@ p,h1,h2,h3,h4 {
  */
     border: 0px solid transparent;
     border-radius: 4px;
+    display: none; /* hidden since CAOS is not using navigation items for now. */
 }
 .noscroll {
     overflow: hidden;
@@ -439,7 +440,10 @@ button {
     opacity: 0;
     cursor: auto;
   }
-
+  .navbar-brand {
+    max-width: calc(100% - 0px); /* adjust based on other navbar items */
+    height: auto;
+  }
   .popup {
       position: absolute;
       width: 92%;
