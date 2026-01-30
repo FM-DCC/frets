@@ -271,7 +271,7 @@ object CaosConfig extends Configurator[FRTS]:
     "frtsBtn" -> widgets.map(ex => ex._1).toSet.filter(_.startsWith("FRTS")),
     "rtsBtn"  -> widgets.map(ex => ex._1).toSet.filter(_.startsWith("RTS")),
     "ftsBtn"  -> widgets.map(ex => ex._1).toSet.filter(_.startsWith("FTS")),
-    "tsBtn"   -> widgets.map(ex => ex._1).toSet.filter(_.startsWith("TS"))
+    "tsBtn"   -> widgets.map(ex => ex._1).toSet.filter(_.startsWith("TS")),
   )
 
   //// Documentation below
