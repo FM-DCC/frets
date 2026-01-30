@@ -178,9 +178,10 @@ p,h1,h2,h3,h4 {
   display: none;
 }
 .offBt {
-    background-color: red;
+    background-color: #ff000040 !important;
 }
 .tgBtn {
+    background-color: #00ff0040;
     margin-left: 5px;
 }
 .overlay { 
