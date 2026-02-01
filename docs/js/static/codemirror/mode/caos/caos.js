@@ -195,7 +195,7 @@ CodeMirror.defineMode("caos", function(_config, modeConfig) {
 //    setType("keyword")( // where, ...
 //      "def");
 
-    setType("keyword")("aut","disabled","init","fm","select");
+    setType("keyword")("aut","disabled","init","fm","select","check");
 
 
     setType("builtin")( // types and constructors
