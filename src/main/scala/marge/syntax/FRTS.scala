@@ -1,10 +1,14 @@
 package marge.syntax
 
 import marge.syntax.FExp.{FTrue, Literal}
-import marge.syntax.RTS.{Edge, QName, toMermaid}
+import marge.syntax.RTS.{Edge, QName, toMermaid, State}
 import marge.backend.Rel.{Rel, add, join}
 
-case class FRTS(rts: RTS, fm: FExp, pk: Map[Edge,FExp], main: Set[String]):
+case class FRTS(rts: RTS,
+                fm: FExp,
+                pk: Map[Edge,FExp],
+                main: Set[String],
+                equivs: List[(State,State,Boolean)]): // Boolean indicates if the equivalence is "bisimularity"
   def getRTS: RTS = project(main)//rts
 
   def feats: Set[String] =
@@ -24,7 +28,8 @@ case class FRTS(rts: RTS, fm: FExp, pk: Map[Edge,FExp], main: Set[String]):
          fm && other.fm,
          pk ++ other.pk.map(
           kv => kv._1 -> (if pk.contains(kv._1) then pk(kv._1) && kv._2 else kv._2)),
-         main ++ other.main
+         main ++ other.main,
+         equivs ++ other.equivs
     )
   def ++(r: RTS): FRTS =
     this.copy(rts = rts ++ r)

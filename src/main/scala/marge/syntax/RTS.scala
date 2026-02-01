@@ -75,7 +75,8 @@ object RTS:
 //    def /-(ns:List[QName]): List[QName] =
 //      ns.map(n => this/n)
     def /(rx: FRTS): FRTS =
-      rx.copy(rts = this/rx.rts)
+      rx.copy(rts = this/rx.rts,
+              equivs = rx.equivs.map( (s1,s2,b) => (this/s1, this/s2,b)))
     def /(rx: XFRTS): XFRTS =
       XFRTS(this / rx.f,
         rx.xon.map( kv => this/kv._1 -> kv._2.map(this / _)),

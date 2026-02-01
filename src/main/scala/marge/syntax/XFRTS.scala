@@ -73,6 +73,8 @@ case class XFRTS(f:FRTS,
     this.copy(f = f.addFM(newfm))
   def addSel(selected:Set[String]) =
     this.copy(f = f.addSel(selected))
+  def addCheck(triple:(QName,QName,Boolean)) =
+    this.copy(f = f.copy(equivs = triple :: f.equivs))
   def ++(frts:FRTS): XFRTS =
       this.copy(f = f ++ frts)
   def ++(r:RTS): XFRTS =
@@ -97,7 +99,7 @@ object XFRTS:
       Map(),Map(),
       Map() //.withDefaultValue(Set())
       ,Multiset(),Set())
-    val frts = FRTS(rts,FExp.FTrue,Map(),Set())
+    val frts = FRTS(rts,FExp.FTrue,Map(),Set(),Nil)
     XFRTS(frts, backend.Rel.empty, Rel.empty, Map())
 
 

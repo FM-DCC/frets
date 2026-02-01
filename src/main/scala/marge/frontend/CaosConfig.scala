@@ -12,6 +12,11 @@ import marge.syntax.{FExp, FRTS, Parser, Show, Syntax}
 //import marge.syntax.Syntax.RxGraph
 import marge.syntax.RTS
 import marge.backend.RxSemantics
+import caos.sos.Bisimulation
+import caos.sos.TraceEquiv
+import caos.sos.StrongBisim
+import caos.common.Multiset
+import caos.sos.BranchBisim
 
 /** Object used to configure which analysis appear in the browser */
 object CaosConfig extends Configurator[FRTS]:
@@ -28,6 +33,8 @@ object CaosConfig extends Configurator[FRTS]:
       -> "Simple TS, obtained from the simple FRTS example after product 2, with features f1 and f2, and minimising it. Presented in Fig. 1 and Example 2 in the companion paper.",
     "Ex.3: vending TS" -> "// Flatenned TS to model a vending machine\n// from the vending FRTS after selecting\n// features S, T, and P.\ninit e4\nx1 --> x2: pay\nx2 --> x3: change\nx3 --> x4: cancel\nx4 --> x1: return\nx3 --> x5: soda\nx3 --> x6: tea\nx5 --> x7: serve\nx6 --> x7: serve\nx7 --> x8: open\nx8 --> x9: take\nx9 --> x1: close\nx1 --> x1: sodaRefill\nx1 --> x1: teaRefill\ny1 --> y2: pay\ny2 --> y3: change\ny3 --> y4: cancel\ny4 --> y1: return\ny3 --> y5: tea\ny5 --> y6: serve\ny6 --> y7: open\ny7 --> y8: take\ny8 --> y1: close\ny1 --> y1: teaRefill\nz1 --> z2: pay\nz2 --> z3: change\nz3 --> z4: cancel\nz4 --> z1: return\nz3 --> z5: soda\nz5 --> z6: serve\nz6 --> z7: open\nz7 --> z8: take\nz8 --> z1: close\nz1 --> z1: sodaRefill\ne1 --> e2: open\ne2 --> e3: take\ne3 --> e4: close\nx5 --> y6: serveSodaGone\nx6 --> z6: serveTeaGone\ny5 --> e1: serveTeaGone\nz5 --> e1: serveSodaGone\ne4 --> y1: teaRefill\ne4 --> z1: sodaRefill\ny1 --> x1: sodaRefill\nz1 --> x1: teaRefill"
       -> "TS obtained from flatenning the FRTS Vending example after the selecting product with features S and P. Presented in Fig. 2a and Example 3 in the companion paper.",
+    "Ex.4: equivalences" -> "// RTS to illustrate different\n// equivalences. States\n// s0 and q0 are trace\n// equivalent but not\n// bisimilar.\ninit s0\ns0-->s1:a\ns1-->s3:c\ns1-->s2:b\n\ninit q0\nq0-->q1:a\nq1-->q3:c\nq0-->q2:a\nq2-->q3:b\n\ncheck Tr(q0) = Tr(s0)\ncheck q0 ~ s0"
+      -> "RTS to illustrate different equivalences. States s0 and q0 are trace equivalent but not bisimilar. Presented in Example 4 in the companion paper.",
     "Ex.5: perm TS"
       -> "init s\ns --> sa: a\ns --> sb: b\ns --> sc: c\nsa --> sab: b\nsa --> sac: c\nsb --> sab: a\nsb --> sbc: c\nsc --> sac: a\nsc --> sbc: b\nsab --> sabc: c\nsac --> sabc: b\nsbc --> sabc: a"
       -> "TS that accepts all permutations of the actions a,b,c and their prefixes.",
@@ -204,6 +211,22 @@ object CaosConfig extends Configurator[FRTS]:
      },
        Text),
      html("<h2>Other functionalities</h2>"),
+     "Check properties (TS variant)" -> view[FRTS](e =>
+        val rts = e.getRTS
+        if e.equivs.isEmpty then
+          "No equivalence properties to check.\nUse the 'check' keyword in the RTS definition to add properties." +
+            " For example:\n\n" +
+            "check Tr(s0) = Tr(q0) // check trace equivalence\ncheck s0 ~ q0         // check bisimilarity"
+        else
+        e.equivs.map(p => if p._3
+            then s"== Checking ${p._1} ~ ${p._2} == \n" +
+                  StrongBisim.findBisimPP(rts.copy(inits = Multiset()+p._1),
+                                          rts.copy(inits = Multiset()+p._2))(using RTSSemantics,RTSSemantics)
+            else s"== Checking  Tr(${p._1}) = Tr(${p._2}) ==\n" +
+                  TraceEquiv(rts.copy(inits = Multiset()+p._1),
+                            rts.copy(inits = Multiset()+p._2),RTSSemantics,RTSSemantics))
+          .mkString("\n\n")
+       , Text),
      "RTS variant: Step-by-step (simpler)" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, RTS.toMermaidPlain, _.show, Mermaid),
      //     "Step-by-step DB" -> steps((e:FRTS)=>e, FRTSSemantics, FRTS.toMermaid, _.show, Text).expand,
      //     "Step-by-step DB (simpler)" -> steps((e:FRTS)=>e, FRTSSemantics, FRTS.toMermaidPlain, _.show, Text).expand,

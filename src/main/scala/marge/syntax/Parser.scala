@@ -70,7 +70,7 @@ object Parser :
       .map(res => res.toList.fold(XFRTS())(_ ++ _))
   )
   def statement(rx:P[XFRTS]): P[XFRTS] =
-    init | aut(rx) | fm | select | edge
+    init | aut(rx) | fm | select | check | edge
 
   def init: P[XFRTS] =
     (string("init") *> sps *> qname) // <* (sps<*char(';')))
@@ -85,6 +85,16 @@ object Parser :
   def select: P[XFRTS] =
     (string("select") *> sps *> ((qname <* sps).repSep0(char(',')*>sps) <* char(';')))
       .map(names => XFRTS().addSel(names.map(_.toString).toSet))
+  def check: P[XFRTS] =
+    (string("check") *> sps *> (trace|bism))
+      .map(triple => XFRTS().addCheck(triple))
+  def trace: P[(QName,QName,Boolean)] =
+    ((string("Tr(") *> sps *> qname) ~ (sps *> char(')') *> sps  *> char('=') *>
+        sps *> string("Tr(") *> sps *> (qname <* sps *> char(')') <* sps)))
+      .map(pair => (pair._1, pair._2, false))
+  def bism: P[(QName,QName,Boolean)] =
+    (qname ~ (sps *> (string("<->")|string("~")) *> sps *> qname))
+      .map(pair => (pair._1, pair._2, true))
 
   def edge: P[XFRTS] =
     ( (alias <* sps).?.with1 ~ // optional alias
