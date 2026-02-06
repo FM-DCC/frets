@@ -106,20 +106,11 @@ object AnalyseLTS:
       edgs = rx.edgs.filter(kv => !unreachStates.contains(kv._1))
         .map(kv => (kv._1, kv._2.filter( (dst,act) => !unreachStates.contains(dst) && !unreachEdges.contains((kv._1, dst, act)) ))),
       inits = rx.inits.filter( st => !unreachStates.contains(st) ),
-      act = rx.act.filter( e => !unreachStates.contains(e._1) && !unreachStates.contains(e._2) )
+      act = rx.act.filter( e => !unreachStates.contains(e._1) && !unreachStates.contains(e._2) ),
+      on = rx.on
+            .map(es => es._1 -> es._2.filter(e => !unreachEdges.contains(e)))
+            .filter( e => !unreachEdges.contains(e._1) && e._2.nonEmpty ),
+      off = rx.off //.filter( e => !unreachStates.contains(e._1._1) && !unreachStates.contains(e._1._2) )
+            .map(es => es._1 -> es._2.filter(e => !unreachEdges.contains(e)))
+            .filter( e => !unreachEdges.contains(e._1) && e._2.nonEmpty )
     )
-
-    // val (visited, passed, nEdges, complete) = SOS.traverseEdges(RTSSemantics, rx, max=5000)
-    // if !complete then
-    //   sys.error(s"[Sanity] traversal was not complete, visited ${visited.size} states and ${nEdges} edges.")
-    // else
-    //   def getState(r:RTS): Set[State] =
-    //     r.inits.data.keySet
-    //   val realStates = visited.flatMap(getStates)
-    //   val realEdges = passed.map(e => (e._1, e._3, e._2))
-    //   rx.copy(
-    //     edgs = rx.edgs.filter(kv => visited.contains(kv._1))
-    //       .map(kv => (kv._1, kv._2.filter( (dst,act) => visited.contains(dst) && passed.contains((kv._1,act,dst)) ))),
-    //     inits = rx.inits.filter( (st,_) => visited.contains(st) ),
-    //     act = rx.act.filter( e => visited.contains(e._1) && visited.contains(e._2) )
-    //   )
