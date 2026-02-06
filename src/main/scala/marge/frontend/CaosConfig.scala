@@ -111,9 +111,9 @@ object CaosConfig extends Configurator[FRTS]:
 
   def widgetsTS: List[(String,Widget)] = List(
     //  html("<h2>Main functionalities</h2>"),
-     "Possible problems of the RTS projection" -> check[FRTS](r=>AnalyseLTS.randomWalk(r.getRTS)._4
-       .filter(x => !x.startsWith("Deadlock"))),
-
+     "Possible problems of the RTS projection" -> check[FRTS](r=>
+       val p = AnalyseLTS.randomWalk(r.getRTS)._4.copy(deadlocks = Set())
+       if p.isEmpty then List() else  List(AnalyseLTS.problemsPP(p).replaceAll("\n","</br>"))),
      "Step-by-step" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, RTS.toMermaid, _.show, Mermaid).expand,
      "Number of states and transitions"
        -> view((frts:FRTS) => {
@@ -215,7 +215,7 @@ object CaosConfig extends Configurator[FRTS]:
 //     "experiment" -> view[FRTS](x => test.map(_.dnf).mkString("\n"), Text).expand,
 //     "experiment2" -> view[FRTS](x => test.map(_.products(Set("a","b"))).mkString("\n"), Text).expand,
      "FRTS: draw" -> view[FRTS](g => toMermaid(g), Mermaid).expand,
-     "RTS projection: Step-by-step" -> steps((e:FRTS)=>AnalyseLTS.sanify(e.getRTS), RTSSemantics, RTS.toMermaid, _.show, Mermaid),
+     "RTS projection: Step-by-step" -> steps((e:FRTS)=>AnalyseLTS.sanify(AnalyseLTS.sanify(e.getRTS)), RTSSemantics, RTS.toMermaid, _.show, Mermaid).expand,
      "TS projection: flattened" -> lts((e:FRTS)=>e.getRTS,
        RTSSemantics,
        x => Show.simpler(x),//x.inits.toString,
@@ -242,14 +242,12 @@ object CaosConfig extends Configurator[FRTS]:
                     .map((p,i)=>s" ${i+1}. ${p.toList.sorted.mkString(", ")}${
                       if p==x.main then " [selected]" else ""}")
                     .mkString("\n"), Text),
-     "Possible problems of the RTS projection" -> view[FRTS](r=>AnalyseLTS.randomWalk(r.getRTS)._4 match
-        case Nil => "No deadlocks, unreachable states/transitions, nor inconsistencies"
-        case m => m.mkString("\n")
+     "Possible problems of the RTS projection" -> view[FRTS](r=>AnalyseLTS.randomWalkPP(r.getRTS)
        , Text).expand,
      "Number of states and transitions"
        -> view((frts:FRTS) => {
         // RTS
-       val rts = frts.getRTS
+       val rts = AnalyseLTS.sanify(frts.getRTS)
        val rstates = rts.states.size
        val simpleEdges = (for (_,dests) <- rts.edgs yield dests.size).sum
        val reactions = (for (_,dests) <- rts.on yield dests.size).sum +
@@ -373,42 +371,6 @@ object CaosConfig extends Configurator[FRTS]:
     //    val p = FinAut.partitionNFA( FinAut.sosToNFA(RTSSemantics,Set(e.getRTS))._1)
     //    p.map(r => r.map(x => x.inits.toString).mkString(",")).mkString(" - ")
     //    , Text),
-//     "1. NFA -> DFA (DFA)" -> lts((e:FRTS)=>Set(e.getRTS), FinAut.detSOS(RTSSemantics), x => x.map(_.inits.toString).mkString(","), _.toString),
-//     "2. DFA -> revNFA)" -> lts2( //[FRTS,QName,Set[Set[RTS]]](
-//       (e:FRTS)=>
-//         val dfaLazy = FinAut.detSOS(RTSSemantics)
-//         val dfa = FinAut.sosToNFA(dfaLazy,Set(Set(e.getRTS)))._1
-//         val nfa = FinAut.revNFA(dfa)
-//         val (sos,ini) = FinAut.nfaToSOS(nfa)
-//         (ini,sos),
-//       xx => xx.map(x => x.inits.toString).mkString(" - "), //x.map(_.map(_.inits).mkString(";")).mkString(","),
-//       _.toString),
-//     "3. revNDA -> revDFA" -> lts2( //[FRTS,QName,Set[Set[RTS]]](
-//       (e:FRTS)=>
-//         val dfaLazy = FinAut.detSOS(RTSSemantics)
-//         val dfa = FinAut.sosToNFA(dfaLazy, Set(Set(e.getRTS)))._1
-//         val rnfa = FinAut.revNFA(dfa)
-//         val (rnfaSOS, ini) = FinAut.nfaToSOS(rnfa) // initial states of the revNFA
-//         val rdfaSOS = FinAut.detSOS(rnfaSOS) // DFA - we do not know its initial states!
-////         val rdfa = FinAut.sosToNFA(rdfaSOS)
-//         (ini.map(Set(_)), rdfaSOS),
-//       xxx => xxx.map(xx => xx.map( x => x.inits.toString).mkString(";")).mkString(","), //x.map(_.map(_.inits).mkString(";")).mkString(","),
-//       _.toString),
-//     "4. revDFA -> rev^2NFA -> rev^2DFA" -> lts2[FRTS,QName,Set[Set[RTS]]](
-//       (e:FRTS)=>
-//         val (sss,init,done) = caos.sos.FinAut.minSOS(RTSSemantics,e.getRTS)
-//         (init,sss),
-//       x => x.map(_.map(_.inits).mkString(";")).mkString(","),
-//       _.toString),
-//     "All steps (min-DFA)" -> lts2[FRTS,QName,Set[Set[RTS]]]((e:FRTS)=>Set(Set(e.getRTS)),
-//         s => caos.sos.FinAut.minSOS(RTSSemantics,s.getRTS)._1,
-//         x => x.map(_.map(_.inits).mkString(";")).mkString(","),
-//         _.toString)
-//     ,     ////     "All steps (Min DFA)" -> lts((e:RxGraph)=>Set(e), caos.sos.ToDFA.minLTS(RxSemantics), x => x.map(_.inits.mkString(",")).mkString("-"), _.toString),
-
-//     "mCRL2 experiments"
-//     -> view(MCRL2.apply, Text),
-
    )
 
   override val toggles: Map[String, Set[String]] =
@@ -467,7 +429,7 @@ object CaosConfig extends Configurator[FRTS]:
         "</pre>" +
         "<p> where <code>feature_expression</code> is a boolean expression over features, and " +
         "<code>feature-names*</code> is a comma-separated list of features chosen for the current product.</p>"),
-    "TS: flattened" -> "More information on the TS visualization" ->
+    "TS projection: flattened" -> "More information on the TS visualization" ->
       """<p>This widget depicts the flattened projection for the selected product of the given FRTS.</p>
         |
         |<p>The names of the states include both the original name in the given FRTS and a number
@@ -476,13 +438,29 @@ object CaosConfig extends Configurator[FRTS]:
         |unique. To see the list of all active transitions, which provides unique names,
         |please use the widget "TS: flattened (verbose)." </p>
         |""".stripMargin,
-    "TS: flatenned (trace-equivalence minimal DFA)" -> "More information on how to mininmise the TS)"
+    "TS projection: flatenned (verbose)" -> "More information on the TS visualization" ->
+      """<p>This widget depicts the flattened projection for the selected product of the given FRTS.</p>
+        |
+        |<p>The names of the states include both the original name in the given FRTS and a list
+        |of all active transitions. E.g., <code>s0[{a,b}]</code> represents
+        |the state <code>s0</code> in the FRTS with 2 active transitions, one labelled <code>a</code> and another labelled <code>b</code>.
+        | Note that this name is unique. To see a simpler name, please use the widget "TS: flattened". </p>
+        |""".stripMargin,
+    "FTS: deterministic" -> "More information on how to determinise the FTS" ->
+      """We use a modified version of the subset construction algorithm to determinise the FTS,
+        |where we also take into account the feature expressions associated with the transitions.
+        |The resulting deterministic FTS is not minimal, and can be further minimised using the widget "FTS projection: minimal (up to trace-equivalence)". """.stripMargin,
+    "TS projection: deterministic" -> "More information on how to determinise the TS" ->
+      """We use the subset construction algorithm to determinise the TS, where each state in the resulting
+        |TS corresponds to a set of states in the original TS. The resulting deterministic TS is not minimal,
+        |and can be further minimised using the widget "TS projection: minimal (up to trace-equivalence)".""".stripMargin,
+    "TS projection: minimal (up to trace-equivalence)" -> "More information on how to mininmise the TS)"
       ->
       """We use Hopcroft's algorithm to find and merge indistinguishable states
         |(<a href="https://en.wikipedia.org/wiki/DFA_minimization#Hopcroft's_algorithm">https://en.wikipedia.org/wiki/DFA_minimization</a>),
         |based on partition refinement of the underlying equivalence class.
         |This notion of indistinguishable relies on trace-equivalence and not on bisimilarity.""".stripMargin,
-    "TS: trace-equivalent states" -> "More information on how to mininmise the TS)"
+    "TS projection: trace-equivalent states" -> "More information on how to minimise the TS)"
       ->
       """We use Hopcroft's algorithm to find indistinguishable states
       |(<a href="https://en.wikipedia.org/wiki/DFA_minimization#Hopcroft's_algorithm">https://en.wikipedia.org/wiki/DFA_minimization</a>),
@@ -492,7 +470,34 @@ object CaosConfig extends Configurator[FRTS]:
       -> mCRL2doc("the RTS projection of the given FRTS"),
     "As mCRL2" -> "More information on the mCRL2 syntax"
       -> mCRL2doc("the given TS"),
-      
+    "Possible problems of the RTS projection" -> "More information on the random walk and possible problems here" ->
+      """<p>This widget performs a random walk on the RTS projection of the given FRTS, checking for potential problems such as deadlocks, livelocks, and nondeterministic choices.</p>
+        |
+        |<p>For more information on the possible problems that can be detected, please refer to
+        |the companion paper submitted to VARS 2026.</p>
+        |""".stripMargin,
+    "Check properties (TS projection)" -> "More information on the properties that can be checked here" ->
+      """<p>Use the <code>check</code> keyword in the RTS definition to add properties to check. For example:</p>
+        <pre>
+        check Tr(s0) = Tr(q0) // check trace equivalence
+        check s0 ~ q0         // check bisimilarity
+        </pre>""",
+    "RTS projection: Step-by-step" -> "More information on the operational rules used here" ->
+      """<p>This widget shows the step-by-step application of the operational rules
+        |used to generate the RTS projection of the given FRTS.</p>
+        |
+        |<p>At each step, each of the applicable rules can be selected
+        |and applied to generate new states and transitions. The process continues
+        |until no new states or transitions can be generated.</p>
+        |
+        |<p>For more information on the operational rules used here, please refer to
+        |the companion paper submitted to VARS 2026.</p>
+        |""".stripMargin,
+    "FRTS: draw" -> "More information on the FRTS visualization" ->
+      """<p>This widget depicts the given FRTS.</p>
+        |
+        |<p>TS, RTS, and FTS are particular cases of FRTS without some structural elements, such as reactions or features.</p>
+        |""".stripMargin,
   )
 
   def mCRL2doc(from:String): String =

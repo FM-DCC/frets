@@ -1204,12 +1204,6 @@ $c_Lcaos_frontend_Configurator$.prototype.htmlLeft__T__T2 = (function(block) {
   var y = $f_Lcaos_frontend_widgets_WidgetInfo__moveTo__I__Lcaos_frontend_widgets_WidgetInfo(this$3, 1);
   return new $c_T2("Custom HTML", y)
 });
-$c_Lcaos_frontend_Configurator$.prototype.toExampleDesc__T2__Lcaos_frontend_Configurator$Example = (function(nameCodeDesc) {
-  var example = $as_T($n($as_T2($n(nameCodeDesc)._1__O()))._2__O());
-  var name = $as_T($n($as_T2($n(nameCodeDesc)._1__O()))._1__O());
-  var description = $as_T($n(nameCodeDesc)._2__O());
-  return new $c_Lcaos_frontend_Configurator$Example(example, name, description)
-});
 $c_Lcaos_frontend_Configurator$.prototype.toDocumentation__sci_List__Lcaos_frontend_Documentation = (function(docs) {
   var docs$1 = $m_Lcaos_frontend_Documentation$().$lessinit$greater$default$1__sci_Map();
   return new $c_Lcaos_frontend_Documentation(docs$1).add__sc_Iterable__Lcaos_frontend_Documentation(docs)
@@ -10718,7 +10712,7 @@ var $d_ju_regex_PatternCompiler$CompiledCharClass = new $TypeData().initClass({
   O: 1
 });
 $c_ju_regex_PatternCompiler$CompiledCharClass.prototype.$classData = $d_ju_regex_PatternCompiler$CompiledCharClass;
-function $p_Lmarge_backend_AnalyseLTS$__aux$1__I__Lmarge_syntax_RTS__sci_Set__sci_Set__I__sci_Set__sci_List__I__T4($thiz, max$1, rx$1, next, done, nEdges, fired, probs, limit) {
+function $p_Lmarge_backend_AnalyseLTS$__aux$1__Lmarge_syntax_RTS__sci_Set__sci_Set__I__sci_Set__Lmarge_backend_AnalyseLTS$Problems__I__T4($thiz, rx$1, next, done, nEdges, fired, probs, limit) {
   var limit$tailLocal1 = limit;
   var probs$tailLocal1 = probs;
   var fired$tailLocal1 = fired;
@@ -10730,17 +10724,26 @@ function $p_Lmarge_backend_AnalyseLTS$__aux$1__I__Lmarge_syntax_RTS__sci_Set__sc
       var _1 = done$tailLocal1;
       var _2 = nEdges$tailLocal1;
       var _3 = fired$tailLocal1;
-      var elem$1 = (("Reached limit - traversed +" + max$1) + " edges.");
+      $n(probs$tailLocal1);
       var this$1 = $n(probs$tailLocal1);
-      var _4 = new $c_sci_$colon$colon(elem$1, this$1);
+      var unreachableStates = this$1.Lmarge_backend_AnalyseLTS$Problems__f_unreachableStates;
+      var this$2 = $n(probs$tailLocal1);
+      var unreachableEdges = this$2.Lmarge_backend_AnalyseLTS$Problems__f_unreachableEdges;
+      var this$3 = $n(probs$tailLocal1);
+      var deadlocks = this$3.Lmarge_backend_AnalyseLTS$Problems__f_deadlocks;
+      var this$4 = $n(probs$tailLocal1);
+      var inconsistencies = this$4.Lmarge_backend_AnalyseLTS$Problems__f_inconsistencies;
+      var this$5 = $n(probs$tailLocal1);
+      var multipleInits = this$5.Lmarge_backend_AnalyseLTS$Problems__f_multipleInits;
+      var _4 = new $c_Lmarge_backend_AnalyseLTS$Problems(true, unreachableStates, unreachableEdges, deadlocks, inconsistencies, multipleInits);
       return new $c_T4(_1, _2, _3, _4)
     };
-    var this$3 = $n(next$tailLocal1);
-    var x46 = $f_sc_IterableOps__headOption__s_Option(this$3);
+    var this$8 = $n(next$tailLocal1);
+    var x55 = $f_sc_IterableOps__headOption__s_Option(this$8);
     var x = $m_s_None$();
-    if ((x === x46)) {
-      var this$4 = $n($n(rx$1).Lmarge_syntax_RTS__f_edgs);
-      var this$6 = $n($as_sci_SetOps($n($n($m_sci_Set$().from__sc_IterableOnce__sci_Set(this$4)).withFilter__F1__sc_WithFilter(new $c_sjsr_AnonFunction1(((x$1) => {
+    if ((x === x55)) {
+      var this$9 = $n($n(rx$1).Lmarge_syntax_RTS__f_edgs);
+      var this$11 = $n($as_sci_SetOps($n($n($m_sci_Set$().from__sc_IterableOnce__sci_Set(this$9)).withFilter__F1__sc_WithFilter(new $c_sjsr_AnonFunction1(((x$1) => {
         var x$1$1 = $as_T2(x$1);
         return ((x$1$1 !== null) && ($as_Lmarge_syntax_RTS$QName($n(x$1$1)._1__O()), $as_sci_Set($n(x$1$1)._2__O()), true))
       })))).flatMap__F1__O(new $c_sjsr_AnonFunction1(((x$1$2) => {
@@ -10755,9 +10758,9 @@ function $p_Lmarge_backend_AnalyseLTS$__aux$1__I__Lmarge_syntax_RTS__sci_Set__sc
             var x$1$5 = $as_T2(x$1$3$1);
             if ((x$1$5 !== null)) {
               var b$1 = $as_Lmarge_syntax_RTS$QName($n(x$1$5)._1__O());
-              var this$5 = $n($m_s_Predef$().s_Predef$__f_Set);
+              var this$10 = $n($m_s_Predef$().s_Predef$__f_Set);
               var elems = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS$QName.getArrayOf().constr)([a$1, b$1]));
-              return $as_sci_Set($n(this$5.from__sc_IterableOnce__sci_Set(elems)).map__F1__O(new $c_sjsr_AnonFunction1(((s) => {
+              return $as_sci_Set($n(this$10.from__sc_IterableOnce__sci_Set(elems)).map__F1__O(new $c_sjsr_AnonFunction1(((s) => {
                 var s$1 = $as_Lmarge_syntax_RTS$QName(s);
                 return s$1
               }))))
@@ -10771,9 +10774,9 @@ function $p_Lmarge_backend_AnalyseLTS$__aux$1__I__Lmarge_syntax_RTS__sci_Set__sc
         var _$1$1 = $as_Lmarge_syntax_RTS(_$1);
         return $n($n($n(_$1$1).Lmarge_syntax_RTS__f_inits).Lcaos_common_Multiset__f_data).keySet__sci_Set()
       }))));
-      var missingStates = $as_sci_Set(this$6.removedAll__sc_IterableOnce__sci_SetOps(that));
-      var this$7 = $n($n(rx$1).Lmarge_syntax_RTS__f_edgs);
-      var this$9 = $n($as_sci_SetOps($n($n($m_sci_Set$().from__sc_IterableOnce__sci_Set(this$7)).withFilter__F1__sc_WithFilter(new $c_sjsr_AnonFunction1(((x$1$3$2) => {
+      var missingStates = $as_sci_Set(this$11.removedAll__sc_IterableOnce__sci_SetOps(that));
+      var this$12 = $n($n(rx$1).Lmarge_syntax_RTS__f_edgs);
+      var this$14 = $n($as_sci_SetOps($n($n($m_sci_Set$().from__sc_IterableOnce__sci_Set(this$12)).withFilter__F1__sc_WithFilter(new $c_sjsr_AnonFunction1(((x$1$3$2) => {
         var x$1$6 = $as_T2(x$1$3$2);
         return ((x$1$6 !== null) && ($as_Lmarge_syntax_RTS$QName($n(x$1$6)._1__O()), $as_sci_Set($n(x$1$6)._2__O()), true))
       })))).flatMap__F1__O(new $c_sjsr_AnonFunction1(((x$1$4$1) => {
@@ -10797,11 +10800,7 @@ function $p_Lmarge_backend_AnalyseLTS$__aux$1__I__Lmarge_syntax_RTS__sci_Set__sc
         throw new $c_s_MatchError(x$1$7)
       })))));
       var that$1 = fired$tailLocal1;
-      var missingEdges = $as_sci_Set(this$9.removedAll__sc_IterableOnce__sci_SetOps(that$1));
-      var x$2 = (((("[AnalyseLTS] next: undefined: visited " + $n(done$tailLocal1).size__I()) + " states, fired ") + $n(fired$tailLocal1).size__I()) + " edges.");
-      var this$11 = $m_s_Console$();
-      var this$12 = $n(this$11.out__Ljava_io_PrintStream());
-      this$12.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"));
+      var missingEdges = $as_sci_Set(this$14.removedAll__sc_IterableOnce__sci_SetOps(that$1));
       if (($n(missingStates).isEmpty__Z() && $n(missingEdges).isEmpty__Z())) {
         var _1$1 = done$tailLocal1;
         var _2$1 = nEdges$tailLocal1;
@@ -10812,56 +10811,56 @@ function $p_Lmarge_backend_AnalyseLTS$__aux$1__I__Lmarge_syntax_RTS__sci_Set__sc
         var _1$2 = done$tailLocal1;
         var _2$2 = nEdges$tailLocal1;
         var _3$2 = fired$tailLocal1;
-        var this$14 = $n(missingStates);
-        if ((!this$14.isEmpty__Z())) {
-          var this$15 = $n(missingStates);
-          var prefix$2 = new $c_sci_$colon$colon(("Unreachable state(s): " + $f_sc_IterableOnceOps__mkString__T__T__T__T(this$15, "", ",", "")), $m_sci_Nil$())
-        } else {
-          var prefix$2 = $m_s_package$().s_package$__f_Nil
-        };
-        var this$16 = $n(missingEdges);
-        if ((!this$16.isEmpty__Z())) {
-          var prefix$1 = new $c_sci_$colon$colon(("Unreachable edge(s): " + $m_Lmarge_syntax_Show$().apply__sci_Set__T(missingEdges)), $m_sci_Nil$())
-        } else {
-          var prefix$1 = $m_s_package$().s_package$__f_Nil
-        };
-        var _4$2 = $n($n(probs$tailLocal1).$colon$colon$colon__sci_List__sci_List(prefix$1)).$colon$colon$colon__sci_List__sci_List(prefix$2);
+        var this$16 = $n($n(probs$tailLocal1).Lmarge_backend_AnalyseLTS$Problems__f_unreachableStates);
+        var unreachableStates$1 = $as_sci_Set(this$16.concat__sc_IterableOnce__sc_SetOps(missingStates));
+        var this$17 = $n($n(probs$tailLocal1).Lmarge_backend_AnalyseLTS$Problems__f_unreachableEdges);
+        var unreachableEdges$1 = $as_sci_Set(this$17.concat__sc_IterableOnce__sc_SetOps(missingEdges));
+        var this$18 = $n(probs$tailLocal1);
+        var tooBig$1 = this$18.Lmarge_backend_AnalyseLTS$Problems__f_tooBig;
+        var this$19 = $n(probs$tailLocal1);
+        var deadlocks$1 = this$19.Lmarge_backend_AnalyseLTS$Problems__f_deadlocks;
+        var this$20 = $n(probs$tailLocal1);
+        var inconsistencies$1 = this$20.Lmarge_backend_AnalyseLTS$Problems__f_inconsistencies;
+        var this$21 = $n(probs$tailLocal1);
+        var multipleInits$1 = this$21.Lmarge_backend_AnalyseLTS$Problems__f_multipleInits;
+        $n(probs$tailLocal1);
+        var _4$2 = new $c_Lmarge_backend_AnalyseLTS$Problems(tooBig$1, unreachableStates$1, unreachableEdges$1, deadlocks$1, inconsistencies$1, multipleInits$1);
         return new $c_T4(_1$2, _2$2, _3$2, _4$2)
       }
     };
-    if ((x46 instanceof $c_s_Some)) {
-      var x50 = $as_Lmarge_syntax_RTS($n($as_s_Some(x46)).s_Some__f_value);
-      if ($n(done$tailLocal1).contains__O__Z(x50)) {
-        var this$18 = $n(next$tailLocal1);
-        next$tailLocal1 = $as_sci_Set(this$18.excl__O__sci_SetOps(x50));
+    if ((x55 instanceof $c_s_Some)) {
+      var x59 = $as_Lmarge_syntax_RTS($n($as_s_Some(x55)).s_Some__f_value);
+      if ($n(done$tailLocal1).contains__O__Z(x59)) {
+        var this$24 = $n(next$tailLocal1);
+        next$tailLocal1 = $as_sci_Set(this$24.excl__O__sci_SetOps(x59));
         continue
       };
-      var more = $m_Lmarge_backend_RTSSemantics$().nextEdge__Lmarge_syntax_RTS__sci_Set(x50);
+      var more = $m_Lmarge_backend_RTSSemantics$().nextEdge__Lmarge_syntax_RTS__sci_Set(x59);
       var nEdges2 = $n(more).size__I();
       var newEdges = $as_sci_Set($n(more).map__F1__O(new $c_sjsr_AnonFunction1(((_$2) => {
         var _$2$1 = $as_T2(_$2);
         return $as_T3($n(_$2$1)._1__O())
       }))));
-      var this$19 = $n($m_s_Predef$().s_Predef$__f_Set);
-      var elems$1 = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_T.getArrayOf().constr)([]));
-      var elem = this$19.from__sc_IterableOnce__sci_Set(elems$1);
+      var this$25 = $n($m_s_Predef$().s_Predef$__f_Set);
+      var elems$1 = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([]));
+      var elem = this$25.from__sc_IterableOnce__sci_Set(elems$1);
       var incons = new $c_sr_ObjectRef(elem);
-      var this$21 = $n($m_s_Predef$().s_Predef$__f_Set);
-      var elems$2 = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS$QName.getArrayOf().constr)([]));
-      var manyInits = this$21.from__sc_IterableOnce__sci_Set(elems$2);
-      $n(newEdges).foreach__F1__V(new $c_sjsr_AnonFunction1(((x50, incons) => ((e) => {
+      $n(newEdges).foreach__F1__V(new $c_sjsr_AnonFunction1(((x59, incons) => ((e) => {
         var e$1 = $as_T3(e);
-        var toAct = $m_Lmarge_backend_Rel$().get__O__sci_Map__sci_Set(e$1, $n(x50).Lmarge_syntax_RTS__f_on);
-        var toDeact = $m_Lmarge_backend_Rel$().get__O__sci_Map__sci_Set(e$1, $n(x50).Lmarge_syntax_RTS__f_off);
+        var toAct = $m_Lmarge_backend_Rel$().get__O__sci_Map__sci_Set(e$1, $n(x59).Lmarge_syntax_RTS__f_on);
+        var toDeact = $m_Lmarge_backend_Rel$().get__O__sci_Map__sci_Set(e$1, $n(x59).Lmarge_syntax_RTS__f_off);
         var shared = $as_sci_Set($n(toAct).intersect__sc_Set__sc_SetOps(toDeact));
-        var this$22 = $n(shared);
-        if ((!this$22.isEmpty__Z())) {
-          var this$23 = $n($as_sci_Set(incons.sr_ObjectRef__f_elem));
-          var elem$2 = (((("activating and deactivating `" + $m_Lmarge_syntax_Show$().apply__sci_Set__T(shared)) + "` by `") + $m_Lmarge_syntax_Show$().apply__T3__T(e$1)) + "`");
-          incons.sr_ObjectRef__f_elem = $as_sci_Set(this$23.incl__O__sci_SetOps(elem$2))
+        var this$27 = $n(shared);
+        if ((!this$27.isEmpty__Z())) {
+          var this$29 = $n($as_sci_Set(incons.sr_ObjectRef__f_elem));
+          var elem$1 = new $c_T2(e$1, shared);
+          incons.sr_ObjectRef__f_elem = $as_sci_Set(this$29.incl__O__sci_SetOps(elem$1))
         }
-      }))(x50, incons)));
-      var inits = $as_sci_Iterable($n($n($n($n($n(x50).Lmarge_syntax_RTS__f_inits).Lcaos_common_Multiset__f_data).withFilter__F1__sc_MapOps$WithFilter(new $c_sjsr_AnonFunction1(((x$1$5$1) => {
+      }))(x59, incons)));
+      var this$30 = $n($m_s_Predef$().s_Predef$__f_Set);
+      var elems$2 = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS$QName.getArrayOf().constr)([]));
+      var manyInits = this$30.from__sc_IterableOnce__sci_Set(elems$2);
+      var inits = $as_sci_Iterable($n($n($n($n($n(x59).Lmarge_syntax_RTS__f_inits).Lcaos_common_Multiset__f_data).withFilter__F1__sc_MapOps$WithFilter(new $c_sjsr_AnonFunction1(((x$1$5$1) => {
         var x$1$10 = $as_T2(x$1$5$1);
         return ((x$1$10 !== null) && ($as_Lmarge_syntax_RTS$QName($n(x$1$10)._1__O()), $uI($n(x$1$10)._2__O()), true))
       })))).withFilter__F1__sc_MapOps$WithFilter(new $c_sjsr_AnonFunction1(((x$1$6$1) => {
@@ -10881,40 +10880,76 @@ function $p_Lmarge_backend_AnalyseLTS$__aux$1__I__Lmarge_syntax_RTS__sci_Set__sc
         };
         throw new $c_s_MatchError(x$1$12)
       }))));
-      var this$24 = $n(manyInits);
-      manyInits = $as_sci_Set(this$24.concat__sc_IterableOnce__sc_SetOps(inits));
+      var this$31 = $n(manyInits);
+      manyInits = $as_sci_Set(this$31.concat__sc_IterableOnce__sc_SetOps(inits));
       var newProbs = probs$tailLocal1;
       if ($n(more).isEmpty__Z()) {
-        var this$25 = $n(newProbs);
-        var elem$3 = ("Deadlock found: " + $m_Lmarge_syntax_Show$().simple__Lmarge_syntax_RTS__T(x50));
-        newProbs = new $c_sci_$colon$colon(elem$3, this$25)
+        var \u03b42$ = newProbs;
+        var this$32 = $n($n(newProbs).Lmarge_backend_AnalyseLTS$Problems__f_deadlocks);
+        var deadlocks$2 = $as_sci_Set(this$32.incl__O__sci_SetOps(x59));
+        var this$33 = $n(\u03b42$);
+        var tooBig$2 = this$33.Lmarge_backend_AnalyseLTS$Problems__f_tooBig;
+        var this$34 = $n(\u03b42$);
+        var unreachableStates$2 = this$34.Lmarge_backend_AnalyseLTS$Problems__f_unreachableStates;
+        var this$35 = $n(\u03b42$);
+        var unreachableEdges$2 = this$35.Lmarge_backend_AnalyseLTS$Problems__f_unreachableEdges;
+        var this$36 = $n(\u03b42$);
+        var inconsistencies$2 = this$36.Lmarge_backend_AnalyseLTS$Problems__f_inconsistencies;
+        var this$37 = $n(\u03b42$);
+        var multipleInits$2 = this$37.Lmarge_backend_AnalyseLTS$Problems__f_multipleInits;
+        $n(\u03b42$);
+        newProbs = new $c_Lmarge_backend_AnalyseLTS$Problems(tooBig$2, unreachableStates$2, unreachableEdges$2, deadlocks$2, inconsistencies$2, multipleInits$2)
       };
-      var this$26 = $n($as_sci_Set(incons.sr_ObjectRef__f_elem));
-      if ((!this$26.isEmpty__Z())) {
-        var this$28 = $n(newProbs);
-        var this$27 = $n($as_sci_Set(incons.sr_ObjectRef__f_elem));
-        var elem$4 = ("Found inconsistency: " + $f_sc_IterableOnceOps__mkString__T__T__T__T(this$27, "", ", ", ""));
-        newProbs = new $c_sci_$colon$colon(elem$4, this$28)
+      var this$39 = $n($as_sci_Set(incons.sr_ObjectRef__f_elem));
+      if ((!this$39.isEmpty__Z())) {
+        var \u03b43$ = newProbs;
+        var this$40 = $n($n(newProbs).Lmarge_backend_AnalyseLTS$Problems__f_inconsistencies);
+        var that$2 = $as_sci_Set(incons.sr_ObjectRef__f_elem);
+        var inconsistencies$3 = $as_sci_Set(this$40.concat__sc_IterableOnce__sc_SetOps(that$2));
+        var this$41 = $n(\u03b43$);
+        var tooBig$3 = this$41.Lmarge_backend_AnalyseLTS$Problems__f_tooBig;
+        var this$42 = $n(\u03b43$);
+        var unreachableStates$3 = this$42.Lmarge_backend_AnalyseLTS$Problems__f_unreachableStates;
+        var this$43 = $n(\u03b43$);
+        var unreachableEdges$3 = this$43.Lmarge_backend_AnalyseLTS$Problems__f_unreachableEdges;
+        var this$44 = $n(\u03b43$);
+        var deadlocks$3 = this$44.Lmarge_backend_AnalyseLTS$Problems__f_deadlocks;
+        var this$45 = $n(\u03b43$);
+        var multipleInits$3 = this$45.Lmarge_backend_AnalyseLTS$Problems__f_multipleInits;
+        $n(\u03b43$);
+        newProbs = new $c_Lmarge_backend_AnalyseLTS$Problems(tooBig$3, unreachableStates$3, unreachableEdges$3, deadlocks$3, inconsistencies$3, multipleInits$3)
       };
-      var this$29 = $n(manyInits);
-      if ((!this$29.isEmpty__Z())) {
-        var this$31 = $n(newProbs);
-        var this$30 = $n(manyInits);
-        var elem$5 = ("Multiple initial states reached the same state " + $f_sc_IterableOnceOps__mkString__T__T__T__T(this$30, "", ", ", ""));
-        newProbs = new $c_sci_$colon$colon(elem$5, this$31)
+      var this$47 = $n(manyInits);
+      if ((!this$47.isEmpty__Z())) {
+        var \u03b44$ = newProbs;
+        var this$48 = $n($n(newProbs).Lmarge_backend_AnalyseLTS$Problems__f_multipleInits);
+        var that$3 = manyInits;
+        var multipleInits$4 = $as_sci_Set(this$48.concat__sc_IterableOnce__sc_SetOps(that$3));
+        var this$49 = $n(\u03b44$);
+        var tooBig$4 = this$49.Lmarge_backend_AnalyseLTS$Problems__f_tooBig;
+        var this$50 = $n(\u03b44$);
+        var unreachableStates$4 = this$50.Lmarge_backend_AnalyseLTS$Problems__f_unreachableStates;
+        var this$51 = $n(\u03b44$);
+        var unreachableEdges$4 = this$51.Lmarge_backend_AnalyseLTS$Problems__f_unreachableEdges;
+        var this$52 = $n(\u03b44$);
+        var deadlocks$4 = this$52.Lmarge_backend_AnalyseLTS$Problems__f_deadlocks;
+        var this$53 = $n(\u03b44$);
+        var inconsistencies$4 = this$53.Lmarge_backend_AnalyseLTS$Problems__f_inconsistencies;
+        $n(\u03b44$);
+        newProbs = new $c_Lmarge_backend_AnalyseLTS$Problems(tooBig$4, unreachableStates$4, unreachableEdges$4, deadlocks$4, inconsistencies$4, multipleInits$4)
       };
-      var this$32 = $n(next$tailLocal1);
-      var this$33 = $n(this$32.excl__O__sci_SetOps(x50));
-      var that$2 = $as_sc_IterableOnce($n(more).map__F1__O(new $c_sjsr_AnonFunction1(((_$3) => {
+      var this$55 = $n(next$tailLocal1);
+      var this$56 = $n(this$55.excl__O__sci_SetOps(x59));
+      var that$4 = $as_sc_IterableOnce($n(more).map__F1__O(new $c_sjsr_AnonFunction1(((_$3) => {
         var _$3$1 = $as_T2(_$3);
         return $as_Lmarge_syntax_RTS($n(_$3$1)._2__O())
       }))));
-      var next$tailLocal1$tmp1 = $as_sci_Set(this$33.concat__sc_IterableOnce__sc_SetOps(that$2));
-      var this$34 = $n(done$tailLocal1);
-      var done$tailLocal1$tmp1 = $as_sci_Set(this$34.incl__O__sci_SetOps(x50));
+      var next$tailLocal1$tmp1 = $as_sci_Set(this$56.concat__sc_IterableOnce__sc_SetOps(that$4));
+      var this$57 = $n(done$tailLocal1);
+      var done$tailLocal1$tmp1 = $as_sci_Set(this$57.incl__O__sci_SetOps(x59));
       var nEdges$tailLocal1$tmp1 = ((nEdges$tailLocal1 + nEdges2) | 0);
-      var this$35 = $n(fired$tailLocal1);
-      var fired$tailLocal1$tmp1 = $as_sci_Set(this$35.concat__sc_IterableOnce__sc_SetOps(newEdges));
+      var this$58 = $n(fired$tailLocal1);
+      var fired$tailLocal1$tmp1 = $as_sci_Set(this$58.concat__sc_IterableOnce__sc_SetOps(newEdges));
       var probs$tailLocal1$tmp1 = newProbs;
       var limit$tailLocal1$tmp1 = ((limit$tailLocal1 - nEdges2) | 0);
       next$tailLocal1 = next$tailLocal1$tmp1;
@@ -10925,7 +10960,7 @@ function $p_Lmarge_backend_AnalyseLTS$__aux$1__I__Lmarge_syntax_RTS__sci_Set__sc
       limit$tailLocal1 = limit$tailLocal1$tmp1;
       continue
     };
-    throw new $c_s_MatchError(x46)
+    throw new $c_s_MatchError(x55)
   }
 }
 /** @constructor */
@@ -10939,6 +10974,80 @@ function $h_Lmarge_backend_AnalyseLTS$() {
   /*<skip>*/
 }
 $h_Lmarge_backend_AnalyseLTS$.prototype = $c_Lmarge_backend_AnalyseLTS$.prototype;
+$c_Lmarge_backend_AnalyseLTS$.prototype.randomWalkPP__Lmarge_syntax_RTS__I__T = (function(rx, max) {
+  matchResult1: {
+    var \u03b41$___1;
+    var \u03b41$___2;
+    var \u03b41$___3;
+    var \u03b41$___4;
+    var x1 = this.randomWalk__Lmarge_syntax_RTS__I__T4(rx, max);
+    if ((x1 !== null)) {
+      var visited = $as_sci_Set($n(x1).T4__f__1);
+      var nEdges = $uI($n(x1).T4__f__2);
+      var fired = $as_sci_Set($n(x1).T4__f__3);
+      var probs = $as_Lmarge_backend_AnalyseLTS$Problems($n(x1).T4__f__4);
+      var \u03b41$___1 = visited;
+      var \u03b41$___2 = nEdges;
+      var \u03b41$___3 = fired;
+      var \u03b41$___4 = probs;
+      break matchResult1
+    };
+    throw new $c_s_MatchError(x1)
+  };
+  var visited$2 = $as_sci_Set(\u03b41$___1);
+  var nEdges$2 = $uI(\u03b41$___2);
+  $as_sci_Set(\u03b41$___3);
+  var probs$2 = $as_Lmarge_backend_AnalyseLTS$Problems(\u03b41$___4);
+  return ((((("Traversed " + nEdges$2) + " edges and visited ") + $n(visited$2).size__I()) + " states. ") + this.problemsPP__Lmarge_backend_AnalyseLTS$Problems__T__T(probs$2, ("" + max)))
+});
+$c_Lmarge_backend_AnalyseLTS$.prototype.problemsPP__Lmarge_backend_AnalyseLTS$Problems__T__T = (function(probs, max) {
+  if ($n(probs).isEmpty__Z()) {
+    return "No problems found."
+  } else {
+    var $$x6 = ($n(probs).Lmarge_backend_AnalyseLTS$Problems__f_tooBig ? ("\n- Reached limit of transitions " + max) : "");
+    var this$1 = $n($n(probs).Lmarge_backend_AnalyseLTS$Problems__f_unreachableStates);
+    if ((!this$1.isEmpty__Z())) {
+      var this$2 = $n($n(probs).Lmarge_backend_AnalyseLTS$Problems__f_unreachableStates);
+      var $$x5 = ("\n- Unreachable state(s): " + $f_sc_IterableOnceOps__mkString__T__T__T__T(this$2, "", ", ", ""))
+    } else {
+      var $$x5 = ""
+    };
+    var this$3 = $n($n(probs).Lmarge_backend_AnalyseLTS$Problems__f_unreachableEdges);
+    if ((!this$3.isEmpty__Z())) {
+      var $$x4 = ("\n- Unreachable edge(s): " + $m_Lmarge_syntax_Show$().apply__sci_Set__T($n(probs).Lmarge_backend_AnalyseLTS$Problems__f_unreachableEdges))
+    } else {
+      var $$x4 = ""
+    };
+    var this$4 = $n($n(probs).Lmarge_backend_AnalyseLTS$Problems__f_deadlocks);
+    if ((!this$4.isEmpty__Z())) {
+      var this$5 = $n($as_sc_IterableOnceOps($n($n(probs).Lmarge_backend_AnalyseLTS$Problems__f_deadlocks).map__F1__O(new $c_sjsr_AnonFunction1(((rx) => {
+        var rx$1 = $as_Lmarge_syntax_RTS(rx);
+        return $m_Lmarge_syntax_Show$().simple__Lmarge_syntax_RTS__T(rx$1)
+      })))));
+      var $$x3 = ("\n- Deadlock(s): " + $f_sc_IterableOnceOps__mkString__T__T__T__T(this$5, "", ", ", ""))
+    } else {
+      var $$x3 = ""
+    };
+    var this$6 = $n($n(probs).Lmarge_backend_AnalyseLTS$Problems__f_inconsistencies);
+    if ((!this$6.isEmpty__Z())) {
+      var this$7 = $n($as_sc_IterableOnceOps($n($n(probs).Lmarge_backend_AnalyseLTS$Problems__f_inconsistencies).map__F1__O(new $c_sjsr_AnonFunction1(((ss) => {
+        var ss$1 = $as_T2(ss);
+        return (($m_Lmarge_syntax_Show$().apply__T3__T($as_T3($n(ss$1)._1__O())) + " => ") + $m_Lmarge_syntax_Show$().apply__sci_Set__T($as_sci_Set($n(ss$1)._2__O())))
+      })))));
+      var $$x2 = ("\n- Inconsistencies: " + $f_sc_IterableOnceOps__mkString__T__T__T__T(this$7, "", "; ", ""))
+    } else {
+      var $$x2 = ""
+    };
+    var this$8 = $n($n(probs).Lmarge_backend_AnalyseLTS$Problems__f_multipleInits);
+    if ((!this$8.isEmpty__Z())) {
+      var this$9 = $n($n(probs).Lmarge_backend_AnalyseLTS$Problems__f_multipleInits);
+      var $$x1 = ("\n- Multiple initial states reached the same state: " + $f_sc_IterableOnceOps__mkString__T__T__T__T(this$9, "", ", ", ""))
+    } else {
+      var $$x1 = ""
+    };
+    return (((((("Problems found:" + $$x6) + $$x5) + $$x4) + $$x3) + $$x2) + $$x1)
+  }
+});
 $c_Lmarge_backend_AnalyseLTS$.prototype.randomWalk__Lmarge_syntax_RTS__I__T4 = (function(rx, max) {
   var this$1 = $n($n(rx).Lmarge_syntax_RTS__f_edgs);
   $as_sci_Set($n($n($m_sci_Set$().from__sc_IterableOnce__sci_Set(this$1)).withFilter__F1__sc_WithFilter(new $c_sjsr_AnonFunction1(((x$1) => {
@@ -10970,13 +11079,79 @@ $c_Lmarge_backend_AnalyseLTS$.prototype.randomWalk__Lmarge_syntax_RTS__I__T4 = (
   }))));
   var this$3 = $n($m_s_Predef$().s_Predef$__f_Set);
   var elems$1 = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS.getArrayOf().constr)([rx]));
-  var $$x2 = this$3.from__sc_IterableOnce__sci_Set(elems$1);
+  var $$x3 = this$3.from__sc_IterableOnce__sci_Set(elems$1);
   var this$4 = $n($m_s_Predef$().s_Predef$__f_Set);
   var elems$2 = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS.getArrayOf().constr)([]));
-  var $$x1 = this$4.from__sc_IterableOnce__sci_Set(elems$2);
+  var $$x2 = this$4.from__sc_IterableOnce__sci_Set(elems$2);
   var this$5 = $n($m_s_Predef$().s_Predef$__f_Set);
   var elems$3 = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_T3.getArrayOf().constr)([]));
-  return $p_Lmarge_backend_AnalyseLTS$__aux$1__I__Lmarge_syntax_RTS__sci_Set__sci_Set__I__sci_Set__sci_List__I__T4(this, max, rx, $$x2, $$x1, 0, this$5.from__sc_IterableOnce__sci_Set(elems$3), $m_s_package$().s_package$__f_Nil, max)
+  var $$x1 = this$5.from__sc_IterableOnce__sci_Set(elems$3);
+  var unreachableStates = $m_Lmarge_backend_AnalyseLTS$Problems$().$lessinit$greater$default$2__sci_Set();
+  var unreachableEdges = $m_Lmarge_backend_AnalyseLTS$Problems$().$lessinit$greater$default$3__sci_Set();
+  var deadlocks = $m_Lmarge_backend_AnalyseLTS$Problems$().$lessinit$greater$default$4__sci_Set();
+  var inconsistencies = $m_Lmarge_backend_AnalyseLTS$Problems$().$lessinit$greater$default$5__sci_Set();
+  var multipleInits = $m_Lmarge_backend_AnalyseLTS$Problems$().$lessinit$greater$default$6__sci_Set();
+  return $p_Lmarge_backend_AnalyseLTS$__aux$1__Lmarge_syntax_RTS__sci_Set__sci_Set__I__sci_Set__Lmarge_backend_AnalyseLTS$Problems__I__T4(this, rx, $$x3, $$x2, 0, $$x1, new $c_Lmarge_backend_AnalyseLTS$Problems(false, unreachableStates, unreachableEdges, deadlocks, inconsistencies, multipleInits), max)
+});
+$c_Lmarge_backend_AnalyseLTS$.prototype.sanify__Lmarge_syntax_RTS__Lmarge_syntax_RTS = (function(rx) {
+  matchResult21: {
+    var \u03b45$___1;
+    var \u03b45$___2;
+    var \u03b45$___3;
+    var \u03b45$___4;
+    var x60 = this.randomWalk__Lmarge_syntax_RTS__I__T4(rx, 5000);
+    if ((x60 !== null)) {
+      var visited = $as_sci_Set($n(x60).T4__f__1);
+      var nEdges = $uI($n(x60).T4__f__2);
+      var fired = $as_sci_Set($n(x60).T4__f__3);
+      var probs = $as_Lmarge_backend_AnalyseLTS$Problems($n(x60).T4__f__4);
+      var \u03b45$___1 = visited;
+      var \u03b45$___2 = nEdges;
+      var \u03b45$___3 = fired;
+      var \u03b45$___4 = probs;
+      break matchResult21
+    };
+    throw new $c_s_MatchError(x60)
+  };
+  $as_sci_Set(\u03b45$___1);
+  $uI(\u03b45$___2);
+  $as_sci_Set(\u03b45$___3);
+  var probs$2 = $as_Lmarge_backend_AnalyseLTS$Problems(\u03b45$___4);
+  var unreachStates = $n(probs$2).Lmarge_backend_AnalyseLTS$Problems__f_unreachableStates;
+  var unreachEdges = $n(probs$2).Lmarge_backend_AnalyseLTS$Problems__f_unreachableEdges;
+  var edgs$1 = $as_sci_Map($n($as_sc_MapOps($n($n(rx).Lmarge_syntax_RTS__f_edgs).filter__F1__O(new $c_sjsr_AnonFunction1(((kv) => {
+    var kv$1 = $as_T2(kv);
+    return (!$n(unreachStates).contains__O__Z($n(kv$1)._1__O()))
+  }))))).map__F1__sc_IterableOps(new $c_sjsr_AnonFunction1(((kv$2) => {
+    var kv$3 = $as_T2(kv$2);
+    var _1$1 = $n(kv$3)._1__O();
+    var _2 = $n($as_sc_IterableOps($n(kv$3)._2__O())).filter__F1__O(new $c_sjsr_AnonFunction1(((x$1) => {
+      var x$1$1 = $as_T2(x$1);
+      var dst = $as_Lmarge_syntax_RTS$QName($n(x$1$1)._1__O());
+      var act = $as_Lmarge_syntax_RTS$QName($n(x$1$1)._2__O());
+      if ((!$n(unreachStates).contains__O__Z(dst))) {
+        var _1 = $n(kv$3)._1__O();
+        return (!$n(unreachEdges).contains__O__Z(new $c_T3(_1, dst, act)))
+      } else {
+        return false
+      }
+    })));
+    return new $c_T2(_1$1, _2)
+  }))));
+  var inits$1 = $n($n(rx).Lmarge_syntax_RTS__f_inits).filter__F1__Lcaos_common_Multiset(new $c_sjsr_AnonFunction1(((st) => {
+    var st$1 = $as_Lmarge_syntax_RTS$QName(st);
+    return (!$n(unreachStates).contains__O__Z(st$1))
+  })));
+  var act$1 = $as_sci_Set($n($n(rx).Lmarge_syntax_RTS__f_act).filter__F1__O(new $c_sjsr_AnonFunction1(((e) => {
+    var e$1 = $as_T3(e);
+    return ((!$n(unreachStates).contains__O__Z($n(e$1).T3__f__1)) && (!$n(unreachStates).contains__O__Z($n(e$1).T3__f__2)))
+  }))));
+  var this$4 = $n(rx);
+  var on$1 = this$4.Lmarge_syntax_RTS__f_on;
+  var this$5 = $n(rx);
+  var off$1 = this$5.Lmarge_syntax_RTS__f_off;
+  $n(rx);
+  return new $c_Lmarge_syntax_RTS(edgs$1, on$1, off$1, inits$1, act$1)
 });
 var $d_Lmarge_backend_AnalyseLTS$ = new $TypeData().initClass({
   Lmarge_backend_AnalyseLTS$: 0
@@ -22707,13 +22882,13 @@ function $p_Lmarge_frontend_CaosConfig$__fresh$1__sr_ObjectRef__sr_IntRef__Lmarg
   throw new $c_s_MatchError(x15)
 }
 function $p_Lmarge_frontend_CaosConfig$__fresh$2__sr_ObjectRef__sr_IntRef__Lmarge_syntax_RTS__T($thiz, rtsid$4, seed$4, rts) {
-  var x84 = $n($as_sci_Map($n(rtsid$4).sr_ObjectRef__f_elem)).get__O__s_Option(rts);
-  if ((x84 instanceof $c_s_Some)) {
-    var value = $uI($n($as_s_Some(x84)).s_Some__f_value);
+  var x83 = $n($as_sci_Map($n(rtsid$4).sr_ObjectRef__f_elem)).get__O__s_Option(rts);
+  if ((x83 instanceof $c_s_Some)) {
+    var value = $uI($n($as_s_Some(x83)).s_Some__f_value);
     return ("s" + value)
   };
   var x = $m_s_None$();
-  if ((x === x84)) {
+  if ((x === x83)) {
     var $$x2 = $n(rtsid$4);
     var $$x1 = $as_sci_Map($n(rtsid$4).sr_ObjectRef__f_elem);
     var y = $n(seed$4).sr_IntRef__f_elem;
@@ -22721,7 +22896,7 @@ function $p_Lmarge_frontend_CaosConfig$__fresh$2__sr_ObjectRef__sr_IntRef__Lmarg
     $n(seed$4).sr_IntRef__f_elem = ((1 + $n(seed$4).sr_IntRef__f_elem) | 0);
     return ("s" + (((-1) + $n(seed$4).sr_IntRef__f_elem) | 0))
   };
-  throw new $c_s_MatchError(x84)
+  throw new $c_s_MatchError(x83)
 }
 /** @constructor */
 function $c_Lmarge_frontend_CaosConfig$() {
@@ -22746,171 +22921,122 @@ function $c_Lmarge_frontend_CaosConfig$() {
     var str$1 = $as_T(str);
     return $m_Lmarge_syntax_Parser$().parseProgram__T__Lmarge_syntax_FRTS(str$1)
   }));
-  var $$x9 = $m_Lcaos_frontend_Configurator$();
-  var self = new $c_T2("Ex.2: simple TS pr2", "// TS: Flatenned \"Simple FRTS\"\n// after selecting product 2,\n// with features f1 and f2,\n// and minimising it\ninit s0\ns0 --> sa: a \ns0 --> sb: b \nsa --> sab: b\nsb --> sab: a\nsb --> sb: b\nsab --> sab: b\nsb --> sc: c\nsab --> sc: c");
-  var $$x8 = $n($$x9).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self, "Simple TS, obtained from the simple FRTS example after product 2, with features f1 and f2, and minimising it. Presented in Fig. 1 and Example 2 in the companion paper."));
-  var $$x7 = $m_Lcaos_frontend_Configurator$();
-  var self$1 = new $c_T2("Ex.2: simple TS pr1", "// TS: Flatenned \"Simple FRTS\"\n// after selecting product 1,\n// with feature f1\ninit s0\ns0 --> s0a: a ");
-  var $$x6 = $n($$x7).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self$1, "Simple TS, obtained from the simple FRTS example after product 1, selecting feature f1. Presented in Fig. 1 and Example 2 in the companion paper."));
-  var $$x5 = $m_Lcaos_frontend_Configurator$();
-  var self$2 = new $c_T2("Ex.3: vending TS", "// Flatenned TS to model a vending machine\n// from the vending FRTS after selecting\n// features S, T, and P.\ninit e4\nx1 --> x2: pay\nx2 --> x3: change\nx3 --> x4: cancel\nx4 --> x1: return\nx3 --> x5: soda\nx3 --> x6: tea\nx5 --> x7: serve\nx6 --> x7: serve\nx7 --> x8: open\nx8 --> x9: take\nx9 --> x1: close\nx1 --> x1: sodaRefill\nx1 --> x1: teaRefill\ny1 --> y2: pay\ny2 --> y3: change\ny3 --> y4: cancel\ny4 --> y1: return\ny3 --> y5: tea\ny5 --> y6: serve\ny6 --> y7: open\ny7 --> y8: take\ny8 --> y1: close\ny1 --> y1: teaRefill\nz1 --> z2: pay\nz2 --> z3: change\nz3 --> z4: cancel\nz4 --> z1: return\nz3 --> z5: soda\nz5 --> z6: serve\nz6 --> z7: open\nz7 --> z8: take\nz8 --> z1: close\nz1 --> z1: sodaRefill\ne1 --> e2: open\ne2 --> e3: take\ne3 --> e4: close\nx5 --> y6: serveSodaGone\nx6 --> z6: serveTeaGone\ny5 --> e1: serveTeaGone\nz5 --> e1: serveSodaGone\ne4 --> y1: teaRefill\ne4 --> z1: sodaRefill\ny1 --> x1: sodaRefill\nz1 --> x1: teaRefill");
-  var $$x4 = $n($$x5).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self$2, "TS obtained from flatenning the FRTS Vending example after the selecting product with features S and P. Presented in Fig. 2a and Example 3 in the companion paper."));
-  var $$x3 = $m_Lcaos_frontend_Configurator$();
-  var self$3 = new $c_T2("Ex.4: equivalences", "// TS to illustrate different\n// equivalences. States\n// p0 and q0 are trace\n// equivalent but not\n// bisimilar.\ninit p0\np0-->p1:a\np1-->p3:c\np1-->p2:b\n\ninit q0\nq0-->q1:a\nq1-->q3:c\nq0-->q2:a\nq2-->q3:b\n\ncheck Tr(p0) = Tr(s0)\ncheck p0 ~ s0");
-  var $$x2 = $n($$x3).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self$3, "RTS to illustrate different equivalences. States s0 and q0 are trace equivalent but not bisimilar. Presented in Example 4 in the companion paper."));
-  var $$x1 = $m_Lcaos_frontend_Configurator$();
-  var self$4 = new $c_T2("Ex.5: perm TS", "init s\ns --> sa: a\ns --> sb: b\ns --> sc: c\nsa --> sab: b\nsa --> sac: c\nsb --> sab: a\nsb --> sbc: c\nsc --> sac: a\nsc --> sbc: b\nsab --> sabc: c\nsac --> sabc: b\nsbc --> sabc: a");
-  var this$107 = new $c_sci_$colon$colon($$x8, new $c_sci_$colon$colon($$x6, new $c_sci_$colon$colon($$x4, new $c_sci_$colon$colon($$x2, new $c_sci_$colon$colon($n($$x1).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self$4, "TS that accepts all permutations of the actions a,b,c and their prefixes.")), $m_sci_Nil$())))));
+  var this$157 = new $c_sci_$colon$colon(new $c_Lcaos_frontend_Configurator$Example("// TS: Flatenned \"Simple FRTS\"\n// after selecting product 2,\n// with features f1 and f2,\n// and minimising it\ninit s0\ns0 --> sa: a \ns0 --> sb: b \nsa --> sab: b\nsb --> sab: a\nsb --> sb: b\nsab --> sab: b\nsb --> sc: c\nsab --> sc: c", "Ex.2: simple TS pr2", "Simple TS, obtained from the simple FRTS example after product 2, with features f1 and f2, and minimising it. Presented in Fig. 1 and Example 2 in the companion paper."), new $c_sci_$colon$colon(new $c_Lcaos_frontend_Configurator$Example("// TS: Flatenned \"Simple FRTS\"\n// after selecting product 1,\n// with feature f1\ninit s0\ns0 --> s0a: a ", "Ex.2: simple TS pr1", "Simple TS, obtained from the simple FRTS example after product 1, selecting feature f1. Presented in Fig. 1 and Example 2 in the companion paper."), new $c_sci_$colon$colon(new $c_Lcaos_frontend_Configurator$Example("// Flatenned TS to model a vending machine\n// from the vending FRTS after selecting\n// features S, T, and P.\ninit e4\nx1 --> x2: pay\nx2 --> x3: change\nx3 --> x4: cancel\nx4 --> x1: return\nx3 --> x5: soda\nx3 --> x6: tea\nx5 --> x7: serve\nx6 --> x7: serve\nx7 --> x8: open\nx8 --> x9: take\nx9 --> x1: close\nx1 --> x1: sodaRefill\nx1 --> x1: teaRefill\ny1 --> y2: pay\ny2 --> y3: change\ny3 --> y4: cancel\ny4 --> y1: return\ny3 --> y5: tea\ny5 --> y6: serve\ny6 --> y7: open\ny7 --> y8: take\ny8 --> y1: close\ny1 --> y1: teaRefill\nz1 --> z2: pay\nz2 --> z3: change\nz3 --> z4: cancel\nz4 --> z1: return\nz3 --> z5: soda\nz5 --> z6: serve\nz6 --> z7: open\nz7 --> z8: take\nz8 --> z1: close\nz1 --> z1: sodaRefill\ne1 --> e2: open\ne2 --> e3: take\ne3 --> e4: close\nx5 --> y6: serveSodaGone\nx6 --> z6: serveTeaGone\ny5 --> e1: serveTeaGone\nz5 --> e1: serveSodaGone\ne4 --> y1: teaRefill\ne4 --> z1: sodaRefill\ny1 --> x1: sodaRefill\nz1 --> x1: teaRefill", "Ex.3: vending TS", "TS obtained from flatenning the FRTS Vending example after the selecting product with features S and P. Presented in Fig. 2a and Example 3 in the companion paper."), new $c_sci_$colon$colon(new $c_Lcaos_frontend_Configurator$Example("// TS to illustrate different\n// equivalences. States\n// p0 and q0 are trace\n// equivalent but not\n// bisimilar.\ninit p0\np0-->p1:a\np1-->p3:c\np1-->p2:b\n\ninit q0\nq0-->q1:a\nq1-->q3:c\nq0-->q2:a\nq2-->q3:b\n\ncheck Tr(p0) = Tr(s0)\ncheck p0 ~ s0", "Ex.4: equivalences", "RTS to illustrate different equivalences. States s0 and q0 are trace equivalent but not bisimilar. Presented in Example 4 in the companion paper."), new $c_sci_$colon$colon(new $c_Lcaos_frontend_Configurator$Example("init s\ns --> sa: a\ns --> sb: b\ns --> sc: c\nsa --> sab: b\nsa --> sac: c\nsb --> sab: a\nsb --> sbc: c\nsc --> sac: a\nsc --> sbc: b\nsab --> sabc: c\nsac --> sabc: b\nsbc --> sabc: a", "Ex.5: perm TS", "TS that accepts all permutations of the actions a,b,c and their prefixes."), $m_sci_Nil$())))));
   if (this.Lmarge_frontend_CaosConfig$__f_justTS) {
     var suffix = $m_s_package$().s_package$__f_Nil
   } else {
     $n($m_s_package$().s_package$__f_List);
-    var $$x50 = $m_sr_ScalaRunTime$();
-    var $$x49 = $m_Lcaos_frontend_Configurator$();
-    var self$5 = new $c_T2("Ex.6: simple FTS", "// FTS: Flatenned \"Simple FRTS\"\n// without selecting any product\ninit s0\ns0  --> sa:  a if f1\ns0  --> sb:  b if f2\nsa  --> sab: b if f2\nsb  --> sab: a if f1\nsb  --> sb:  b if f2\nsab --> sab: b if f2\nsb  --> sc:  c if f2\nsab --> sc:  c if f2\n\nfm f1\nselect f1,f2; // try also just \"f1\"");
-    var $$x48 = $n($$x49).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self$5, "Simple FTS, obtained from the simple FRTS example without selecting any product. Presented in Fig. 1 and Example 6 in the companion paper."));
-    var $$x47 = $m_Lcaos_frontend_Configurator$();
-    var self$6 = new $c_T2("Ex.7: vending FTS", "init e4\nx1 --> x2: pay if P\nx2 --> x3: change\nx3 --> x4: cancel\nx4 --> x1: return\nx3 --> x5: soda\nx3 --> x6: tea\nx5 --> x7: serve\nx6 --> x7: serve\nx7 --> x8: open\nx8 --> x9: take\nx9 --> x1: close\nx1 --> x6: tea if !P\nx1 --> x5: soda if !P\nx1 --> x1: sodaRefill\nx1 --> x1: teaRefill\ny1 --> y2: pay if P\ny2 --> y3: change\ny3 --> y4: cancel\ny4 --> y1: return\ny3 --> y5: tea\ny5 --> y6: serve\ny6 --> y7: open\ny7 --> y8: take\ny8 --> y1: close\ny1 --> y5: tea if !P\ny1 --> y1: teaRefill\nz1 --> z2: pay if P\nz2 --> z3: change\nz3 --> z4: cancel\nz4 --> z1: return\nz3 --> z5: soda\nz5 --> z6: serve\nz6 --> z7: open\nz7 --> z8: take\nz8 --> z1: close\nz1 --> z5: soda if !P\nz1 --> z1: sodaRefill\ne1 --> e2: open\ne2 --> e3: take\ne3 --> e4: close\nx5 --> y6: serveSodaGone\nx6 --> z6: serveTeaGone\ny5 --> e1: serveTeaGone\nz5 --> e1: serveSodaGone\ne4 --> y1: teaRefill if T\ne4 --> z1: sodaRefill if S\ny1 --> x1: sodaRefill if S\nz1 --> x1: teaRefill if T\nfm S || T\nselect S,T,P;");
-    var $$x46 = $n($$x47).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self$6, "FTS obtained from flatenning the FRTS Vending example before selecting any product. Presented in Fig. 2a and Example 7 in the companion paper."));
-    var $$x45 = $m_Lcaos_frontend_Configurator$();
-    var self$7 = new $c_T2("Ex.8: perm FTS", "// Action-permutation FTS, which \n// recognises the language given\n// by all perumations of {a,b,c}\n// and their prefixes. Feature selection\n// restrict the length of the TSs.\ninit s\ns --> sa: a     if f1\ns --> sb: b     if f1\ns --> sc: c     if f1\nsa --> sab: b   if f2\nsa --> sac: c   if f2\nsb --> sab: a   if f2\nsb --> sbc: c   if f2\nsc --> sac: a   if f2\nsc --> sbc: b   if f2\nsab --> sabc: c if f3\nsac --> sabc: b if f3\nsbc --> sabc: a if f3\nfm (f3 -> f2) && (f2 -> f1)\nselect f1,f2,f3;");
-    var $$x44 = $n($$x45).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self$7, "FTS that accepts all permutations of the actions a,b,c and their prefixes. Feature selection restricts the length of the TSs. Presented in Example 8 in the companion paper."));
-    var $$x43 = $m_Lcaos_frontend_Configurator$();
-    var self$8 = new $c_T2("Ex.9: simple RTS pr1", "// RTS: Simple FRTS after\n// selecting product 1, with\n// feature f1\ninit s0\ns0 --> s0: a \na --x a");
-    var $$x42 = $n($$x43).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self$8, "Simple RTS, obtained from the simple FRTS example after product 1, selecting feature f1. Presented in Fig. 1 and Example 9 in the companion paper."));
-    var $$x41 = $m_Lcaos_frontend_Configurator$();
-    var self$9 = new $c_T2("Ex.9: simple RTS pr2", "// RTS: Simple FRTS after\n// selecting product 2, with\n// features f1 and f2\ninit s0\ns0 --> s0: a \ns0 --> s0: b \ns0 --> s1: c disabled\na --x a\nb ->> c");
-    var $$x40 = $n($$x41).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self$9, "Simple RTS, obtained from the simple FRTS example after selecting product 2, with features f1 and f2. Presented in Fig. 1 and Example 9 in the companion paper."));
-    var $$x39 = $m_Lcaos_frontend_Configurator$();
-    var self$10 = new $c_T2("Ex.10: simple TS non-min", "// TS: Flatenned \"Simple FRTS\"\n// after selecting product 2,\n// with features f1 and f2,\n// without minimising it\ninit s0\ns0 --> sa: a \ns0 --> sb: b \nsa --> sab: b\nsb --> sab: a\nsb --> sb: b\nsab --> sab: b\nsb --> sbc: c\nsab --> sabc: c");
-    var $$x38 = $n($$x39).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self$10, "Simple TS, obtained from the simple FRTS example after product 1, selecting feature f1. Presented in Example 10 in the companion paper."));
-    var $$x37 = $m_Lcaos_frontend_Configurator$();
-    var self$11 = new $c_T2("Ex.11: vending RTS", "init s1\ns1 --> s1: sodaRefill\ns1 --> s1: teaRefill\ns1 --> s2: pay\ns4 --> s1: return\ns2 --> s3: change\ns3 --> s4: cancel\ns3 --> s5: soda\ns3 --> s6: tea\ns5 --> s7: serve\ns5 --> s7: serveSodaGone\ns6 --> s7: serve\ns6 --> s7: serveTeaGone\ns7 --> s8: open\ns8 --> s9: take\ns9 --> s1: close\nsodaRefill ->> soda\nteaRefill ->> tea\nserveSodaGone --x soda\nserveTeaGone --x tea");
-    var $$x36 = $n($$x37).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self$11, "Vending machine, implemented using an RTS. Presented in Fig. 3a and Example 11 in the companion paper."));
-    var $$x35 = $m_Lcaos_frontend_Configurator$();
-    var self$12 = new $c_T2("Ex.12: perm RTS", "// Action-permutation RTS, which \n// recognises the language given\n// by all perumations of {a,b,c}\n// and their subsets. Variation that\n// exploits reactivity to forbid\n// multiple occurrences of each action\ninit s\ns --> s: a\ns --> s: b\ns --> s: c\na --x a\nb --x b\nc --x c");
-    var $$x34 = $n($$x35).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self$12, "RTS that accepts all permutations of the actions a,b,c and their prefixes. Reactivity is used to disable multiple occurrences of each action. Presented in Example 12 in the companion paper."));
-    var $$x33 = $m_Lcaos_frontend_Configurator$();
-    var self$13 = new $c_T2("Ex.13 simple FRTS", "init s0\ns0 --> s0: a if f1\ns0 --> s0: b if f2\ns0 --> s1: c if f2 disabled\na --x a\nb ->> c\n\nfm f1\nselect f1,f2; // try also just \"f1\"");
-    var $$x32 = $n($$x33).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self$13, "Simple illustrative example of an FRTS, used to motivate the core ideas. Presented in Fig. 1 and Example 13 in the companion paper."));
-    var $$x31 = $m_Lcaos_frontend_Configurator$();
-    var self$14 = new $c_T2("Ex.14: simple FTS non-min", "// FTS: Flatenned \"Simple FRTS\"\n// without selecting any product\ninit s0\ns0  --> sa:  a if f1\ns0  --> sb:  b if f2\nsa  --> sab: b if f2\nsb  --> sab: a if f1\nsb  --> sb:  b if f2\nsab --> sab: b if f2\nsb  --> sbc:  c if f2\nsab --> sabc:  c if f2\n\nfm f1\nselect f1,f2; // try also just \"f1\"");
-    var $$x30 = $n($$x31).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self$14, "Simple FTS, obtained from the simple FRTS example without selecting any product, without minimising it. Presented in Example 14 in the companion paper."));
-    var $$x29 = $m_Lcaos_frontend_Configurator$();
-    var self$15 = new $c_T2("Ex.15: vending FRTTS", "init s1\ns1 --> s1: sodaRefill if S\ns1 --> s1: teaRefill if T\ns1 --> s2: pay if P\ns4 --> s1: return\ns2 --> s3: change\ns3 --> s4: cancel\ns3 --> s5: soda if S\ns3 --> s6: tea  if T\ns1 --> s5: soda if !P\ns1 --> s6: tea  if !P\ns5 --> s7: serve\ns5 --> s7: serveSodaGone\ns6 --> s7: serve\ns6 --> s7: serveTeaGone\ns7 --> s8: open\ns8 --> s9: take\ns9 --> s1: close\nsodaRefill ->> soda\nteaRefill ->> tea\nserveSodaGone --x soda\nserveTeaGone --x tea\nfm S || T\nselect S,T,P;");
-    var $$x28 = $n($$x29).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self$15, "FRTS version of the vending machine example, presented in Fig. 3b and Example 15 in the companion paper."));
-    var $$x27 = $m_Lcaos_frontend_Configurator$();
-    var self$16 = new $c_T2("Simple FRTS (w/o shortcuts)", "init s0\n[e1] s0 --> s0: a if f1\n[e2] s0 --> s0: b if f2\n[e3] s0 --> s1: b if f2 disabled\n\ne1 --x e1\ne2 ->> e3\n\nfm f1\nselect f1,f2; // try also just \"f1\"");
-    var $$x26 = $n($$x27).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self$16, "Variation of the simple FRTS example, using aliases for transitions in the reaction definitions"));
-    var $$x25 = $m_Lcaos_frontend_Configurator$();
-    var self$17 = new $c_T2("FM experiment", "init s0\ns0 --> s1: a if sec\ns1 --> s0: b if !sec\na  --! a\n\nfm fa -> fb && (!fa || fb)\nselect sec,fb;");
-    var $$x24 = $n($$x25).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self$17, "Experimenting with FM solutions"));
-    var nameCode = new $c_T2("Intrusive product", "aut s {\n  init 0\n  0 --> 1 : a\n  1 --> 2 : b\n  2 --> 0 : d disabled\n  a --! b\n}\naut w {\n  init 0\n  0 --> 1 : a\n  1 --> 0 : c\n  a --! a \n}\n// intrusion\nw.c ->> s.b");
-    var example = $as_T(nameCode.T2__f__2);
-    var name = $as_T(nameCode.T2__f__1);
-    var $$x23 = new $c_Lcaos_frontend_Configurator$Example(example, name, "");
-    var $$x22 = $m_Lcaos_frontend_Configurator$();
-    var self$18 = new $c_T2("Conflict", "init 0\n     0 --> 1: a\n[e2] 1 --> 2: b\n[e3] 2 --> 3: b disabled\n\na ->> b\na --! e3");
-    var $$x21 = $n($$x22).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self$18, "Possible conflict detected in the analysis."));
-    var $$x20 = $m_Lcaos_frontend_Configurator$();
-    var self$19 = new $c_T2("Dynamic SPL", "init setup\nsetup --> setup : Safe\nsetup --> setup : Unsafe\nsetup --> setup : Encrypt\nsetup --> setup : Dencrypt\nsetup --> ready\nready --> setup\nready --> received : Receive\nreceived --> routed_safe : ERoute  disabled\nreceived --> routed_unsafe : Route\nrouted_safe --> sent : ESend       disabled\nrouted_unsafe --> sent : Send\nrouted_unsafe --> sent_encrypt : ESend disabled\nsent_encrypt --> ready : Ready\nsent --> ready : Ready\n\nSafe ->> ERoute\nSafe --! Route\nUnsafe --! ERoute\nUnsafe ->> Route\nEncrypt --! Send\nEncrypt ->> ESend\nDencrypt ->> Send\nDencrypt --! ESend");
-    var $$x19 = $n($$x20).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self$19, "Example of a Dynamic Software Product Line, borrowed from Fig 1 in Maxime Cordy et al. <em>Model Checking Adaptive Software with Featured Transition Systems</em>"));
-    var $$x18 = $m_Lcaos_frontend_Configurator$();
-    var self$20 = new $c_T2("NFA-DFA 1", "init 0\n0 --> 1: 0\n1 --> 0: 0\n1 --> 3: 1\n2 --> 1: 0\n2 --> 3: 1\n4 --> 3: 0\n4 --> 3: 1\n0 --> 3: 1\n3 --> 5: 0\n3 --> 5: 1\n5 --> 5: 0\n5 --> 5: 1");
-    var $$x17 = $n($$x18).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self$20, "Experimenting with determinisatoin and minimisation of automata"));
-    var $$x16 = $m_Lcaos_frontend_Configurator$();
-    var self$21 = new $c_T2("NFA-DFA 2", "init q0\nq0 --> q0: a\nq0 --> q0: b\nq0 --> q1: a\nq1 --> q2: b");
-    var $$x15 = $n($$x16).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self$21, "Simple example of an NFA that could be determinised"));
-    var $$x14 = $m_Lcaos_frontend_Configurator$();
-    var self$22 = new $c_T2("Min 1", "init q0\nq0 --> q1: a\nq1 --> q1: a");
-    var $$x13 = $n($$x14).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self$22, "Experiment to minimise automata"));
-    var $$x12 = $m_Lcaos_frontend_Configurator$();
-    var self$23 = new $c_T2("Min 2", "init q0\nq0 --> q1: a\nq0 --> q2: b");
-    var $$x11 = $n($$x12).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self$23, "Experiment to minimise automata"));
-    var $$x10 = $m_Lcaos_frontend_Configurator$();
-    var self$24 = new $c_T2("Parallel", "aut a {\n  init 0\n  0 --> 1 : a disabled\n}\naut b {\n  init 0\n  0 --> 1 : b0\n  1 --> 0 : b disabled\n}\naut c {\n  init 0\n  0 --> 1 : c0\n  1 --> 0 : c disabled\n}\n// intrusion\nb.b  ->> a.a\nc.c  ->> a.a\nb.b0 ->> c.c\nc.c0 ->> b.b\nb.b0 --#-- c.c0");
-    var elems = $n($$x50).wrapRefArray__AO__sci_ArraySeq(new ($d_Lcaos_frontend_Configurator$Example.getArrayOf().constr)([$$x48, $$x46, $$x44, $$x42, $$x40, $$x38, $$x36, $$x34, $$x32, $$x30, $$x28, $$x26, $$x24, $$x23, $$x21, $$x19, $$x17, $$x15, $$x13, $$x11, $n($$x10).toExampleDesc__T2__Lcaos_frontend_Configurator$Example(new $c_T2(self$24, "Experiments with multiple components."))]));
+    var elems = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_Lcaos_frontend_Configurator$Example.getArrayOf().constr)([new $c_Lcaos_frontend_Configurator$Example("// FTS: Flatenned \"Simple FRTS\"\n// without selecting any product\ninit s0\ns0  --> sa:  a if f1\ns0  --> sb:  b if f2\nsa  --> sab: b if f2\nsb  --> sab: a if f1\nsb  --> sb:  b if f2\nsab --> sab: b if f2\nsb  --> sc:  c if f2\nsab --> sc:  c if f2\n\nfm f1\nselect f1,f2; // try also just \"f1\"", "Ex.6: simple FTS", "Simple FTS, obtained from the simple FRTS example without selecting any product. Presented in Fig. 1 and Example 6 in the companion paper."), new $c_Lcaos_frontend_Configurator$Example("init e4\nx1 --> x2: pay if P\nx2 --> x3: change\nx3 --> x4: cancel\nx4 --> x1: return\nx3 --> x5: soda\nx3 --> x6: tea\nx5 --> x7: serve\nx6 --> x7: serve\nx7 --> x8: open\nx8 --> x9: take\nx9 --> x1: close\nx1 --> x6: tea if !P\nx1 --> x5: soda if !P\nx1 --> x1: sodaRefill\nx1 --> x1: teaRefill\ny1 --> y2: pay if P\ny2 --> y3: change\ny3 --> y4: cancel\ny4 --> y1: return\ny3 --> y5: tea\ny5 --> y6: serve\ny6 --> y7: open\ny7 --> y8: take\ny8 --> y1: close\ny1 --> y5: tea if !P\ny1 --> y1: teaRefill\nz1 --> z2: pay if P\nz2 --> z3: change\nz3 --> z4: cancel\nz4 --> z1: return\nz3 --> z5: soda\nz5 --> z6: serve\nz6 --> z7: open\nz7 --> z8: take\nz8 --> z1: close\nz1 --> z5: soda if !P\nz1 --> z1: sodaRefill\ne1 --> e2: open\ne2 --> e3: take\ne3 --> e4: close\nx5 --> y6: serveSodaGone\nx6 --> z6: serveTeaGone\ny5 --> e1: serveTeaGone\nz5 --> e1: serveSodaGone\ne4 --> y1: teaRefill if T\ne4 --> z1: sodaRefill if S\ny1 --> x1: sodaRefill if S\nz1 --> x1: teaRefill if T\nfm S || T\nselect S,T,P;", "Ex.7: vending FTS", "FTS obtained from flatenning the FRTS Vending example before selecting any product. Presented in Fig. 2a and Example 7 in the companion paper."), new $c_Lcaos_frontend_Configurator$Example("// Action-permutation FTS, which \n// recognises the language given\n// by all perumations of {a,b,c}\n// and their prefixes. Feature selection\n// restrict the length of the TSs.\ninit s\ns --> sa: a     if f1\ns --> sb: b     if f1\ns --> sc: c     if f1\nsa --> sab: b   if f2\nsa --> sac: c   if f2\nsb --> sab: a   if f2\nsb --> sbc: c   if f2\nsc --> sac: a   if f2\nsc --> sbc: b   if f2\nsab --> sabc: c if f3\nsac --> sabc: b if f3\nsbc --> sabc: a if f3\nfm (f3 -> f2) && (f2 -> f1)\nselect f1,f2,f3;", "Ex.8: perm FTS", "FTS that accepts all permutations of the actions a,b,c and their prefixes. Feature selection restricts the length of the TSs. Presented in Example 8 in the companion paper."), new $c_Lcaos_frontend_Configurator$Example("// RTS: Simple FRTS after\n// selecting product 1, with\n// feature f1\ninit s0\ns0 --> s0: a \na --x a", "Ex.9: simple RTS pr1", "Simple RTS, obtained from the simple FRTS example after product 1, selecting feature f1. Presented in Fig. 1 and Example 9 in the companion paper."), new $c_Lcaos_frontend_Configurator$Example("// RTS: Simple FRTS after\n// selecting product 2, with\n// features f1 and f2\ninit s0\ns0 --> s0: a \ns0 --> s0: b \ns0 --> s1: c disabled\na --x a\nb ->> c", "Ex.9: simple RTS pr2", "Simple RTS, obtained from the simple FRTS example after selecting product 2, with features f1 and f2. Presented in Fig. 1 and Example 9 in the companion paper."), new $c_Lcaos_frontend_Configurator$Example("// TS: Flatenned \"Simple FRTS\"\n// after selecting product 2,\n// with features f1 and f2,\n// without minimising it\ninit s0\ns0 --> sa: a \ns0 --> sb: b \nsa --> sab: b\nsb --> sab: a\nsb --> sb: b\nsab --> sab: b\nsb --> sbc: c\nsab --> sabc: c", "Ex.10: simple TS non-min", "Simple TS, obtained from the simple FRTS example after product 1, selecting feature f1. Presented in Example 10 in the companion paper."), new $c_Lcaos_frontend_Configurator$Example("init s1\ns1 --> s1: sodaRefill\ns1 --> s1: teaRefill\ns1 --> s2: pay\ns4 --> s1: return\ns2 --> s3: change\ns3 --> s4: cancel\ns3 --> s5: soda\ns3 --> s6: tea\ns5 --> s7: serve\ns5 --> s7: serveSodaGone\ns6 --> s7: serve\ns6 --> s7: serveTeaGone\ns7 --> s8: open\ns8 --> s9: take\ns9 --> s1: close\nsodaRefill ->> soda\nteaRefill ->> tea\nserveSodaGone --x soda\nserveTeaGone --x tea", "Ex.11: vending RTS", "Vending machine, implemented using an RTS. Presented in Fig. 3a and Example 11 in the companion paper."), new $c_Lcaos_frontend_Configurator$Example("// Action-permutation RTS, which \n// recognises the language given\n// by all perumations of {a,b,c}\n// and their subsets. Variation that\n// exploits reactivity to forbid\n// multiple occurrences of each action\ninit s\ns --> s: a\ns --> s: b\ns --> s: c\na --x a\nb --x b\nc --x c", "Ex.12: perm RTS", "RTS that accepts all permutations of the actions a,b,c and their prefixes. Reactivity is used to disable multiple occurrences of each action. Presented in Example 12 in the companion paper."), new $c_Lcaos_frontend_Configurator$Example("init s0\ns0 --> s0: a if f1\ns0 --> s0: b if f2\ns0 --> s1: c if f2 disabled\na --x a\nb ->> c\n\nfm f1\nselect f1,f2; // try also just \"f1\"", "Ex.13 simple FRTS", "Simple illustrative example of an FRTS, used to motivate the core ideas. Presented in Fig. 1 and Example 13 in the companion paper."), new $c_Lcaos_frontend_Configurator$Example("// FTS: Flatenned \"Simple FRTS\"\n// without selecting any product\ninit s0\ns0  --> sa:  a if f1\ns0  --> sb:  b if f2\nsa  --> sab: b if f2\nsb  --> sab: a if f1\nsb  --> sb:  b if f2\nsab --> sab: b if f2\nsb  --> sbc:  c if f2\nsab --> sabc:  c if f2\n\nfm f1\nselect f1,f2; // try also just \"f1\"", "Ex.14: simple FTS non-min", "Simple FTS, obtained from the simple FRTS example without selecting any product, without minimising it. Presented in Example 14 in the companion paper."), new $c_Lcaos_frontend_Configurator$Example("init s1\ns1 --> s1: sodaRefill if S\ns1 --> s1: teaRefill if T\ns1 --> s2: pay if P\ns4 --> s1: return\ns2 --> s3: change\ns3 --> s4: cancel\ns3 --> s5: soda if S\ns3 --> s6: tea  if T\ns1 --> s5: soda if !P\ns1 --> s6: tea  if !P\ns5 --> s7: serve\ns5 --> s7: serveSodaGone\ns6 --> s7: serve\ns6 --> s7: serveTeaGone\ns7 --> s8: open\ns8 --> s9: take\ns9 --> s1: close\nsodaRefill ->> soda\nteaRefill ->> tea\nserveSodaGone --x soda\nserveTeaGone --x tea\nfm S || T\nselect S,T,P;", "Ex.15: vending FRTTS", "FRTS version of the vending machine example, presented in Fig. 3b and Example 15 in the companion paper."), new $c_Lcaos_frontend_Configurator$Example("init s0\n[e1] s0 --> s0: a if f1\n[e2] s0 --> s0: b if f2\n[e3] s0 --> s1: b if f2 disabled\n\ne1 --x e1\ne2 ->> e3\n\nfm f1\nselect f1,f2; // try also just \"f1\"", "Simple FRTS (w/o shortcuts)", "Variation of the simple FRTS example, using aliases for transitions in the reaction definitions"), new $c_Lcaos_frontend_Configurator$Example("init s0\ns0 --> s1: a if sec\ns1 --> s0: b if !sec\na  --! a\n\nfm fa -> fb && (!fa || fb)\nselect sec,fb;", "FM experiment", "Experimenting with FM solutions"), new $c_Lcaos_frontend_Configurator$Example("aut s {\n  init 0\n  0 --> 1 : a\n  1 --> 2 : b\n  2 --> 0 : d disabled\n  a --! b\n}\naut w {\n  init 0\n  0 --> 1 : a\n  1 --> 0 : c\n  a --! a \n}\n// intrusion\nw.c ->> s.b", "Intrusive product", ""), new $c_Lcaos_frontend_Configurator$Example("init 0\n     0 --> 1: a\n[e2] 1 --> 2: b\n[e3] 2 --> 3: b disabled\n\na ->> b\na --! e3", "Conflict", "Possible conflict detected in the analysis."), new $c_Lcaos_frontend_Configurator$Example("init setup\nsetup --> setup : Safe\nsetup --> setup : Unsafe\nsetup --> setup : Encrypt\nsetup --> setup : Dencrypt\nsetup --> ready\nready --> setup\nready --> received : Receive\nreceived --> routed_safe : ERoute  disabled\nreceived --> routed_unsafe : Route\nrouted_safe --> sent : ESend       disabled\nrouted_unsafe --> sent : Send\nrouted_unsafe --> sent_encrypt : ESend disabled\nsent_encrypt --> ready : Ready\nsent --> ready : Ready\n\nSafe ->> ERoute\nSafe --! Route\nUnsafe --! ERoute\nUnsafe ->> Route\nEncrypt --! Send\nEncrypt ->> ESend\nDencrypt ->> Send\nDencrypt --! ESend", "Dynamic SPL", "Example of a Dynamic Software Product Line, borrowed from Fig 1 in Maxime Cordy et al. <em>Model Checking Adaptive Software with Featured Transition Systems</em>"), new $c_Lcaos_frontend_Configurator$Example("init 0\n0 --> 1: 0\n1 --> 0: 0\n1 --> 3: 1\n2 --> 1: 0\n2 --> 3: 1\n4 --> 3: 0\n4 --> 3: 1\n0 --> 3: 1\n3 --> 5: 0\n3 --> 5: 1\n5 --> 5: 0\n5 --> 5: 1", "NFA-DFA 1", "Experimenting with determinisatoin and minimisation of automata"), new $c_Lcaos_frontend_Configurator$Example("init q0\nq0 --> q0: a\nq0 --> q0: b\nq0 --> q1: a\nq1 --> q2: b", "NFA-DFA 2", "Simple example of an NFA that could be determinised"), new $c_Lcaos_frontend_Configurator$Example("init q0\nq0 --> q1: a\nq1 --> q1: a", "Min 1", "Experiment to minimise automata"), new $c_Lcaos_frontend_Configurator$Example("init q0\nq0 --> q1: a\nq0 --> q2: b", "Min 2", "Experiment to minimise automata"), new $c_Lcaos_frontend_Configurator$Example("aut a {\n  init 0\n  0 --> 1 : a disabled\n}\naut b {\n  init 0\n  0 --> 1 : b0\n  1 --> 0 : b disabled\n}\naut c {\n  init 0\n  0 --> 1 : c0\n  1 --> 0 : c disabled\n}\n// intrusion\nb.b  ->> a.a\nc.c  ->> a.a\nb.b0 ->> c.c\nc.c0 ->> b.b\nb.b0 --#-- c.c0", "Parallel", "Experiments with multiple components.")]));
     var suffix = $m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems)
   };
-  this.Lmarge_frontend_CaosConfig$__f_examples = this$107.appendedAll__sc_IterableOnce__sci_List(suffix);
+  this.Lmarge_frontend_CaosConfig$__f_examples = this$157.appendedAll__sc_IterableOnce__sci_List(suffix);
   this.Lmarge_frontend_CaosConfig$__f_widgets = (this.Lmarge_frontend_CaosConfig$__f_justTS ? this.widgetsTS__sci_List() : this.widgetsFRTS__sci_List());
   if (this.Lmarge_frontend_CaosConfig$__f_justTS) {
-    var this$108 = $n($m_s_Predef$().s_Predef$__f_Map);
+    var this$158 = $n($m_s_Predef$().s_Predef$__f_Map);
     var elems$1 = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([]));
-    var $$x51 = this$108.from__sc_IterableOnce__sci_Map(elems$1)
+    var $$x1 = this$158.from__sc_IterableOnce__sci_Map(elems$1)
   } else {
-    var this$125 = $n($m_s_Predef$().s_Predef$__f_Map);
-    var $$x55 = $m_sr_ScalaRunTime$();
-    var this$110 = $n($as_sc_IterableOnceOps($n(this.Lmarge_frontend_CaosConfig$__f_widgets).map__F1__O(new $c_sjsr_AnonFunction1(((ex) => {
+    var this$175 = $n($m_s_Predef$().s_Predef$__f_Map);
+    var $$x5 = $m_sr_ScalaRunTime$();
+    var this$160 = $n($as_sc_IterableOnceOps($n(this.Lmarge_frontend_CaosConfig$__f_widgets).map__F1__O(new $c_sjsr_AnonFunction1(((ex) => {
       var ex$1 = $as_T2(ex);
       return $as_T($n(ex$1)._1__O())
     })))));
-    var y = $n($m_sci_Set$().from__sc_IterableOnce__sci_Set($as_sc_IterableOnce(this$110))).filter__F1__O(new $c_sjsr_AnonFunction1(((_$23) => {
+    var y = $n($m_sci_Set$().from__sc_IterableOnce__sci_Set($as_sc_IterableOnce(this$160))).filter__F1__O(new $c_sjsr_AnonFunction1(((_$23) => {
       var _$23$1 = $as_T(_$23);
-      var this$111 = $n(_$23$1);
-      return ((this$111.length >= 0) && ($as_T(this$111.substring(0, 4)) === "FRTS"))
+      var this$161 = $n(_$23$1);
+      return ((this$161.length >= 0) && ($as_T(this$161.substring(0, 4)) === "FRTS"))
     })));
-    var $$x54 = new $c_T2("frtsBtn", y);
-    var this$114 = $n($as_sc_IterableOnceOps($n(this.Lmarge_frontend_CaosConfig$__f_widgets).map__F1__O(new $c_sjsr_AnonFunction1(((ex$2) => {
+    var $$x4 = new $c_T2("frtsBtn", y);
+    var this$164 = $n($as_sc_IterableOnceOps($n(this.Lmarge_frontend_CaosConfig$__f_widgets).map__F1__O(new $c_sjsr_AnonFunction1(((ex$2) => {
       var ex$3 = $as_T2(ex$2);
       return $as_T($n(ex$3)._1__O())
     })))));
-    var y$1 = $n($m_sci_Set$().from__sc_IterableOnce__sci_Set($as_sc_IterableOnce(this$114))).filter__F1__O(new $c_sjsr_AnonFunction1(((_$24) => {
+    var y$1 = $n($m_sci_Set$().from__sc_IterableOnce__sci_Set($as_sc_IterableOnce(this$164))).filter__F1__O(new $c_sjsr_AnonFunction1(((_$24) => {
       var _$24$1 = $as_T(_$24);
-      var this$115 = $n(_$24$1);
-      return ((this$115.length >= 0) && ($as_T(this$115.substring(0, 3)) === "RTS"))
+      var this$165 = $n(_$24$1);
+      return ((this$165.length >= 0) && ($as_T(this$165.substring(0, 3)) === "RTS"))
     })));
-    var $$x53 = new $c_T2("rtsBtn", y$1);
-    var this$118 = $n($as_sc_IterableOnceOps($n(this.Lmarge_frontend_CaosConfig$__f_widgets).map__F1__O(new $c_sjsr_AnonFunction1(((ex$3$1) => {
+    var $$x3 = new $c_T2("rtsBtn", y$1);
+    var this$168 = $n($as_sc_IterableOnceOps($n(this.Lmarge_frontend_CaosConfig$__f_widgets).map__F1__O(new $c_sjsr_AnonFunction1(((ex$3$1) => {
       var ex$4 = $as_T2(ex$3$1);
       return $as_T($n(ex$4)._1__O())
     })))));
-    var y$2 = $n($m_sci_Set$().from__sc_IterableOnce__sci_Set($as_sc_IterableOnce(this$118))).filter__F1__O(new $c_sjsr_AnonFunction1(((_$25) => {
+    var y$2 = $n($m_sci_Set$().from__sc_IterableOnce__sci_Set($as_sc_IterableOnce(this$168))).filter__F1__O(new $c_sjsr_AnonFunction1(((_$25) => {
       var _$25$1 = $as_T(_$25);
-      var this$119 = $n(_$25$1);
-      return ((this$119.length >= 0) && ($as_T(this$119.substring(0, 3)) === "FTS"))
+      var this$169 = $n(_$25$1);
+      return ((this$169.length >= 0) && ($as_T(this$169.substring(0, 3)) === "FTS"))
     })));
-    var $$x52 = new $c_T2("ftsBtn", y$2);
-    var this$122 = $n($as_sc_IterableOnceOps($n(this.Lmarge_frontend_CaosConfig$__f_widgets).map__F1__O(new $c_sjsr_AnonFunction1(((ex$4$1) => {
+    var $$x2 = new $c_T2("ftsBtn", y$2);
+    var this$172 = $n($as_sc_IterableOnceOps($n(this.Lmarge_frontend_CaosConfig$__f_widgets).map__F1__O(new $c_sjsr_AnonFunction1(((ex$4$1) => {
       var ex$5 = $as_T2(ex$4$1);
       return $as_T($n(ex$5)._1__O())
     })))));
-    var y$3 = $n($m_sci_Set$().from__sc_IterableOnce__sci_Set($as_sc_IterableOnce(this$122))).filter__F1__O(new $c_sjsr_AnonFunction1(((_$26) => {
+    var y$3 = $n($m_sci_Set$().from__sc_IterableOnce__sci_Set($as_sc_IterableOnce(this$172))).filter__F1__O(new $c_sjsr_AnonFunction1(((_$26) => {
       var _$26$1 = $as_T(_$26);
-      var this$123 = $n(_$26$1);
-      return ((this$123.length >= 0) && ($as_T(this$123.substring(0, 2)) === "TS"))
+      var this$173 = $n(_$26$1);
+      return ((this$173.length >= 0) && ($as_T(this$173.substring(0, 2)) === "TS"))
     })));
-    var elems$2 = $n($$x55).wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$$x54, $$x53, $$x52, new $c_T2("tsBtn", y$3)]));
-    var $$x51 = this$125.from__sc_IterableOnce__sci_Map(elems$2)
+    var elems$2 = $n($$x5).wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$$x4, $$x3, $$x2, new $c_T2("tsBtn", y$3)]));
+    var $$x1 = this$175.from__sc_IterableOnce__sci_Map(elems$2)
   };
-  this.Lmarge_frontend_CaosConfig$__f_toggles = $$x51;
+  this.Lmarge_frontend_CaosConfig$__f_toggles = $$x1;
   this.Lmarge_frontend_CaosConfig$__f_footerTS = ($m_sc_StringOps$(), $m_sc_StringOps$().stripMargin$extension__T__C__T("<strong>Widgets marked with (*) are not meaningfull when using multiple systems.</strong>\n      | Source code at: <a target=\"_blank\"\n      | href=\"https://github.com/fm-dcc/frets\">\n      | https://github.com/fm-dcc/frets</a>. This is a companion tool for\n      | a paper submitted to VARS 2026, using <a target=\"_blank\"\n      | href=\"https://github.com/arcalab/CAOS\">\n      | CAOS</a> backend. Click the (?) on the headers of the widgets for more information.", 124));
   this.Lmarge_frontend_CaosConfig$__f_footerFRTS = ($m_sc_StringOps$(), $m_sc_StringOps$().stripMargin$extension__T__C__T("Source code at: <a target=\"_blank\"\n      | href=\"https://github.com/fm-dcc/frets\">\n      | https://github.com/fm-dcc/frets</a>. This is a companion tool for\n      | a paper submitted to VARS 2026, using <a target=\"_blank\"\n      | href=\"https://github.com/arcalab/CAOS\">\n      | CAOS</a> backend. Click the (?) on the headers of the widgets for more information.", 124));
   this.Lmarge_frontend_CaosConfig$__f_footer = (this.Lmarge_frontend_CaosConfig$__f_justTS ? this.Lmarge_frontend_CaosConfig$__f_footerTS : this.Lmarge_frontend_CaosConfig$__f_footerFRTS);
   $m_sc_StringOps$();
   $m_sc_StringOps$().stripMargin$extension__T__C__T(" ", 124);
-  var $$x61 = $m_Lcaos_frontend_Configurator$();
-  var self$25 = this.Lmarge_frontend_CaosConfig$__f_languageName;
-  var self$26 = new $c_T2(self$25, "More information on the syntax of Reactive Graph");
-  var $$x60 = new $c_T2(self$26, "A Feature Reactive Transition System is a transition system where transitions can be <ul><li>enabled or disabled at compile time based on feature expressions.<li>enabled or disabled at runtime based reactions.</li></ul>The syntax for defining an FRTS is illustrated by the following example: <pre>init &lt;initial-state&gt;\n// Add two lablelled transitions with a feature expression (optional)\n&lt;source-state&gt;  --&gt; &lt;target-state&gt; by &lt;action&gt; if &lt;feature-expression&gt;\n&lt;source-state&gt;  --&gt; &lt;target-state&gt; by &lt;action&gt; disabled // starts disabled\n// (add more transitions)\n\n// Enable an transition action2 when action1 is performed\n&lt;action1&gt; -&gt; &lt;action2&gt;\n\n// Disable an transition action2 when action1 is performed\n&lt;action1&gt; --x &lt;action2&gt;\n// Define a feature model as a constraint over feature names\nfm &lt;feature-expression&gt;\n// Select a set of features to be used in the analsyses\nselect &lt;feature-names*&gt;;</pre><p> where <code>feature_expression</code> is a boolean expression over features, and <code>feature-names*</code> is a comma-separated list of features chosen for the current product.</p>");
-  var self$27 = new $c_T2("TS: flattened", "More information on the TS visualization");
+  var $$x19 = $m_Lcaos_frontend_Configurator$();
+  $n($m_s_package$().s_package$__f_List);
+  var $$x18 = $m_sr_ScalaRunTime$();
+  var self = this.Lmarge_frontend_CaosConfig$__f_languageName;
+  var self$1 = new $c_T2(self, "More information on the syntax of Reactive Graph");
+  var $$x17 = new $c_T2(self$1, "A Feature Reactive Transition System is a transition system where transitions can be <ul><li>enabled or disabled at compile time based on feature expressions.<li>enabled or disabled at runtime based reactions.</li></ul>The syntax for defining an FRTS is illustrated by the following example: <pre>init &lt;initial-state&gt;\n// Add two lablelled transitions with a feature expression (optional)\n&lt;source-state&gt;  --&gt; &lt;target-state&gt; by &lt;action&gt; if &lt;feature-expression&gt;\n&lt;source-state&gt;  --&gt; &lt;target-state&gt; by &lt;action&gt; disabled // starts disabled\n// (add more transitions)\n\n// Enable an transition action2 when action1 is performed\n&lt;action1&gt; -&gt; &lt;action2&gt;\n\n// Disable an transition action2 when action1 is performed\n&lt;action1&gt; --x &lt;action2&gt;\n// Define a feature model as a constraint over feature names\nfm &lt;feature-expression&gt;\n// Select a set of features to be used in the analsyses\nselect &lt;feature-names*&gt;;</pre><p> where <code>feature_expression</code> is a boolean expression over features, and <code>feature-names*</code> is a comma-separated list of features chosen for the current product.</p>");
+  var self$2 = new $c_T2("TS projection: flattened", "More information on the TS visualization");
   $m_sc_StringOps$();
   var y$4 = $m_sc_StringOps$().stripMargin$extension__T__C__T("<p>This widget depicts the flattened projection for the selected product of the given FRTS.</p>\n        |\n        |<p>The names of the states include both the original name in the given FRTS and a number\n        |indicating the number of active transitions. E.g., <code>s0[2]</code> represents\n        |the state <code>s0</code> in the FRTS with 2 active transitions. Note that this name is not\n        |unique. To see the list of all active transitions, which provides unique names,\n        |please use the widget \"TS: flattened (verbose).\" </p>\n        |", 124);
-  var $$x59 = new $c_T2(self$27, y$4);
-  var self$28 = new $c_T2("TS: flatenned (trace-equivalence minimal DFA)", "More information on how to mininmise the TS)");
+  var $$x16 = new $c_T2(self$2, y$4);
+  var self$3 = new $c_T2("TS projection: flatenned (verbose)", "More information on the TS visualization");
   $m_sc_StringOps$();
-  var y$5 = $m_sc_StringOps$().stripMargin$extension__T__C__T("We use Hopcroft's algorithm to find and merge indistinguishable states\n        |(<a href=\"https://en.wikipedia.org/wiki/DFA_minimization#Hopcroft's_algorithm\">https://en.wikipedia.org/wiki/DFA_minimization</a>),\n        |based on partition refinement of the underlying equivalence class.\n        |This notion of indistinguishable relies on trace-equivalence and not on bisimilarity.", 124);
-  var $$x58 = new $c_T2(self$28, y$5);
-  var self$29 = new $c_T2("TS: trace-equivalent states", "More information on how to mininmise the TS)");
+  var y$5 = $m_sc_StringOps$().stripMargin$extension__T__C__T("<p>This widget depicts the flattened projection for the selected product of the given FRTS.</p>\n        |\n        |<p>The names of the states include both the original name in the given FRTS and a list\n        |of all active transitions. E.g., <code>s0[{a,b}]</code> represents\n        |the state <code>s0</code> in the FRTS with 2 active transitions, one labelled <code>a</code> and another labelled <code>b</code>.\n        | Note that this name is unique. To see a simpler name, please use the widget \"TS: flattened\". </p>\n        |", 124);
+  var $$x15 = new $c_T2(self$3, y$5);
+  var self$4 = new $c_T2("FTS: deterministic", "More information on how to determinise the FTS");
   $m_sc_StringOps$();
-  var y$6 = $m_sc_StringOps$().stripMargin$extension__T__C__T("We use Hopcroft's algorithm to find indistinguishable states\n      |(<a href=\"https://en.wikipedia.org/wiki/DFA_minimization#Hopcroft's_algorithm\">https://en.wikipedia.org/wiki/DFA_minimization</a>),\n      |based on partition refinement of the underlying equivalence class.\n      |This notion of indistinguishable relies on trace-equivalence and not on bisimilarity.", 124);
-  var $$x57 = new $c_T2(self$29, y$6);
-  var self$30 = new $c_T2("TS projection: as mCRL2", "More information on the mCRL2 syntax");
-  var y$7 = this.mCRL2doc__T__T("the RTS projection of the given FRTS");
-  var $$x56 = new $c_T2(self$30, y$7);
-  var self$31 = new $c_T2("As mCRL2", "More information on the mCRL2 syntax");
-  var y$8 = this.mCRL2doc__T__T("the given TS");
-  this.Lmarge_frontend_CaosConfig$__f_documentation = $n($$x61).toDocumentation__sci_List__Lcaos_frontend_Documentation(new $c_sci_$colon$colon($$x60, new $c_sci_$colon$colon($$x59, new $c_sci_$colon$colon($$x58, new $c_sci_$colon$colon($$x57, new $c_sci_$colon$colon($$x56, new $c_sci_$colon$colon(new $c_T2(self$31, y$8), $m_sci_Nil$())))))))
+  var y$6 = $m_sc_StringOps$().stripMargin$extension__T__C__T("We use a modified version of the subset construction algorithm to determinise the FTS,\n        |where we also take into account the feature expressions associated with the transitions.\n        |The resulting deterministic FTS is not minimal, and can be further minimised using the widget \"FTS projection: minimal (up to trace-equivalence)\". ", 124);
+  var $$x14 = new $c_T2(self$4, y$6);
+  var self$5 = new $c_T2("TS projection: deterministic", "More information on how to determinise the TS");
+  $m_sc_StringOps$();
+  var y$7 = $m_sc_StringOps$().stripMargin$extension__T__C__T("We use the subset construction algorithm to determinise the TS, where each state in the resulting\n        |TS corresponds to a set of states in the original TS. The resulting deterministic TS is not minimal,\n        |and can be further minimised using the widget \"TS projection: minimal (up to trace-equivalence)\".", 124);
+  var $$x13 = new $c_T2(self$5, y$7);
+  var self$6 = new $c_T2("TS projection: minimal (up to trace-equivalence)", "More information on how to mininmise the TS)");
+  $m_sc_StringOps$();
+  var y$8 = $m_sc_StringOps$().stripMargin$extension__T__C__T("We use Hopcroft's algorithm to find and merge indistinguishable states\n        |(<a href=\"https://en.wikipedia.org/wiki/DFA_minimization#Hopcroft's_algorithm\">https://en.wikipedia.org/wiki/DFA_minimization</a>),\n        |based on partition refinement of the underlying equivalence class.\n        |This notion of indistinguishable relies on trace-equivalence and not on bisimilarity.", 124);
+  var $$x12 = new $c_T2(self$6, y$8);
+  var self$7 = new $c_T2("TS projection: trace-equivalent states", "More information on how to minimise the TS)");
+  $m_sc_StringOps$();
+  var y$9 = $m_sc_StringOps$().stripMargin$extension__T__C__T("We use Hopcroft's algorithm to find indistinguishable states\n      |(<a href=\"https://en.wikipedia.org/wiki/DFA_minimization#Hopcroft's_algorithm\">https://en.wikipedia.org/wiki/DFA_minimization</a>),\n      |based on partition refinement of the underlying equivalence class.\n      |This notion of indistinguishable relies on trace-equivalence and not on bisimilarity.", 124);
+  var $$x11 = new $c_T2(self$7, y$9);
+  var self$8 = new $c_T2("TS projection: as mCRL2", "More information on the mCRL2 syntax");
+  var y$10 = this.mCRL2doc__T__T("the RTS projection of the given FRTS");
+  var $$x10 = new $c_T2(self$8, y$10);
+  var self$9 = new $c_T2("As mCRL2", "More information on the mCRL2 syntax");
+  var y$11 = this.mCRL2doc__T__T("the given TS");
+  var $$x9 = new $c_T2(self$9, y$11);
+  var self$10 = new $c_T2("Possible problems of the RTS projection", "More information on the random walk and possible problems here");
+  $m_sc_StringOps$();
+  var y$12 = $m_sc_StringOps$().stripMargin$extension__T__C__T("<p>This widget performs a random walk on the RTS projection of the given FRTS, checking for potential problems such as deadlocks, livelocks, and nondeterministic choices.</p>\n        |\n        |<p>For more information on the possible problems that can be detected, please refer to\n        |the companion paper submitted to VARS 2026.</p>\n        |", 124);
+  var $$x8 = new $c_T2(self$10, y$12);
+  var self$11 = new $c_T2("Check properties (TS projection)", "More information on the properties that can be checked here");
+  var $$x7 = new $c_T2(self$11, "<p>Use the <code>check</code> keyword in the RTS definition to add properties to check. For example:</p>\n        <pre>\n        check Tr(s0) = Tr(q0) // check trace equivalence\n        check s0 ~ q0         // check bisimilarity\n        </pre>");
+  var self$12 = new $c_T2("RTS projection: Step-by-step", "More information on the operational rules used here");
+  $m_sc_StringOps$();
+  var y$13 = $m_sc_StringOps$().stripMargin$extension__T__C__T("<p>This widget shows the step-by-step application of the operational rules\n        |used to generate the RTS projection of the given FRTS.</p>\n        |\n        |<p>At each step, each of the applicable rules can be selected\n        |and applied to generate new states and transitions. The process continues\n        |until no new states or transitions can be generated.</p>\n        |\n        |<p>For more information on the operational rules used here, please refer to\n        |the companion paper submitted to VARS 2026.</p>\n        |", 124);
+  var $$x6 = new $c_T2(self$12, y$13);
+  var self$13 = new $c_T2("FRTS: draw", "More information on the FRTS visualization");
+  $m_sc_StringOps$();
+  var y$14 = $m_sc_StringOps$().stripMargin$extension__T__C__T("<p>This widget depicts the given FRTS.</p>\n        |\n        |<p>TS, RTS, and FTS are particular cases of FRTS without some structural elements, such as reactions or features.</p>\n        |", 124);
+  var elems$3 = $n($$x18).wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$$x17, $$x16, $$x15, $$x14, $$x13, $$x12, $$x11, $$x10, $$x9, $$x8, $$x7, $$x6, new $c_T2(self$13, y$14)]));
+  this.Lmarge_frontend_CaosConfig$__f_documentation = $n($$x19).toDocumentation__sci_List__Lcaos_frontend_Documentation($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems$3))
 }
 $c_Lmarge_frontend_CaosConfig$.prototype = new $h_O();
 $c_Lmarge_frontend_CaosConfig$.prototype.constructor = $c_Lmarge_frontend_CaosConfig$;
@@ -22951,20 +23077,36 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsTS__sci_List = (function() {
     var r$1 = $as_Lmarge_syntax_FRTS(r);
     var $$x24 = $m_Lmarge_backend_AnalyseLTS$();
     var this$2 = $n(r$1);
-    var this$4 = $n($as_sci_List($n($n($$x24).randomWalk__Lmarge_syntax_RTS__I__T4(this$2.project__sci_Set__Lmarge_syntax_RTS(this$2.Lmarge_syntax_FRTS__f_main), 5000)).T4__f__4));
-    var p = new $c_sjsr_AnonFunction1(((x) => {
-      var x$1 = $as_T(x);
-      var this$3 = $n(x$1);
-      return (!((this$3.length >= 0) && ($as_T(this$3.substring(0, 8)) === "Deadlock")))
-    }));
-    return $p_sci_List__filterCommon__F1__Z__sci_List(this$4, p, false)
+    var \u03b48$ = $as_Lmarge_backend_AnalyseLTS$Problems($n($n($$x24).randomWalk__Lmarge_syntax_RTS__I__T4(this$2.project__sci_Set__Lmarge_syntax_RTS(this$2.Lmarge_syntax_FRTS__f_main), 5000)).T4__f__4);
+    var this$3 = $n($m_s_Predef$().s_Predef$__f_Set);
+    var elems = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS.getArrayOf().constr)([]));
+    var deadlocks$1 = this$3.from__sc_IterableOnce__sci_Set(elems);
+    var this$4 = $n(\u03b48$);
+    var tooBig$1 = this$4.Lmarge_backend_AnalyseLTS$Problems__f_tooBig;
+    var this$5 = $n(\u03b48$);
+    var unreachableStates$1 = this$5.Lmarge_backend_AnalyseLTS$Problems__f_unreachableStates;
+    var this$6 = $n(\u03b48$);
+    var unreachableEdges$1 = this$6.Lmarge_backend_AnalyseLTS$Problems__f_unreachableEdges;
+    var this$7 = $n(\u03b48$);
+    var inconsistencies$1 = this$7.Lmarge_backend_AnalyseLTS$Problems__f_inconsistencies;
+    var this$8 = $n(\u03b48$);
+    var multipleInits$1 = this$8.Lmarge_backend_AnalyseLTS$Problems__f_multipleInits;
+    $n(\u03b48$);
+    var p = new $c_Lmarge_backend_AnalyseLTS$Problems(tooBig$1, unreachableStates$1, unreachableEdges$1, deadlocks$1, inconsistencies$1, multipleInits$1);
+    if (p.isEmpty__Z()) {
+      return $m_sci_Nil$()
+    } else {
+      $n($m_s_package$().s_package$__f_List);
+      var elems$1 = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_T.getArrayOf().constr)([$f_T__replaceAll__T__T__T($n($m_Lmarge_backend_AnalyseLTS$().problemsPP__Lmarge_backend_AnalyseLTS$Problems__T__T(p, "")), "\n", "</br>")]));
+      return $m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems$1)
+    }
   }));
   var y = new $c_Lcaos_frontend_widgets_WidgetInfo$Analyse(a);
   var $$x25 = new $c_T2("Possible problems of the RTS projection", y);
-  var this$10 = $n($m_Lcaos_frontend_Configurator$().steps__F1__Lcaos_sos_SOS__F1__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e) => {
+  var this$16 = $n($m_Lcaos_frontend_Configurator$().steps__F1__Lcaos_sos_SOS__F1__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e) => {
     var e$1 = $as_Lmarge_syntax_FRTS(e);
-    var this$9 = $n(e$1);
-    return this$9.project__sci_Set__Lmarge_syntax_RTS(this$9.Lmarge_syntax_FRTS__f_main)
+    var this$15 = $n(e$1);
+    return this$15.project__sci_Set__Lmarge_syntax_RTS(this$15.Lmarge_syntax_FRTS__f_main)
   })), $m_Lmarge_backend_RTSSemantics$(), new $c_sjsr_AnonFunction1(((rx) => {
     var rx$1 = $as_Lmarge_syntax_RTS(rx);
     return $m_Lmarge_syntax_RTS$().toMermaid__Lmarge_syntax_RTS__sci_Map__T(rx$1, $m_Lmarge_syntax_RTS$().toMermaid$default$2__Lmarge_syntax_RTS__sci_Map(rx$1))
@@ -22972,18 +23114,18 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsTS__sci_List = (function() {
     var _$1$1 = $as_Lmarge_syntax_RTS$QName(_$1);
     return $n(_$1$1).show__T()
   })), $m_Lcaos_view_Mermaid$()));
-  var y$1 = $f_Lcaos_frontend_widgets_WidgetInfo__expand__Lcaos_frontend_widgets_WidgetInfo(this$10);
+  var y$1 = $f_Lcaos_frontend_widgets_WidgetInfo__expand__Lcaos_frontend_widgets_WidgetInfo(this$16);
   var $$x23 = new $c_T2("Step-by-step", y$1);
   var y$2 = $m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((frts) => {
     var frts$1 = $as_Lmarge_syntax_FRTS(frts);
-    var this$13 = $n(frts$1);
-    var rts = this$13.project__sci_Set__Lmarge_syntax_RTS(this$13.Lmarge_syntax_FRTS__f_main);
+    var this$19 = $n(frts$1);
+    var rts = this$19.project__sci_Set__Lmarge_syntax_RTS(this$19.Lmarge_syntax_FRTS__f_main);
     var rstates = $n($n(rts).states__sci_Set()).size__I();
-    var simpleEdges = $uI($n($as_sc_IterableOnceOps($n($n($n(rts).Lmarge_syntax_RTS__f_edgs).withFilter__F1__sc_MapOps$WithFilter(new $c_sjsr_AnonFunction1(((x$1$1) => {
-      var x$1$2 = $as_T2(x$1$1);
-      return ((x$1$2 !== null) && ($as_sci_Set($n(x$1$2)._2__O()), true))
-    })))).map__F1__O(new $c_sjsr_AnonFunction1(((x$1$2$1) => {
-      var x$1$3 = $as_T2(x$1$2$1);
+    var simpleEdges = $uI($n($as_sc_IterableOnceOps($n($n($n(rts).Lmarge_syntax_RTS__f_edgs).withFilter__F1__sc_MapOps$WithFilter(new $c_sjsr_AnonFunction1(((x$1) => {
+      var x$1$1 = $as_T2(x$1);
+      return ((x$1$1 !== null) && ($as_sci_Set($n(x$1$1)._2__O()), true))
+    })))).map__F1__O(new $c_sjsr_AnonFunction1(((x$1$2) => {
+      var x$1$3 = $as_T2(x$1$2);
       if ((x$1$3 !== null)) {
         var dests$1 = $as_sci_Set($n(x$1$3)._2__O());
         return $n(dests$1).size__I()
@@ -22991,75 +23133,75 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsTS__sci_List = (function() {
       throw new $c_s_MatchError(x$1$3)
     }))))).sum__s_math_Numeric__O($m_s_math_Numeric$IntIsIntegral$()));
     matchResult3$1: {
-      var \u03b48$;
+      var \u03b49$;
       var $$x21 = $m_Lcaos_sos_FinAut$();
       var $$x20 = $m_Lmarge_backend_RTSSemantics$();
-      var this$14 = $n($m_s_Predef$().s_Predef$__f_Set);
-      var elems = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS.getArrayOf().constr)([rts]));
-      var x7 = $n($$x21).minSOS__Lcaos_sos_SOS__sci_Set__I__T3($$x20, this$14.from__sc_IterableOnce__sci_Set(elems), 2000);
+      var this$20 = $n($m_s_Predef$().s_Predef$__f_Set);
+      var elems$2 = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS.getArrayOf().constr)([rts]));
+      var x7 = $n($$x21).minSOS__Lcaos_sos_SOS__sci_Set__I__T3($$x20, this$20.from__sc_IterableOnce__sci_Set(elems$2), 2000);
       if ((x7 !== null)) {
         var iniMin = $as_sci_Set($n(x7).T3__f__1);
         var sosMin = $as_Lcaos_sos_SOS($n(x7).T3__f__2);
         var doneMin1 = $uZ($n(x7).T3__f__3);
-        var \u03b48$ = new $c_T3(iniMin, sosMin, doneMin1);
+        var \u03b49$ = new $c_T3(iniMin, sosMin, doneMin1);
         break matchResult3$1
       };
       throw new $c_s_MatchError(x7)
     };
-    var iniMin$2 = $as_sci_Set($n(\u03b48$).T3__f__1);
-    var sosMin$2 = $as_Lcaos_sos_SOS($n(\u03b48$).T3__f__2);
-    var doneMin1$2 = $uZ($n(\u03b48$).T3__f__3);
+    var iniMin$2 = $as_sci_Set($n(\u03b49$).T3__f__1);
+    var sosMin$2 = $as_Lcaos_sos_SOS($n(\u03b49$).T3__f__2);
+    var doneMin1$2 = $uZ($n(\u03b49$).T3__f__3);
     matchResult4$1: {
-      var \u03b49$;
+      var \u03b410$;
       var x11 = $m_Lcaos_sos_SOS$().traverse__Lcaos_sos_SOS__sci_Set__I__T3(sosMin$2, iniMin$2, 2000);
       if ((x11 !== null)) {
         var stMin = $as_sci_Set($n(x11).T3__f__1);
         var edsMin = $uI($n(x11).T3__f__2);
         var doneMin2 = $uZ($n(x11).T3__f__3);
-        var \u03b49$ = new $c_T3(stMin, edsMin, doneMin2);
+        var \u03b410$ = new $c_T3(stMin, edsMin, doneMin2);
         break matchResult4$1
       };
       throw new $c_s_MatchError(x11)
     };
-    var stMin$2 = $as_sci_Set($n(\u03b49$).T3__f__1);
-    var edsMin$2 = $uI($n(\u03b49$).T3__f__2);
-    var doneMin2$2 = $uZ($n(\u03b49$).T3__f__3);
+    var stMin$2 = $as_sci_Set($n(\u03b410$).T3__f__1);
+    var edsMin$2 = $uI($n(\u03b410$).T3__f__2);
+    var doneMin2$2 = $uZ($n(\u03b410$).T3__f__3);
     var doneMin = (doneMin1$2 && doneMin2$2);
     return ((((((((("== TS (size: " + ((rstates + simpleEdges) | 0)) + ") ==\n") + rstates) + "state(s)\n") + simpleEdges) + " transition(s)") + ("\n== TS as a minimal DFA (size: " + ((!doneMin) ? ">2000" : (($n(stMin$2).size__I() + edsMin$2) | 0)))) + ") ==\n") + ((!doneMin) ? "Stopped after traversing 2000 states" : ((($n(stMin$2).size__I() + " state(s)\n") + edsMin$2) + " transition(s)")))
   })), $m_Lcaos_view_Text$());
   var $$x22 = new $c_T2("Number of states and transitions", y$2);
   var y$3 = $m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e$2) => {
     var e$3 = $as_Lmarge_syntax_FRTS(e$2);
-    var this$19 = $n(e$3);
-    var rts$1 = this$19.project__sci_Set__Lmarge_syntax_RTS(this$19.Lmarge_syntax_FRTS__f_main);
+    var this$25 = $n(e$3);
+    var rts$1 = this$25.project__sci_Set__Lmarge_syntax_RTS(this$25.Lmarge_syntax_FRTS__f_main);
     if ($n($n(e$3).Lmarge_syntax_FRTS__f_equivs).isEmpty__Z()) {
       return "No equivalence properties to check.\nUse the 'check' keyword in the RTS definition to add properties. For example:\n\ncheck Tr(s0) = Tr(q0) // check trace equivalence\ncheck s0 ~ q0         // check bisimilarity"
     } else {
-      var this$40 = $n($n($n(e$3).Lmarge_syntax_FRTS__f_equivs).map__F1__sci_List(new $c_sjsr_AnonFunction1(((p$1) => {
+      var this$46 = $n($n($n(e$3).Lmarge_syntax_FRTS__f_equivs).map__F1__sci_List(new $c_sjsr_AnonFunction1(((p$1) => {
         var p$2 = $as_T3(p$1);
         if ($uZ($n(p$2).T3__f__3)) {
           var $$x14 = $n(p$2).T3__f__1;
           var $$x13 = $n(p$2).T3__f__2;
           var inits$5 = $n($m_Lcaos_common_Multiset$().apply__Lcaos_common_Multiset()).add__O__Lcaos_common_Multiset($n(p$2).T3__f__1);
-          var this$20 = $n(rts$1);
-          var edgs$5 = this$20.Lmarge_syntax_RTS__f_edgs;
-          var this$21 = $n(rts$1);
-          var on$5 = this$21.Lmarge_syntax_RTS__f_on;
-          var this$22 = $n(rts$1);
-          var off$5 = this$22.Lmarge_syntax_RTS__f_off;
-          var this$23 = $n(rts$1);
-          var act$5 = this$23.Lmarge_syntax_RTS__f_act;
+          var this$26 = $n(rts$1);
+          var edgs$5 = this$26.Lmarge_syntax_RTS__f_edgs;
+          var this$27 = $n(rts$1);
+          var on$5 = this$27.Lmarge_syntax_RTS__f_on;
+          var this$28 = $n(rts$1);
+          var off$5 = this$28.Lmarge_syntax_RTS__f_off;
+          var this$29 = $n(rts$1);
+          var act$5 = this$29.Lmarge_syntax_RTS__f_act;
           $n(rts$1);
           var g$2 = new $c_Lmarge_syntax_RTS(edgs$5, on$5, off$5, inits$5, act$5);
           var inits$6 = $n($m_Lcaos_common_Multiset$().apply__Lcaos_common_Multiset()).add__O__Lcaos_common_Multiset($n(p$2).T3__f__2);
-          var this$25 = $n(rts$1);
-          var edgs$6 = this$25.Lmarge_syntax_RTS__f_edgs;
-          var this$26 = $n(rts$1);
-          var on$6 = this$26.Lmarge_syntax_RTS__f_on;
-          var this$27 = $n(rts$1);
-          var off$6 = this$27.Lmarge_syntax_RTS__f_off;
-          var this$28 = $n(rts$1);
-          var act$6 = this$28.Lmarge_syntax_RTS__f_act;
+          var this$31 = $n(rts$1);
+          var edgs$6 = this$31.Lmarge_syntax_RTS__f_edgs;
+          var this$32 = $n(rts$1);
+          var on$6 = this$32.Lmarge_syntax_RTS__f_on;
+          var this$33 = $n(rts$1);
+          var off$6 = this$33.Lmarge_syntax_RTS__f_off;
+          var this$34 = $n(rts$1);
+          var act$6 = this$34.Lmarge_syntax_RTS__f_act;
           $n(rts$1);
           var l$2 = new $c_Lmarge_syntax_RTS(edgs$6, on$6, off$6, inits$6, act$6);
           var showG$2 = $m_Lcaos_sos_StrongBisim$().findBisimPP$default$3__F1();
@@ -23071,162 +23213,162 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsTS__sci_List = (function() {
           var $$x17 = $n(p$2).T3__f__2;
           var $$x16 = $m_Lcaos_sos_TraceEquiv$();
           var inits$7 = $n($m_Lcaos_common_Multiset$().apply__Lcaos_common_Multiset()).add__O__Lcaos_common_Multiset($n(p$2).T3__f__1);
-          var this$30 = $n(rts$1);
-          var edgs$7 = this$30.Lmarge_syntax_RTS__f_edgs;
-          var this$31 = $n(rts$1);
-          var on$7 = this$31.Lmarge_syntax_RTS__f_on;
-          var this$32 = $n(rts$1);
-          var off$7 = this$32.Lmarge_syntax_RTS__f_off;
-          var this$33 = $n(rts$1);
-          var act$7 = this$33.Lmarge_syntax_RTS__f_act;
+          var this$36 = $n(rts$1);
+          var edgs$7 = this$36.Lmarge_syntax_RTS__f_edgs;
+          var this$37 = $n(rts$1);
+          var on$7 = this$37.Lmarge_syntax_RTS__f_on;
+          var this$38 = $n(rts$1);
+          var off$7 = this$38.Lmarge_syntax_RTS__f_off;
+          var this$39 = $n(rts$1);
+          var act$7 = this$39.Lmarge_syntax_RTS__f_act;
           $n(rts$1);
           var $$x15 = new $c_Lmarge_syntax_RTS(edgs$7, on$7, off$7, inits$7, act$7);
           var inits$8 = $n($m_Lcaos_common_Multiset$().apply__Lcaos_common_Multiset()).add__O__Lcaos_common_Multiset($n(p$2).T3__f__2);
-          var this$35 = $n(rts$1);
-          var edgs$8 = this$35.Lmarge_syntax_RTS__f_edgs;
-          var this$36 = $n(rts$1);
-          var on$8 = this$36.Lmarge_syntax_RTS__f_on;
-          var this$37 = $n(rts$1);
-          var off$8 = this$37.Lmarge_syntax_RTS__f_off;
-          var this$38 = $n(rts$1);
-          var act$8 = this$38.Lmarge_syntax_RTS__f_act;
+          var this$41 = $n(rts$1);
+          var edgs$8 = this$41.Lmarge_syntax_RTS__f_edgs;
+          var this$42 = $n(rts$1);
+          var on$8 = this$42.Lmarge_syntax_RTS__f_on;
+          var this$43 = $n(rts$1);
+          var off$8 = this$43.Lmarge_syntax_RTS__f_off;
+          var this$44 = $n(rts$1);
+          var act$8 = this$44.Lmarge_syntax_RTS__f_act;
           $n(rts$1);
           return ((((("== Checking  Tr(" + $$x18) + ") = Tr(") + $$x17) + ") ==\n") + $n($$x16).apply__O__O__Lcaos_sos_SOS__Lcaos_sos_SOS__T($$x15, new $c_Lmarge_syntax_RTS(edgs$8, on$8, off$8, inits$8, act$8), $m_Lmarge_backend_RTSSemantics$(), $m_Lmarge_backend_RTSSemantics$()))
         }
       }))));
-      return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$40, "", "\n\n", "")
+      return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$46, "", "\n\n", "")
     }
   })), $m_Lcaos_view_Text$());
   var $$x19 = new $c_T2("Check properties", y$3);
   var y$6 = $m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e$3$1) => {
     var e$4 = $as_Lmarge_syntax_FRTS(e$3$1);
     var seed = new $c_sr_IntRef(0);
-    var this$45 = $n($m_s_Predef$().s_Predef$__f_Map);
-    var elems$1 = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([]));
-    var elem = this$45.from__sc_IterableOnce__sci_Map(elems$1);
+    var this$51 = $n($m_s_Predef$().s_Predef$__f_Map);
+    var elems$3 = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([]));
+    var elem = this$51.from__sc_IterableOnce__sci_Map(elems$3);
     var rtsid = new $c_sr_ObjectRef(elem);
-    var this$47 = $n(e$4);
-    var rts$2 = this$47.project__sci_Set__Lmarge_syntax_RTS(this$47.Lmarge_syntax_FRTS__f_main);
+    var this$53 = $n(e$4);
+    var rts$2 = this$53.project__sci_Set__Lmarge_syntax_RTS(this$53.Lmarge_syntax_FRTS__f_main);
     var init = $p_Lmarge_frontend_CaosConfig$__fresh$1__sr_ObjectRef__sr_IntRef__Lmarge_syntax_RTS__T(this, rtsid, seed, rts$2);
     matchResult6$1: {
-      var \u03b410$;
+      var \u03b411$;
       var $$x9 = $m_Lcaos_sos_FinAut$();
       var $$x8 = $m_Lmarge_backend_RTSSemantics$();
-      var this$48 = $n($m_s_Predef$().s_Predef$__f_Set);
-      var elems$2 = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS.getArrayOf().constr)([rts$2]));
-      var x18 = $n($$x9).sosToNFA__Lcaos_sos_SOS__sci_Set__I__T2($$x8, this$48.from__sc_IterableOnce__sci_Set(elems$2), 5000);
+      var this$54 = $n($m_s_Predef$().s_Predef$__f_Set);
+      var elems$4 = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS.getArrayOf().constr)([rts$2]));
+      var x18 = $n($$x9).sosToNFA__Lcaos_sos_SOS__sci_Set__I__T2($$x8, this$54.from__sc_IterableOnce__sci_Set(elems$4), 5000);
       if ((x18 !== null)) {
         var nfa = $as_Lcaos_sos_FinAut$NFA($n(x18)._1__O());
         var done = $uZ($n(x18)._2__O());
-        var \u03b410$ = new $c_T2(nfa, done);
+        var \u03b411$ = new $c_T2(nfa, done);
         break matchResult6$1
       };
       throw new $c_s_MatchError(x18)
     };
-    var nfa$2 = $as_Lcaos_sos_FinAut$NFA($n(\u03b410$)._1__O());
-    $uZ($n(\u03b410$)._2__O());
-    var this$50 = $n($n(nfa$2).Lcaos_sos_FinAut$NFA__f_e);
+    var nfa$2 = $as_Lcaos_sos_FinAut$NFA($n(\u03b411$)._1__O());
+    $uZ($n(\u03b411$)._2__O());
+    var this$56 = $n($n(nfa$2).Lcaos_sos_FinAut$NFA__f_e);
     var f = new $c_sjsr_AnonFunction1(((_$2) => {
       var _$2$1 = $as_T3(_$2);
       return $as_Lmarge_syntax_RTS($n(_$2$1).T3__f__1)
     }));
-    var emap = $f_sc_IterableOps__groupBy__F1__sci_Map(this$50, f);
+    var emap = $f_sc_IterableOps__groupBy__F1__sci_Map(this$56, f);
     var procs = $as_sci_Iterable($n($n(emap).withFilter__F1__sc_MapOps$WithFilter(new $c_sjsr_AnonFunction1(((x$1$4) => {
       var x$1$5 = $as_T2(x$1$4);
       return ((x$1$5 !== null) && ($as_Lmarge_syntax_RTS($n(x$1$5)._1__O()), $as_sci_Set($n(x$1$5)._2__O()), true))
-    })))).map__F1__O(new $c_sjsr_AnonFunction1(((x$1$2$2) => {
-      var x$1$6 = $as_T2(x$1$2$2);
+    })))).map__F1__O(new $c_sjsr_AnonFunction1(((x$1$2$1) => {
+      var x$1$6 = $as_T2(x$1$2$1);
       if ((x$1$6 !== null)) {
         var src$1 = $as_Lmarge_syntax_RTS($n(x$1$6)._1__O());
         var edgs$1 = $as_sci_Set($n(x$1$6)._2__O());
         var $$x10 = $p_Lmarge_frontend_CaosConfig$__fresh$1__sr_ObjectRef__sr_IntRef__Lmarge_syntax_RTS__T(this, rtsid, seed, src$1);
-        var this$53 = $n($as_sc_IterableOnceOps($n(edgs$1).map__F1__O(new $c_sjsr_AnonFunction1(((e$5) => {
+        var this$59 = $n($as_sc_IterableOnceOps($n(edgs$1).map__F1__O(new $c_sjsr_AnonFunction1(((e$5) => {
           var e$6 = $as_T3(e$5);
           var rest = ($n(emap).contains__O__Z($n(e$6).T3__f__3) ? (". " + $p_Lmarge_frontend_CaosConfig$__fresh$1__sr_ObjectRef__sr_IntRef__Lmarge_syntax_RTS__T(this, rtsid, seed, $as_Lmarge_syntax_RTS($n(e$6).T3__f__3))) : "");
-          var this$51 = $n($as_Lmarge_syntax_RTS$QName($n(e$6).T3__f__2));
-          var this$52 = $n(this$51.Lmarge_syntax_RTS$QName__f_n);
-          var s = $f_sc_IterableOnceOps__mkString__T__T__T__T(this$52, "", "/", "");
+          var this$57 = $n($as_Lmarge_syntax_RTS$QName($n(e$6).T3__f__2));
+          var this$58 = $n(this$57.Lmarge_syntax_RTS$QName__f_n);
+          var s = $f_sc_IterableOnceOps__mkString__T__T__T__T(this$58, "", "/", "");
           return (($f_T__replaceAll__T__T__T($n(s), "/", "_") + " ") + rest)
         })))));
-        return (((("  " + $$x10) + " = ") + $f_sc_IterableOnceOps__mkString__T__T__T__T(this$53, "", " + ", "")) + ";")
+        return (((("  " + $$x10) + " = ") + $f_sc_IterableOnceOps__mkString__T__T__T__T(this$59, "", " + ", "")) + ";")
       };
       throw new $c_s_MatchError(x$1$6)
     }))));
-    var this$54 = $n(e$4);
-    var this$57 = $n($as_sc_IterableOnceOps($n($n(this$54.project__sci_Set__Lmarge_syntax_RTS(this$54.Lmarge_syntax_FRTS__f_main)).Lmarge_syntax_RTS__f_edgs).flatMap__F1__O(new $c_sjsr_AnonFunction1(((x$2) => {
-      var x$3 = $as_T2(x$2);
-      return $as_sci_Set($n($as_sc_IterableOps($n(x$3)._2__O())).map__F1__O(new $c_sjsr_AnonFunction1(((y$4) => {
+    var this$60 = $n(e$4);
+    var this$63 = $n($as_sc_IterableOnceOps($n($n(this$60.project__sci_Set__Lmarge_syntax_RTS(this$60.Lmarge_syntax_FRTS__f_main)).Lmarge_syntax_RTS__f_edgs).flatMap__F1__O(new $c_sjsr_AnonFunction1(((x) => {
+      var x$2 = $as_T2(x);
+      return $as_sci_Set($n($as_sc_IterableOps($n(x$2)._2__O())).map__F1__O(new $c_sjsr_AnonFunction1(((y$4) => {
         var y$5 = $as_T2(y$4);
-        var this$55 = $n($as_Lmarge_syntax_RTS$QName($n(y$5)._2__O()));
-        var this$56 = $n(this$55.Lmarge_syntax_RTS$QName__f_n);
-        var s$1 = $f_sc_IterableOnceOps__mkString__T__T__T__T(this$56, "", "/", "");
+        var this$61 = $n($as_Lmarge_syntax_RTS$QName($n(y$5)._2__O()));
+        var this$62 = $n(this$61.Lmarge_syntax_RTS$QName__f_n);
+        var s$1 = $f_sc_IterableOnceOps__mkString__T__T__T__T(this$62, "", "/", "");
         return $f_T__replaceAll__T__T__T($n(s$1), "/", "_")
       }))))
     })))));
-    var $$x11 = $f_sc_IterableOnceOps__mkString__T__T__T__T(this$57, "", ",", "");
-    var this$58 = $n(procs);
-    var this$59 = $n($m_sci_Set$().from__sc_IterableOnce__sci_Set(this$58));
-    return (((((("init " + init) + ";\n") + ("act\n  " + $$x11)) + ";\n") + "proc\n") + $f_sc_IterableOnceOps__mkString__T__T__T__T(this$59, "", "\n", ""))
+    var $$x11 = $f_sc_IterableOnceOps__mkString__T__T__T__T(this$63, "", ",", "");
+    var this$64 = $n(procs);
+    var this$65 = $n($m_sci_Set$().from__sc_IterableOnce__sci_Set(this$64));
+    return (((((("init " + init) + ";\n") + ("act\n  " + $$x11)) + ";\n") + "proc\n") + $f_sc_IterableOnceOps__mkString__T__T__T__T(this$65, "", "\n", ""))
   })), $m_Lcaos_view_Text$());
   var $$x12 = new $c_T2("As mCRL2*", y$6);
   var $$x6 = $m_Lcaos_frontend_Configurator$();
   var $$x4 = new $c_sjsr_AnonFunction1(((e$4$1) => {
     var e$7 = $as_Lmarge_syntax_FRTS(e$4$1);
-    var this$63 = $n($m_s_Predef$().s_Predef$__f_Set);
+    var this$69 = $n($m_s_Predef$().s_Predef$__f_Set);
     var $$x5 = $m_sr_ScalaRunTime$();
-    var this$62 = $n(e$7);
-    var elems$3 = $n($$x5).wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS.getArrayOf().constr)([this$62.project__sci_Set__Lmarge_syntax_RTS(this$62.Lmarge_syntax_FRTS__f_main)]));
-    return this$63.from__sc_IterableOnce__sci_Set(elems$3)
+    var this$68 = $n(e$7);
+    var elems$5 = $n($$x5).wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS.getArrayOf().constr)([this$68.project__sci_Set__Lmarge_syntax_RTS(this$68.Lmarge_syntax_FRTS__f_main)]));
+    return this$69.from__sc_IterableOnce__sci_Set(elems$5)
   }));
   var sos = $m_Lmarge_backend_RTSSemantics$();
-  var y$7 = $n($$x6).lts__F1__Lcaos_sos_SOS__F1__F1__I__Lcaos_frontend_widgets_WidgetInfo($$x4, new $c_Lcaos_sos_FinAut$$anon$2(sos), new $c_sjsr_AnonFunction1(((x$4) => {
-    var x$5 = $as_sci_Set(x$4);
-    var this$65 = $n($as_sc_IterableOnceOps($n(x$5).map__F1__O(new $c_sjsr_AnonFunction1(((_$3) => {
+  var y$7 = $n($$x6).lts__F1__Lcaos_sos_SOS__F1__F1__I__Lcaos_frontend_widgets_WidgetInfo($$x4, new $c_Lcaos_sos_FinAut$$anon$2(sos), new $c_sjsr_AnonFunction1(((x$3) => {
+    var x$4 = $as_sci_Set(x$3);
+    var this$71 = $n($as_sc_IterableOnceOps($n(x$4).map__F1__O(new $c_sjsr_AnonFunction1(((_$3) => {
       var _$3$1 = $as_Lmarge_syntax_RTS(_$3);
       return $n($n(_$3$1).Lmarge_syntax_RTS__f_inits).toString__T()
     })))));
-    return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$65, "", ",", "")
+    return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$71, "", ",", "")
   })), new $c_sjsr_AnonFunction1(((_$4) => {
     var _$4$1 = $as_Lmarge_syntax_RTS$QName(_$4);
-    var this$66 = $n(_$4$1);
-    var this$67 = $n(this$66.Lmarge_syntax_RTS$QName__f_n);
-    return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$67, "", "/", "")
+    var this$72 = $n(_$4$1);
+    var this$73 = $n(this$72.Lmarge_syntax_RTS$QName__f_n);
+    return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$73, "", "/", "")
   })), 80);
   var $$x7 = new $c_T2("As DFA*", y$7);
   var y$8 = $m_Lcaos_frontend_Configurator$().ltsCustom__F1__I__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e$5$1) => {
     var e$8 = $as_Lmarge_syntax_FRTS(e$5$1);
     matchResult9$1: {
-      var \u03b411$;
+      var \u03b412$;
       var $$x3 = $m_Lcaos_sos_FinAut$();
       var $$x2 = $m_Lmarge_backend_RTSSemantics$();
-      var this$71 = $n($m_s_Predef$().s_Predef$__f_Set);
+      var this$77 = $n($m_s_Predef$().s_Predef$__f_Set);
       var $$x1 = $m_sr_ScalaRunTime$();
-      var this$70 = $n(e$8);
-      var elems$4 = $n($$x1).wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS.getArrayOf().constr)([this$70.project__sci_Set__Lmarge_syntax_RTS(this$70.Lmarge_syntax_FRTS__f_main)]));
-      var x27 = $n($$x3).minSOS__Lcaos_sos_SOS__sci_Set__I__T3($$x2, this$71.from__sc_IterableOnce__sci_Set(elems$4), 5000);
+      var this$76 = $n(e$8);
+      var elems$6 = $n($$x1).wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS.getArrayOf().constr)([this$76.project__sci_Set__Lmarge_syntax_RTS(this$76.Lmarge_syntax_FRTS__f_main)]));
+      var x27 = $n($$x3).minSOS__Lcaos_sos_SOS__sci_Set__I__T3($$x2, this$77.from__sc_IterableOnce__sci_Set(elems$6), 5000);
       if ((x27 !== null)) {
         var i = $as_sci_Set($n(x27).T3__f__1);
         var s$2 = $as_Lcaos_sos_SOS($n(x27).T3__f__2);
-        var \u03b411$ = new $c_T2(i, s$2);
+        var \u03b412$ = new $c_T2(i, s$2);
         break matchResult9$1
       };
       throw new $c_s_MatchError(x27)
     };
-    var i$2 = $as_sci_Set($n(\u03b411$)._1__O());
-    var s$2$1 = $as_Lcaos_sos_SOS($n(\u03b411$)._2__O());
-    var _3 = new $c_sjsr_AnonFunction1(((x$6) => {
-      var x$7 = $as_sci_Set(x$6);
-      var this$73 = $n($as_sc_IterableOnceOps($n(x$7).map__F1__O(new $c_sjsr_AnonFunction1(((_$5) => {
+    var i$2 = $as_sci_Set($n(\u03b412$)._1__O());
+    var s$2$1 = $as_Lcaos_sos_SOS($n(\u03b412$)._2__O());
+    var _3 = new $c_sjsr_AnonFunction1(((x$5) => {
+      var x$6 = $as_sci_Set(x$5);
+      var this$79 = $n($as_sc_IterableOnceOps($n(x$6).map__F1__O(new $c_sjsr_AnonFunction1(((_$5) => {
         var _$5$1 = $as_Lmarge_syntax_RTS(_$5);
         return $n($n(_$5$1).Lmarge_syntax_RTS__f_inits).toString__T()
       })))));
-      return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$73, "", ",", "")
+      return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$79, "", ",", "")
     }));
     var _4 = new $c_sjsr_AnonFunction1(((_$6) => {
       var _$6$1 = $as_Lmarge_syntax_RTS$QName(_$6);
-      var this$74 = $n(_$6$1);
-      var this$75 = $n(this$74.Lmarge_syntax_RTS$QName__f_n);
-      return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$75, "", "/", "")
+      var this$80 = $n(_$6$1);
+      var this$81 = $n(this$80.Lmarge_syntax_RTS$QName__f_n);
+      return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$81, "", "/", "")
     }));
     return new $c_T4(i$2, s$2$1, _3, _4)
   })), 80);
@@ -23234,42 +23376,44 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsTS__sci_List = (function() {
 });
 $c_Lmarge_frontend_CaosConfig$.prototype.widgetsFRTS__sci_List = (function() {
   $n($m_s_package$().s_package$__f_List);
-  var $$x48 = $m_sr_ScalaRunTime$();
-  var $$x47 = $m_Lcaos_frontend_Configurator$().htmlLeft__T__T2(($m_sc_StringOps$(), $m_sc_StringOps$().stripMargin$extension__T__C__T("\n            |<button class=\"tgBtn\" id=\"frtsBtn\">FRTS</button>\n            |<button class=\"tgBtn\" id=\"rtsBtn\">RTS</button>\n            |<button class=\"tgBtn\" id=\"ftsBtn\">FTS</button>\n            |<button class=\"tgBtn\" id=\"tsBtn\">TS</button>\n            |", 124)));
+  var $$x51 = $m_sr_ScalaRunTime$();
+  var $$x50 = $m_Lcaos_frontend_Configurator$().htmlLeft__T__T2(($m_sc_StringOps$(), $m_sc_StringOps$().stripMargin$extension__T__C__T("\n            |<button class=\"tgBtn\" id=\"frtsBtn\">FRTS</button>\n            |<button class=\"tgBtn\" id=\"rtsBtn\">RTS</button>\n            |<button class=\"tgBtn\" id=\"ftsBtn\">FTS</button>\n            |<button class=\"tgBtn\" id=\"tsBtn\">TS</button>\n            |", 124)));
   var this$4 = $n($m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((f) => {
     var f$1 = $as_Lmarge_syntax_FRTS(f);
     return $m_Lmarge_syntax_Show$().apply__Lmarge_syntax_FRTS__T(f$1)
   })), $m_Lcaos_view_Text$()));
   var y = $f_Lcaos_frontend_widgets_WidgetInfo__moveTo__I__Lcaos_frontend_widgets_WidgetInfo(this$4, 1);
-  var $$x46 = new $c_T2("View FRTS", y);
+  var $$x49 = new $c_T2("View FRTS", y);
   var this$8 = $n($m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((x) => {
     var x$1 = $as_Lmarge_syntax_FRTS(x);
-    var $$x44 = $m_Lmarge_syntax_Show$();
+    var $$x47 = $m_Lmarge_syntax_Show$();
     var this$7 = $n(x$1);
-    return $n($$x44).apply__Lmarge_syntax_RTS__T(this$7.project__sci_Set__Lmarge_syntax_RTS(this$7.Lmarge_syntax_FRTS__f_main))
+    return $n($$x47).apply__Lmarge_syntax_RTS__T(this$7.project__sci_Set__Lmarge_syntax_RTS(this$7.Lmarge_syntax_FRTS__f_main))
   })), $m_Lcaos_view_Text$()));
   var y$1 = $f_Lcaos_frontend_widgets_WidgetInfo__moveTo__I__Lcaos_frontend_widgets_WidgetInfo(this$8, 1);
-  var $$x45 = new $c_T2("View RTS projection", y$1);
-  var $$x43 = $m_Lcaos_frontend_Configurator$().html__T__T2("<h2>Main functionalities</h2>");
+  var $$x48 = new $c_T2("View RTS projection", y$1);
+  var $$x46 = $m_Lcaos_frontend_Configurator$().html__T__T2("<h2>Main functionalities</h2>");
   var this$12 = $n($m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((g) => {
     var g$1 = $as_Lmarge_syntax_FRTS(g);
     return $m_Lmarge_syntax_RTS$().toMermaid__Lmarge_syntax_RTS__sci_Map__T($n(g$1).Lmarge_syntax_FRTS__f_rts, $n(g$1).Lmarge_syntax_FRTS__f_pk)
   })), $m_Lcaos_view_Mermaid$()));
   var y$2 = $f_Lcaos_frontend_widgets_WidgetInfo__expand__Lcaos_frontend_widgets_WidgetInfo(this$12);
-  var $$x42 = new $c_T2("FRTS: draw", y$2);
-  var y$3 = $m_Lcaos_frontend_Configurator$().steps__F1__Lcaos_sos_SOS__F1__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e) => {
+  var $$x45 = new $c_T2("FRTS: draw", y$2);
+  var this$16 = $n($m_Lcaos_frontend_Configurator$().steps__F1__Lcaos_sos_SOS__F1__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e) => {
     var e$1 = $as_Lmarge_syntax_FRTS(e);
+    var $$x43 = $m_Lmarge_backend_AnalyseLTS$();
+    var $$x42 = $m_Lmarge_backend_AnalyseLTS$();
     var this$15 = $n(e$1);
-    this$15.project__sci_Set__Lmarge_syntax_RTS(this$15.Lmarge_syntax_FRTS__f_main);
-    $m_s_Predef$().$qmark$qmark$qmark__E()
-  })), $m_Lmarge_backend_RTSSemantics$(), new $c_sjsr_AnonFunction1(((rx$1) => {
-    var rx$2 = $as_Lmarge_syntax_RTS(rx$1);
-    return $m_Lmarge_syntax_RTS$().toMermaid__Lmarge_syntax_RTS__sci_Map__T(rx$2, $m_Lmarge_syntax_RTS$().toMermaid$default$2__Lmarge_syntax_RTS__sci_Map(rx$2))
+    return $n($$x43).sanify__Lmarge_syntax_RTS__Lmarge_syntax_RTS($n($$x42).sanify__Lmarge_syntax_RTS__Lmarge_syntax_RTS(this$15.project__sci_Set__Lmarge_syntax_RTS(this$15.Lmarge_syntax_FRTS__f_main)))
+  })), $m_Lmarge_backend_RTSSemantics$(), new $c_sjsr_AnonFunction1(((rx) => {
+    var rx$1 = $as_Lmarge_syntax_RTS(rx);
+    return $m_Lmarge_syntax_RTS$().toMermaid__Lmarge_syntax_RTS__sci_Map__T(rx$1, $m_Lmarge_syntax_RTS$().toMermaid$default$2__Lmarge_syntax_RTS__sci_Map(rx$1))
   })), new $c_sjsr_AnonFunction1(((_$7) => {
     var _$7$1 = $as_Lmarge_syntax_RTS$QName(_$7);
     return $n(_$7$1).show__T()
-  })), $m_Lcaos_view_Mermaid$());
-  var $$x41 = new $c_T2("RTS projection: Step-by-step", y$3);
+  })), $m_Lcaos_view_Mermaid$()));
+  var y$3 = $f_Lcaos_frontend_widgets_WidgetInfo__expand__Lcaos_frontend_widgets_WidgetInfo(this$16);
+  var $$x44 = new $c_T2("RTS projection: Step-by-step", y$3);
   var y$4 = $m_Lcaos_frontend_Configurator$().lts__F1__Lcaos_sos_SOS__F1__F1__I__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e$2) => {
     var e$3 = $as_Lmarge_syntax_FRTS(e$2);
     var this$19 = $n(e$3);
@@ -23283,7 +23427,7 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsFRTS__sci_List = (function() {
     var this$21 = $n(this$20.Lmarge_syntax_RTS$QName__f_n);
     return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$21, "", "/", "")
   })), 80);
-  var $$x40 = new $c_T2("TS projection: flattened", y$4);
+  var $$x41 = new $c_T2("TS projection: flattened", y$4);
   var y$5 = $m_Lcaos_frontend_Configurator$().ltsCustom__F1__I__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e$3$1) => {
     var e$4 = $as_Lmarge_syntax_FRTS(e$3$1);
     var this$24 = $n($m_s_Predef$().s_Predef$__f_Set);
@@ -23309,7 +23453,7 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsFRTS__sci_List = (function() {
     }));
     return new $c_T4(_1, _2, _3, _4)
   })), 80);
-  var $$x39 = new $c_T2("FTS: flattened", y$5);
+  var $$x40 = new $c_T2("FTS: flattened", y$5);
   var y$6 = $m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((x$3$1) => {
     var x$7 = $as_Lmarge_syntax_FRTS(x$3$1);
     var this$31 = $n($n(x$7).Lmarge_syntax_FRTS__f_main);
@@ -23319,7 +23463,7 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsFRTS__sci_List = (function() {
     var this$34 = $n($as_sc_IterableOnceOps($f_sc_SeqOps__sorted__s_math_Ordering__O(this$33, ord)));
     $f_sc_IterableOnceOps__mkString__T__T__T__T(this$34, "", ", ", "");
     var this$35 = $n($n(x$7).feats__sci_Set());
-    var $$x37 = $f_sc_IterableOnceOps__mkString__T__T__T__T(this$35, "", ", ", "");
+    var $$x38 = $f_sc_IterableOnceOps__mkString__T__T__T__T(this$35, "", ", ", "");
     var this$36 = $n(x$7);
     var this$37 = $n($n(this$36.Lmarge_syntax_FRTS__f_fm).products__sci_Set__sci_Set(this$36.feats__sci_Set()));
     $m_sci_List$();
@@ -23339,31 +23483,26 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsFRTS__sci_List = (function() {
       var this$43 = $n($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(this$41));
       var ord$1 = $m_s_math_Ordering$String$();
       var this$44 = $n($as_sc_IterableOnceOps($f_sc_SeqOps__sorted__s_math_Ordering__O(this$43, ord$1)));
-      var $$x36 = $f_sc_IterableOnceOps__mkString__T__T__T__T(this$44, "", ", ", "");
+      var $$x37 = $f_sc_IterableOnceOps__mkString__T__T__T__T(this$44, "", ", ", "");
       var x$2$2 = $n(x$7).Lmarge_syntax_FRTS__f_main;
-      return ((((" " + ((1 + i) | 0)) + ". ") + $$x36) + (((p === null) ? (x$2$2 === null) : $n(p).equals__O__Z(x$2$2)) ? " [selected]" : ""))
+      return ((((" " + ((1 + i) | 0)) + ". ") + $$x37) + (((p === null) ? (x$2$2 === null) : $n(p).equals__O__Z(x$2$2)) ? " [selected]" : ""))
     }))));
-    return ((("== All features ==\n" + $$x37) + "\n== Products ==\n") + $f_sc_IterableOnceOps__mkString__T__T__T__T(this$45, "", "\n", ""))
+    return ((("== All features ==\n" + $$x38) + "\n== Products ==\n") + $f_sc_IterableOnceOps__mkString__T__T__T__T(this$45, "", "\n", ""))
   })), $m_Lcaos_view_Text$());
-  var $$x38 = new $c_T2("Products (feature combinations)", y$6);
-  var this$50 = $n($m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((r) => {
+  var $$x39 = new $c_T2("Products (feature combinations)", y$6);
+  var this$49 = $n($m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((r) => {
     var r$1 = $as_Lmarge_syntax_FRTS(r);
-    var $$x34 = $m_Lmarge_backend_AnalyseLTS$();
+    var $$x35 = $m_Lmarge_backend_AnalyseLTS$();
     var this$48 = $n(r$1);
-    var x31 = $as_sci_List($n($n($$x34).randomWalk__Lmarge_syntax_RTS__I__T4(this$48.project__sci_Set__Lmarge_syntax_RTS(this$48.Lmarge_syntax_FRTS__f_main), 5000)).T4__f__4);
-    var x$8 = $m_s_package$().s_package$__f_Nil;
-    if (((x$8 === null) ? (x31 === null) : $n(x$8).equals__O__Z(x31))) {
-      return "No deadlocks, unreachable states/transitions, nor inconsistencies"
-    };
-    var this$49 = $n(x31);
-    return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$49, "", "\n", "")
+    return $n($$x35).randomWalkPP__Lmarge_syntax_RTS__I__T(this$48.project__sci_Set__Lmarge_syntax_RTS(this$48.Lmarge_syntax_FRTS__f_main), 5000)
   })), $m_Lcaos_view_Text$()));
-  var y$7 = $f_Lcaos_frontend_widgets_WidgetInfo__expand__Lcaos_frontend_widgets_WidgetInfo(this$50);
-  var $$x35 = new $c_T2("Possible problems of the RTS projection", y$7);
+  var y$7 = $f_Lcaos_frontend_widgets_WidgetInfo__expand__Lcaos_frontend_widgets_WidgetInfo(this$49);
+  var $$x36 = new $c_T2("Possible problems of the RTS projection", y$7);
   var y$8 = $m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((frts) => {
     var frts$1 = $as_Lmarge_syntax_FRTS(frts);
-    var this$53 = $n(frts$1);
-    var rts = this$53.project__sci_Set__Lmarge_syntax_RTS(this$53.Lmarge_syntax_FRTS__f_main);
+    var $$x30 = $m_Lmarge_backend_AnalyseLTS$();
+    var this$52 = $n(frts$1);
+    var rts = $n($$x30).sanify__Lmarge_syntax_RTS__Lmarge_syntax_RTS(this$52.project__sci_Set__Lmarge_syntax_RTS(this$52.Lmarge_syntax_FRTS__f_main));
     var rstates = $n($n(rts).states__sci_Set()).size__I();
     var simpleEdges = $uI($n($as_sc_IterableOnceOps($n($n($n(rts).Lmarge_syntax_RTS__f_edgs).withFilter__F1__sc_MapOps$WithFilter(new $c_sjsr_AnonFunction1(((x$1$3) => {
       var x$1$4 = $as_T2(x$1$3);
@@ -23397,51 +23536,51 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsFRTS__sci_List = (function() {
       };
       throw new $c_s_MatchError(x$1$9)
     }))))).sum__s_math_Numeric__O($m_s_math_Numeric$IntIsIntegral$()))) | 0);
-    matchResult17$1: {
+    matchResult16$1: {
       var \u03b41$;
-      var x50 = $m_Lcaos_sos_SOS$().traverse__Lcaos_sos_SOS__O__I__T3($m_Lmarge_backend_RTSSemantics$(), rts, 2000);
-      if ((x50 !== null)) {
-        var st = $as_sci_Set($n(x50).T3__f__1);
-        var eds = $uI($n(x50).T3__f__2);
-        var done = $uZ($n(x50).T3__f__3);
+      var x49 = $m_Lcaos_sos_SOS$().traverse__Lcaos_sos_SOS__O__I__T3($m_Lmarge_backend_RTSSemantics$(), rts, 2000);
+      if ((x49 !== null)) {
+        var st = $as_sci_Set($n(x49).T3__f__1);
+        var eds = $uI($n(x49).T3__f__2);
+        var done = $uZ($n(x49).T3__f__3);
         var \u03b41$ = new $c_T3(st, eds, done);
-        break matchResult17$1
+        break matchResult16$1
       };
-      throw new $c_s_MatchError(x50)
+      throw new $c_s_MatchError(x49)
     };
     var st$2 = $as_sci_Set($n(\u03b41$).T3__f__1);
     var eds$2 = $uI($n(\u03b41$).T3__f__2);
     var done$2 = $uZ($n(\u03b41$).T3__f__3);
-    matchResult18$1: {
+    matchResult17$1: {
       var \u03b42$;
-      var $$x31 = $m_Lcaos_sos_FinAut$();
-      var $$x30 = $m_Lmarge_backend_RTSSemantics$();
-      var this$55 = $n($m_s_Predef$().s_Predef$__f_Set);
+      var $$x32 = $m_Lcaos_sos_FinAut$();
+      var $$x31 = $m_Lmarge_backend_RTSSemantics$();
+      var this$54 = $n($m_s_Predef$().s_Predef$__f_Set);
       var elems$1 = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS.getArrayOf().constr)([rts]));
-      var x54 = $n($$x31).minSOS__Lcaos_sos_SOS__sci_Set__I__T3($$x30, this$55.from__sc_IterableOnce__sci_Set(elems$1), 2000);
-      if ((x54 !== null)) {
-        var iniMin = $as_sci_Set($n(x54).T3__f__1);
-        var sosMin = $as_Lcaos_sos_SOS($n(x54).T3__f__2);
-        var doneMin1 = $uZ($n(x54).T3__f__3);
+      var x53 = $n($$x32).minSOS__Lcaos_sos_SOS__sci_Set__I__T3($$x31, this$54.from__sc_IterableOnce__sci_Set(elems$1), 2000);
+      if ((x53 !== null)) {
+        var iniMin = $as_sci_Set($n(x53).T3__f__1);
+        var sosMin = $as_Lcaos_sos_SOS($n(x53).T3__f__2);
+        var doneMin1 = $uZ($n(x53).T3__f__3);
         var \u03b42$ = new $c_T3(iniMin, sosMin, doneMin1);
-        break matchResult18$1
+        break matchResult17$1
       };
-      throw new $c_s_MatchError(x54)
+      throw new $c_s_MatchError(x53)
     };
     var iniMin$2 = $as_sci_Set($n(\u03b42$).T3__f__1);
     var sosMin$2 = $as_Lcaos_sos_SOS($n(\u03b42$).T3__f__2);
     var doneMin1$2 = $uZ($n(\u03b42$).T3__f__3);
-    matchResult19$1: {
+    matchResult18$1: {
       var \u03b43$;
-      var x58 = $m_Lcaos_sos_SOS$().traverse__Lcaos_sos_SOS__sci_Set__I__T3(sosMin$2, iniMin$2, 2000);
-      if ((x58 !== null)) {
-        var stMin = $as_sci_Set($n(x58).T3__f__1);
-        var edsMin = $uI($n(x58).T3__f__2);
-        var doneMin2 = $uZ($n(x58).T3__f__3);
+      var x57 = $m_Lcaos_sos_SOS$().traverse__Lcaos_sos_SOS__sci_Set__I__T3(sosMin$2, iniMin$2, 2000);
+      if ((x57 !== null)) {
+        var stMin = $as_sci_Set($n(x57).T3__f__1);
+        var edsMin = $uI($n(x57).T3__f__2);
+        var doneMin2 = $uZ($n(x57).T3__f__3);
         var \u03b43$ = new $c_T3(stMin, edsMin, doneMin2);
-        break matchResult19$1
+        break matchResult18$1
       };
-      throw new $c_s_MatchError(x58)
+      throw new $c_s_MatchError(x57)
     };
     var stMin$2 = $as_sci_Set($n(\u03b43$).T3__f__1);
     var edsMin$2 = $uI($n(\u03b43$).T3__f__2);
@@ -23480,59 +23619,59 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsFRTS__sci_List = (function() {
       };
       throw new $c_s_MatchError(x$1$15)
     }))))).sum__s_math_Numeric__O($m_s_math_Numeric$IntIsIntegral$()))) | 0);
-    matchResult26$1: {
+    matchResult25$1: {
       var \u03b44$;
-      var $$x32 = $m_Lcaos_sos_SOS$();
+      var $$x33 = $m_Lcaos_sos_SOS$();
       var pk$1 = $n(frts$1).Lmarge_syntax_FRTS__f_pk;
-      var x80 = $n($$x32).traverse__Lcaos_sos_SOS__O__I__T3(new $c_Lmarge_backend_RTSSemantics$$anon$1(pk$1), $n(frts$1).Lmarge_syntax_FRTS__f_rts, 2000);
-      if ((x80 !== null)) {
-        var ftstates = $as_sci_Set($n(x80).T3__f__1);
-        var ftedges = $uI($n(x80).T3__f__2);
-        var doneft = $uZ($n(x80).T3__f__3);
+      var x79 = $n($$x33).traverse__Lcaos_sos_SOS__O__I__T3(new $c_Lmarge_backend_RTSSemantics$$anon$1(pk$1), $n(frts$1).Lmarge_syntax_FRTS__f_rts, 2000);
+      if ((x79 !== null)) {
+        var ftstates = $as_sci_Set($n(x79).T3__f__1);
+        var ftedges = $uI($n(x79).T3__f__2);
+        var doneft = $uZ($n(x79).T3__f__3);
         var \u03b44$ = new $c_T3(ftstates, ftedges, doneft);
-        break matchResult26$1
+        break matchResult25$1
       };
-      throw new $c_s_MatchError(x80)
+      throw new $c_s_MatchError(x79)
     };
     var ftstates$2 = $as_sci_Set($n(\u03b44$).T3__f__1);
     var ftedges$2 = $uI($n(\u03b44$).T3__f__2);
     $uZ($n(\u03b44$).T3__f__3);
     return (((((((((((((((((((((((((((("== FRTS (size: " + ((((frstates + fsimpleEdges) | 0) + freactions) | 0)) + ") ==\n") + frstates) + " state(s) \n") + fsimpleEdges) + " simple transition(s)\n") + freactions) + " (de)activation transition(s)\n== FTS (size: ") + (($n(ftstates$2).size__I() + ftedges$2) | 0)) + ")==\n") + $n(ftstates$2).size__I()) + " state(s) \n") + ftedges$2) + " transition(s)\n== RTS projection (size: ") + ((((rstates + simpleEdges) | 0) + reactions) | 0)) + ") ==\n") + rstates) + " state(s)\n") + simpleEdges) + " simple transition(s)\n") + reactions) + " (de)activation transition(s)\n== Flattened TS projection (size: ") + ((!done$2) ? ">2000" : (($n(st$2).size__I() + eds$2) | 0))) + ") ==\n") + ((!done$2) ? "Stopped after traversing 2000 states" : ((($n(st$2).size__I() + " state(s)\n") + eds$2) + " transition(s)"))) + ("\n== Flattened TS projection as minimal DFA (size: " + ((!doneMin) ? ">2000" : (($n(stMin$2).size__I() + edsMin$2) | 0)))) + ") ==\n") + ((!doneMin) ? "Stopped after traversing 2000 states" : ((($n(stMin$2).size__I() + " state(s)\n") + edsMin$2) + " transition(s)")))
   })), $m_Lcaos_view_Text$());
-  var $$x33 = new $c_T2("Number of states and transitions", y$8);
+  var $$x34 = new $c_T2("Number of states and transitions", y$8);
   var $$x29 = $m_Lcaos_frontend_Configurator$().html__T__T2("<h2>Other functionalities</h2>");
   var y$9 = $m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e$4$1) => {
     var e$5 = $as_Lmarge_syntax_FRTS(e$4$1);
-    var this$62 = $n(e$5);
-    var rts$1 = this$62.project__sci_Set__Lmarge_syntax_RTS(this$62.Lmarge_syntax_FRTS__f_main);
+    var this$61 = $n(e$5);
+    var rts$1 = this$61.project__sci_Set__Lmarge_syntax_RTS(this$61.Lmarge_syntax_FRTS__f_main);
     if ($n($n(e$5).Lmarge_syntax_FRTS__f_equivs).isEmpty__Z()) {
       return "No equivalence properties to check.\nUse the 'check' keyword in the RTS definition to add properties. For example:\n\ncheck Tr(s0) = Tr(q0) // check trace equivalence\ncheck s0 ~ q0         // check bisimilarity"
     } else {
-      var this$83 = $n($n($n(e$5).Lmarge_syntax_FRTS__f_equivs).map__F1__sci_List(new $c_sjsr_AnonFunction1(((p$1) => {
+      var this$82 = $n($n($n(e$5).Lmarge_syntax_FRTS__f_equivs).map__F1__sci_List(new $c_sjsr_AnonFunction1(((p$1) => {
         var p$2 = $as_T3(p$1);
         if ($uZ($n(p$2).T3__f__3)) {
           var $$x23 = $n(p$2).T3__f__1;
           var $$x22 = $n(p$2).T3__f__2;
           var inits$1 = $n($m_Lcaos_common_Multiset$().apply__Lcaos_common_Multiset()).add__O__Lcaos_common_Multiset($n(p$2).T3__f__1);
+          var this$62 = $n(rts$1);
+          var edgs$1 = this$62.Lmarge_syntax_RTS__f_edgs;
           var this$63 = $n(rts$1);
-          var edgs$1 = this$63.Lmarge_syntax_RTS__f_edgs;
+          var on$1 = this$63.Lmarge_syntax_RTS__f_on;
           var this$64 = $n(rts$1);
-          var on$1 = this$64.Lmarge_syntax_RTS__f_on;
+          var off$1 = this$64.Lmarge_syntax_RTS__f_off;
           var this$65 = $n(rts$1);
-          var off$1 = this$65.Lmarge_syntax_RTS__f_off;
-          var this$66 = $n(rts$1);
-          var act$1 = this$66.Lmarge_syntax_RTS__f_act;
+          var act$1 = this$65.Lmarge_syntax_RTS__f_act;
           $n(rts$1);
           var g$1$1 = new $c_Lmarge_syntax_RTS(edgs$1, on$1, off$1, inits$1, act$1);
           var inits$2 = $n($m_Lcaos_common_Multiset$().apply__Lcaos_common_Multiset()).add__O__Lcaos_common_Multiset($n(p$2).T3__f__2);
+          var this$67 = $n(rts$1);
+          var edgs$2 = this$67.Lmarge_syntax_RTS__f_edgs;
           var this$68 = $n(rts$1);
-          var edgs$2 = this$68.Lmarge_syntax_RTS__f_edgs;
+          var on$2 = this$68.Lmarge_syntax_RTS__f_on;
           var this$69 = $n(rts$1);
-          var on$2 = this$69.Lmarge_syntax_RTS__f_on;
+          var off$2 = this$69.Lmarge_syntax_RTS__f_off;
           var this$70 = $n(rts$1);
-          var off$2 = this$70.Lmarge_syntax_RTS__f_off;
-          var this$71 = $n(rts$1);
-          var act$2 = this$71.Lmarge_syntax_RTS__f_act;
+          var act$2 = this$70.Lmarge_syntax_RTS__f_act;
           $n(rts$1);
           var l$1 = new $c_Lmarge_syntax_RTS(edgs$2, on$2, off$2, inits$2, act$2);
           var showG$1 = $m_Lcaos_sos_StrongBisim$().findBisimPP$default$3__F1();
@@ -23544,39 +23683,39 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsFRTS__sci_List = (function() {
           var $$x26 = $n(p$2).T3__f__2;
           var $$x25 = $m_Lcaos_sos_TraceEquiv$();
           var inits$3 = $n($m_Lcaos_common_Multiset$().apply__Lcaos_common_Multiset()).add__O__Lcaos_common_Multiset($n(p$2).T3__f__1);
+          var this$72 = $n(rts$1);
+          var edgs$3 = this$72.Lmarge_syntax_RTS__f_edgs;
           var this$73 = $n(rts$1);
-          var edgs$3 = this$73.Lmarge_syntax_RTS__f_edgs;
+          var on$3 = this$73.Lmarge_syntax_RTS__f_on;
           var this$74 = $n(rts$1);
-          var on$3 = this$74.Lmarge_syntax_RTS__f_on;
+          var off$3 = this$74.Lmarge_syntax_RTS__f_off;
           var this$75 = $n(rts$1);
-          var off$3 = this$75.Lmarge_syntax_RTS__f_off;
-          var this$76 = $n(rts$1);
-          var act$3 = this$76.Lmarge_syntax_RTS__f_act;
+          var act$3 = this$75.Lmarge_syntax_RTS__f_act;
           $n(rts$1);
           var $$x24 = new $c_Lmarge_syntax_RTS(edgs$3, on$3, off$3, inits$3, act$3);
           var inits$4 = $n($m_Lcaos_common_Multiset$().apply__Lcaos_common_Multiset()).add__O__Lcaos_common_Multiset($n(p$2).T3__f__2);
+          var this$77 = $n(rts$1);
+          var edgs$4 = this$77.Lmarge_syntax_RTS__f_edgs;
           var this$78 = $n(rts$1);
-          var edgs$4 = this$78.Lmarge_syntax_RTS__f_edgs;
+          var on$4 = this$78.Lmarge_syntax_RTS__f_on;
           var this$79 = $n(rts$1);
-          var on$4 = this$79.Lmarge_syntax_RTS__f_on;
+          var off$4 = this$79.Lmarge_syntax_RTS__f_off;
           var this$80 = $n(rts$1);
-          var off$4 = this$80.Lmarge_syntax_RTS__f_off;
-          var this$81 = $n(rts$1);
-          var act$4 = this$81.Lmarge_syntax_RTS__f_act;
+          var act$4 = this$80.Lmarge_syntax_RTS__f_act;
           $n(rts$1);
           return ((((("== Checking  Tr(" + $$x27) + ") = Tr(") + $$x26) + ") ==\n") + $n($$x25).apply__O__O__Lcaos_sos_SOS__Lcaos_sos_SOS__T($$x24, new $c_Lmarge_syntax_RTS(edgs$4, on$4, off$4, inits$4, act$4), $m_Lmarge_backend_RTSSemantics$(), $m_Lmarge_backend_RTSSemantics$()))
         }
       }))));
-      return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$83, "", "\n\n", "")
+      return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$82, "", "\n\n", "")
     }
   })), $m_Lcaos_view_Text$());
   var $$x28 = new $c_T2("Check properties (TS projection)", y$9);
   var y$10 = $m_Lcaos_frontend_Configurator$().steps__F1__Lcaos_sos_SOS__F1__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e$5$1) => {
     var e$6 = $as_Lmarge_syntax_FRTS(e$5$1);
-    var this$86 = $n(e$6);
-    return this$86.project__sci_Set__Lmarge_syntax_RTS(this$86.Lmarge_syntax_FRTS__f_main)
-  })), $m_Lmarge_backend_RTSSemantics$(), new $c_sjsr_AnonFunction1(((rx$2$1) => {
-    var rx$3 = $as_Lmarge_syntax_RTS(rx$2$1);
+    var this$85 = $n(e$6);
+    return this$85.project__sci_Set__Lmarge_syntax_RTS(this$85.Lmarge_syntax_FRTS__f_main)
+  })), $m_Lmarge_backend_RTSSemantics$(), new $c_sjsr_AnonFunction1(((rx$2) => {
+    var rx$3 = $as_Lmarge_syntax_RTS(rx$2);
     return $m_Lmarge_syntax_RTS$().toMermaid__Lmarge_syntax_RTS__sci_Map__T(rx$3, $m_Lmarge_syntax_RTS$().toMermaid$default$2__Lmarge_syntax_RTS__sci_Map(rx$3))
   })), new $c_sjsr_AnonFunction1(((_$11) => {
     var _$11$1 = $as_Lmarge_syntax_RTS$QName(_$11);
@@ -23585,8 +23724,8 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsFRTS__sci_List = (function() {
   var $$x21 = new $c_T2("RTS projection: Step-by-step (insane)", y$10);
   var y$11 = $m_Lcaos_frontend_Configurator$().steps__F1__Lcaos_sos_SOS__F1__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e$6$1) => {
     var e$7 = $as_Lmarge_syntax_FRTS(e$6$1);
-    var this$89 = $n(e$7);
-    return this$89.project__sci_Set__Lmarge_syntax_RTS(this$89.Lmarge_syntax_FRTS__f_main)
+    var this$88 = $n(e$7);
+    return this$88.project__sci_Set__Lmarge_syntax_RTS(this$88.Lmarge_syntax_FRTS__f_main)
   })), $m_Lmarge_backend_RTSSemantics$(), new $c_sjsr_AnonFunction1(((rx$3$1) => {
     var rx$4 = $as_Lmarge_syntax_RTS(rx$3$1);
     return $m_Lmarge_syntax_RTS$().toMermaidPlain__Lmarge_syntax_RTS__sci_Map__T(rx$4, $m_Lmarge_syntax_RTS$().toMermaidPlain$default$2__Lmarge_syntax_RTS__sci_Map(rx$4))
@@ -23597,51 +23736,51 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsFRTS__sci_List = (function() {
   var $$x20 = new $c_T2("RTS projection: Step-by-step (hiding (de)activations)", y$11);
   var y$12 = $m_Lcaos_frontend_Configurator$().lts__F1__Lcaos_sos_SOS__F1__F1__I__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e$7$1) => {
     var e$8 = $as_Lmarge_syntax_FRTS(e$7$1);
-    var this$92 = $n(e$8);
-    return this$92.project__sci_Set__Lmarge_syntax_RTS(this$92.Lmarge_syntax_FRTS__f_main)
+    var this$91 = $n(e$8);
+    return this$91.project__sci_Set__Lmarge_syntax_RTS(this$91.Lmarge_syntax_FRTS__f_main)
   })), $m_Lmarge_backend_RTSSemantics$(), new $c_sjsr_AnonFunction1(((x$4$1) => {
-    var x$9 = $as_Lmarge_syntax_RTS(x$4$1);
-    return $m_Lmarge_syntax_Show$().simple__Lmarge_syntax_RTS__T(x$9)
+    var x$8 = $as_Lmarge_syntax_RTS(x$4$1);
+    return $m_Lmarge_syntax_Show$().simple__Lmarge_syntax_RTS__T(x$8)
   })), new $c_sjsr_AnonFunction1(((_$13) => {
     var _$13$1 = $as_Lmarge_syntax_RTS$QName(_$13);
-    var this$93 = $n(_$13$1);
-    var this$94 = $n(this$93.Lmarge_syntax_RTS$QName__f_n);
-    return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$94, "", "/", "")
+    var this$92 = $n(_$13$1);
+    var this$93 = $n(this$92.Lmarge_syntax_RTS$QName__f_n);
+    return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$93, "", "/", "")
   })), 80);
   var $$x19 = new $c_T2("TS projection: flattened (verbose)", y$12);
   var y$15 = $m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e$8$1) => {
     var e$9 = $as_Lmarge_syntax_FRTS(e$8$1);
     var seed = new $c_sr_IntRef(0);
-    var this$99 = $n($m_s_Predef$().s_Predef$__f_Map);
+    var this$98 = $n($m_s_Predef$().s_Predef$__f_Map);
     var elems$2 = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([]));
-    var elem = this$99.from__sc_IterableOnce__sci_Map(elems$2);
+    var elem = this$98.from__sc_IterableOnce__sci_Map(elems$2);
     var rtsid = new $c_sr_ObjectRef(elem);
-    var this$101 = $n(e$9);
-    var rts$2 = this$101.project__sci_Set__Lmarge_syntax_RTS(this$101.Lmarge_syntax_FRTS__f_main);
+    var this$100 = $n(e$9);
+    var rts$2 = this$100.project__sci_Set__Lmarge_syntax_RTS(this$100.Lmarge_syntax_FRTS__f_main);
     var init = $p_Lmarge_frontend_CaosConfig$__fresh$2__sr_ObjectRef__sr_IntRef__Lmarge_syntax_RTS__T(this, rtsid, seed, rts$2);
-    matchResult28$1: {
+    matchResult27$1: {
       var \u03b45$;
       var $$x15 = $m_Lcaos_sos_FinAut$();
       var $$x14 = $m_Lmarge_backend_RTSSemantics$();
-      var this$102 = $n($m_s_Predef$().s_Predef$__f_Set);
+      var this$101 = $n($m_s_Predef$().s_Predef$__f_Set);
       var elems$3 = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS.getArrayOf().constr)([rts$2]));
-      var x87 = $n($$x15).sosToNFA__Lcaos_sos_SOS__sci_Set__I__T2($$x14, this$102.from__sc_IterableOnce__sci_Set(elems$3), 5000);
-      if ((x87 !== null)) {
-        var nfa = $as_Lcaos_sos_FinAut$NFA($n(x87)._1__O());
-        var done$1 = $uZ($n(x87)._2__O());
+      var x86 = $n($$x15).sosToNFA__Lcaos_sos_SOS__sci_Set__I__T2($$x14, this$101.from__sc_IterableOnce__sci_Set(elems$3), 5000);
+      if ((x86 !== null)) {
+        var nfa = $as_Lcaos_sos_FinAut$NFA($n(x86)._1__O());
+        var done$1 = $uZ($n(x86)._2__O());
         var \u03b45$ = new $c_T2(nfa, done$1);
-        break matchResult28$1
+        break matchResult27$1
       };
-      throw new $c_s_MatchError(x87)
+      throw new $c_s_MatchError(x86)
     };
     var nfa$2 = $as_Lcaos_sos_FinAut$NFA($n(\u03b45$)._1__O());
     $uZ($n(\u03b45$)._2__O());
-    var this$104 = $n($n(nfa$2).Lcaos_sos_FinAut$NFA__f_e);
+    var this$103 = $n($n(nfa$2).Lcaos_sos_FinAut$NFA__f_e);
     var f$2 = new $c_sjsr_AnonFunction1(((_$14) => {
       var _$14$1 = $as_T3(_$14);
       return $as_Lmarge_syntax_RTS($n(_$14$1).T3__f__1)
     }));
-    var emap = $f_sc_IterableOps__groupBy__F1__sci_Map(this$104, f$2);
+    var emap = $f_sc_IterableOps__groupBy__F1__sci_Map(this$103, f$2);
     var procs = $as_sci_Iterable($n($n(emap).withFilter__F1__sc_MapOps$WithFilter(new $c_sjsr_AnonFunction1(((x$1$16) => {
       var x$1$17 = $as_T2(x$1$16);
       return ((x$1$17 !== null) && ($as_Lmarge_syntax_RTS($n(x$1$17)._1__O()), $as_sci_Set($n(x$1$17)._2__O()), true))
@@ -23651,53 +23790,53 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsFRTS__sci_List = (function() {
         var src$1 = $as_Lmarge_syntax_RTS($n(x$1$18)._1__O());
         var edgs$5 = $as_sci_Set($n(x$1$18)._2__O());
         var $$x16 = $p_Lmarge_frontend_CaosConfig$__fresh$2__sr_ObjectRef__sr_IntRef__Lmarge_syntax_RTS__T(this, rtsid, seed, src$1);
-        var this$107 = $n($as_sc_IterableOnceOps($n(edgs$5).map__F1__O(new $c_sjsr_AnonFunction1(((e$10) => {
+        var this$106 = $n($as_sc_IterableOnceOps($n(edgs$5).map__F1__O(new $c_sjsr_AnonFunction1(((e$10) => {
           var e$11 = $as_T3(e$10);
           var rest = ($n(emap).contains__O__Z($n(e$11).T3__f__3) ? (". " + $p_Lmarge_frontend_CaosConfig$__fresh$2__sr_ObjectRef__sr_IntRef__Lmarge_syntax_RTS__T(this, rtsid, seed, $as_Lmarge_syntax_RTS($n(e$11).T3__f__3))) : "");
-          var this$105 = $n($as_Lmarge_syntax_RTS$QName($n(e$11).T3__f__2));
-          var this$106 = $n(this$105.Lmarge_syntax_RTS$QName__f_n);
-          var s = $f_sc_IterableOnceOps__mkString__T__T__T__T(this$106, "", "/", "");
+          var this$104 = $n($as_Lmarge_syntax_RTS$QName($n(e$11).T3__f__2));
+          var this$105 = $n(this$104.Lmarge_syntax_RTS$QName__f_n);
+          var s = $f_sc_IterableOnceOps__mkString__T__T__T__T(this$105, "", "/", "");
           return (($f_T__replaceAll__T__T__T($n(s), "/", "_") + " ") + rest)
         })))));
-        return (((("  " + $$x16) + " = ") + $f_sc_IterableOnceOps__mkString__T__T__T__T(this$107, "", " + ", "")) + ";")
+        return (((("  " + $$x16) + " = ") + $f_sc_IterableOnceOps__mkString__T__T__T__T(this$106, "", " + ", "")) + ";")
       };
       throw new $c_s_MatchError(x$1$18)
     }))));
-    var this$108 = $n(e$9);
-    var this$111 = $n($as_sc_IterableOnceOps($n($n(this$108.project__sci_Set__Lmarge_syntax_RTS(this$108.Lmarge_syntax_FRTS__f_main)).Lmarge_syntax_RTS__f_edgs).flatMap__F1__O(new $c_sjsr_AnonFunction1(((x$10) => {
-      var x$11 = $as_T2(x$10);
-      return $as_sci_Set($n($as_sc_IterableOps($n(x$11)._2__O())).map__F1__O(new $c_sjsr_AnonFunction1(((y$13) => {
+    var this$107 = $n(e$9);
+    var this$110 = $n($as_sc_IterableOnceOps($n($n(this$107.project__sci_Set__Lmarge_syntax_RTS(this$107.Lmarge_syntax_FRTS__f_main)).Lmarge_syntax_RTS__f_edgs).flatMap__F1__O(new $c_sjsr_AnonFunction1(((x$9) => {
+      var x$10 = $as_T2(x$9);
+      return $as_sci_Set($n($as_sc_IterableOps($n(x$10)._2__O())).map__F1__O(new $c_sjsr_AnonFunction1(((y$13) => {
         var y$14 = $as_T2(y$13);
-        var this$109 = $n($as_Lmarge_syntax_RTS$QName($n(y$14)._2__O()));
-        var this$110 = $n(this$109.Lmarge_syntax_RTS$QName__f_n);
-        var s$1 = $f_sc_IterableOnceOps__mkString__T__T__T__T(this$110, "", "/", "");
+        var this$108 = $n($as_Lmarge_syntax_RTS$QName($n(y$14)._2__O()));
+        var this$109 = $n(this$108.Lmarge_syntax_RTS$QName__f_n);
+        var s$1 = $f_sc_IterableOnceOps__mkString__T__T__T__T(this$109, "", "/", "");
         return $f_T__replaceAll__T__T__T($n(s$1), "/", "_")
       }))))
     })))));
-    var $$x17 = $f_sc_IterableOnceOps__mkString__T__T__T__T(this$111, "", ",", "");
-    var this$112 = $n(procs);
-    var this$113 = $n($m_sci_Set$().from__sc_IterableOnce__sci_Set(this$112));
-    return (((((("init " + init) + ";\n") + ("act\n  " + $$x17)) + ";\n") + "proc\n") + $f_sc_IterableOnceOps__mkString__T__T__T__T(this$113, "", "\n", ""))
+    var $$x17 = $f_sc_IterableOnceOps__mkString__T__T__T__T(this$110, "", ",", "");
+    var this$111 = $n(procs);
+    var this$112 = $n($m_sci_Set$().from__sc_IterableOnce__sci_Set(this$111));
+    return (((((("init " + init) + ";\n") + ("act\n  " + $$x17)) + ";\n") + "proc\n") + $f_sc_IterableOnceOps__mkString__T__T__T__T(this$112, "", "\n", ""))
   })), $m_Lcaos_view_Text$());
   var $$x18 = new $c_T2("TS projection: as mCRL2", y$15);
   var y$16 = $m_Lcaos_frontend_Configurator$().ltsCustom__F1__I__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e$9$1) => {
     var e$12 = $as_Lmarge_syntax_FRTS(e$9$1);
-    var this$117 = $n($m_s_Predef$().s_Predef$__f_Set);
-    var $$x12 = $m_sr_ScalaRunTime$();
     var this$116 = $n($m_s_Predef$().s_Predef$__f_Set);
+    var $$x12 = $m_sr_ScalaRunTime$();
+    var this$115 = $n($m_s_Predef$().s_Predef$__f_Set);
     var elems$4 = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS.getArrayOf().constr)([$n(e$12).Lmarge_syntax_FRTS__f_rts]));
-    var elems$5 = $n($$x12).wrapRefArray__AO__sci_ArraySeq(new ($d_sci_Set.getArrayOf().constr)([this$116.from__sc_IterableOnce__sci_Set(elems$4)]));
-    var _1$1 = this$117.from__sc_IterableOnce__sci_Set(elems$5);
+    var elems$5 = $n($$x12).wrapRefArray__AO__sci_ArraySeq(new ($d_sci_Set.getArrayOf().constr)([this$115.from__sc_IterableOnce__sci_Set(elems$4)]));
+    var _1$1 = this$116.from__sc_IterableOnce__sci_Set(elems$5);
     var pk$2 = $n(e$12).Lmarge_syntax_FRTS__f_pk;
     var sos = new $c_Lmarge_backend_RTSSemantics$$anon$1(pk$2);
     var _2$1 = new $c_Lcaos_sos_FinAut$$anon$2(sos);
-    var _3$1 = new $c_sjsr_AnonFunction1(((x$12) => {
-      var x$13 = $as_sci_Set(x$12);
-      var this$120 = $n($as_sc_IterableOnceOps($n(x$13).map__F1__O(new $c_sjsr_AnonFunction1(((_$15) => {
+    var _3$1 = new $c_sjsr_AnonFunction1(((x$11) => {
+      var x$12 = $as_sci_Set(x$11);
+      var this$119 = $n($as_sc_IterableOnceOps($n(x$12).map__F1__O(new $c_sjsr_AnonFunction1(((_$15) => {
         var _$15$1 = $as_Lmarge_syntax_RTS(_$15);
         return $n($n(_$15$1).Lmarge_syntax_RTS__f_inits).toString__T()
       })))));
-      return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$120, "", ",", "")
+      return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$119, "", ",", "")
     }));
     var _4$1 = new $c_sjsr_AnonFunction1(((_$16) => {
       var _$16$1 = $as_T2(_$16);
@@ -23708,33 +23847,33 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsFRTS__sci_List = (function() {
   var $$x13 = new $c_T2("FTS: deterministic", y$16);
   var y$17 = $m_Lcaos_frontend_Configurator$().ltsCustom__F1__I__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e$10$1) => {
     var e$13 = $as_Lmarge_syntax_FRTS(e$10$1);
-    matchResult31$1: {
+    matchResult30$1: {
       var \u03b46$;
       var $$x10 = $m_Lcaos_sos_FinAut$();
       var pk$3 = $n(e$13).Lmarge_syntax_FRTS__f_pk;
       var $$x9 = new $c_Lmarge_backend_RTSSemantics$$anon$1(pk$3);
-      var this$126 = $n($m_s_Predef$().s_Predef$__f_Set);
+      var this$125 = $n($m_s_Predef$().s_Predef$__f_Set);
       var $$x8 = $m_sr_ScalaRunTime$();
-      var this$125 = $n(e$13);
-      var elems$6 = $n($$x8).wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS.getArrayOf().constr)([this$125.project__sci_Set__Lmarge_syntax_RTS(this$125.Lmarge_syntax_FRTS__f_main)]));
-      var x96 = $n($$x10).minSOS__Lcaos_sos_SOS__sci_Set__I__T3($$x9, this$126.from__sc_IterableOnce__sci_Set(elems$6), 5000);
-      if ((x96 !== null)) {
-        var i$1 = $as_sci_Set($n(x96).T3__f__1);
-        var s$2 = $as_Lcaos_sos_SOS($n(x96).T3__f__2);
+      var this$124 = $n(e$13);
+      var elems$6 = $n($$x8).wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS.getArrayOf().constr)([this$124.project__sci_Set__Lmarge_syntax_RTS(this$124.Lmarge_syntax_FRTS__f_main)]));
+      var x95 = $n($$x10).minSOS__Lcaos_sos_SOS__sci_Set__I__T3($$x9, this$125.from__sc_IterableOnce__sci_Set(elems$6), 5000);
+      if ((x95 !== null)) {
+        var i$1 = $as_sci_Set($n(x95).T3__f__1);
+        var s$2 = $as_Lcaos_sos_SOS($n(x95).T3__f__2);
         var \u03b46$ = new $c_T2(i$1, s$2);
-        break matchResult31$1
+        break matchResult30$1
       };
-      throw new $c_s_MatchError(x96)
+      throw new $c_s_MatchError(x95)
     };
     var i$2 = $as_sci_Set($n(\u03b46$)._1__O());
     var s$2$1 = $as_Lcaos_sos_SOS($n(\u03b46$)._2__O());
-    var _3$2 = new $c_sjsr_AnonFunction1(((x$14) => {
-      var x$15 = $as_sci_Set(x$14);
-      var this$128 = $n($as_sc_IterableOnceOps($n(x$15).map__F1__O(new $c_sjsr_AnonFunction1(((_$17) => {
+    var _3$2 = new $c_sjsr_AnonFunction1(((x$13) => {
+      var x$14 = $as_sci_Set(x$13);
+      var this$127 = $n($as_sc_IterableOnceOps($n(x$14).map__F1__O(new $c_sjsr_AnonFunction1(((_$17) => {
         var _$17$1 = $as_Lmarge_syntax_RTS(_$17);
         return $n($n(_$17$1).Lmarge_syntax_RTS__f_inits).toString__T()
       })))));
-      return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$128, "", ",", "")
+      return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$127, "", ",", "")
     }));
     var _4$2 = new $c_sjsr_AnonFunction1(((_$18) => {
       var _$18$1 = $as_T2(_$18);
@@ -23746,65 +23885,65 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsFRTS__sci_List = (function() {
   var $$x6 = $m_Lcaos_frontend_Configurator$();
   var $$x4 = new $c_sjsr_AnonFunction1(((e$11$1) => {
     var e$14 = $as_Lmarge_syntax_FRTS(e$11$1);
-    var this$133 = $n($m_s_Predef$().s_Predef$__f_Set);
+    var this$132 = $n($m_s_Predef$().s_Predef$__f_Set);
     var $$x5 = $m_sr_ScalaRunTime$();
-    var this$132 = $n(e$14);
-    var elems$7 = $n($$x5).wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS.getArrayOf().constr)([this$132.project__sci_Set__Lmarge_syntax_RTS(this$132.Lmarge_syntax_FRTS__f_main)]));
-    return this$133.from__sc_IterableOnce__sci_Set(elems$7)
+    var this$131 = $n(e$14);
+    var elems$7 = $n($$x5).wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS.getArrayOf().constr)([this$131.project__sci_Set__Lmarge_syntax_RTS(this$131.Lmarge_syntax_FRTS__f_main)]));
+    return this$132.from__sc_IterableOnce__sci_Set(elems$7)
   }));
   var sos$1 = $m_Lmarge_backend_RTSSemantics$();
   var y$18 = $n($$x6).lts__F1__Lcaos_sos_SOS__F1__F1__I__Lcaos_frontend_widgets_WidgetInfo($$x4, new $c_Lcaos_sos_FinAut$$anon$2(sos$1), new $c_sjsr_AnonFunction1(((x$5$1) => {
-    var x$16 = $as_sci_Set(x$5$1);
-    var this$135 = $n($as_sc_IterableOnceOps($n(x$16).map__F1__O(new $c_sjsr_AnonFunction1(((_$19) => {
+    var x$15 = $as_sci_Set(x$5$1);
+    var this$134 = $n($as_sc_IterableOnceOps($n(x$15).map__F1__O(new $c_sjsr_AnonFunction1(((_$19) => {
       var _$19$1 = $as_Lmarge_syntax_RTS(_$19);
       return $n($n(_$19$1).Lmarge_syntax_RTS__f_inits).toString__T()
     })))));
-    return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$135, "", ",", "")
+    return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$134, "", ",", "")
   })), new $c_sjsr_AnonFunction1(((_$20) => {
     var _$20$1 = $as_Lmarge_syntax_RTS$QName(_$20);
-    var this$136 = $n(_$20$1);
-    var this$137 = $n(this$136.Lmarge_syntax_RTS$QName__f_n);
-    return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$137, "", "/", "")
+    var this$135 = $n(_$20$1);
+    var this$136 = $n(this$135.Lmarge_syntax_RTS$QName__f_n);
+    return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$136, "", "/", "")
   })), 80);
   var $$x7 = new $c_T2("TS projection: deterministic", y$18);
   var y$19 = $m_Lcaos_frontend_Configurator$().ltsCustom__F1__I__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e$12$1) => {
     var e$15 = $as_Lmarge_syntax_FRTS(e$12$1);
-    matchResult32$1: {
+    matchResult31$1: {
       var \u03b47$;
       var $$x3 = $m_Lcaos_sos_FinAut$();
       var $$x2 = $m_Lmarge_backend_RTSSemantics$();
-      var this$141 = $n($m_s_Predef$().s_Predef$__f_Set);
+      var this$140 = $n($m_s_Predef$().s_Predef$__f_Set);
       var $$x1 = $m_sr_ScalaRunTime$();
-      var this$140 = $n(e$15);
-      var elems$8 = $n($$x1).wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS.getArrayOf().constr)([this$140.project__sci_Set__Lmarge_syntax_RTS(this$140.Lmarge_syntax_FRTS__f_main)]));
-      var x100 = $n($$x3).minSOS__Lcaos_sos_SOS__sci_Set__I__T3($$x2, this$141.from__sc_IterableOnce__sci_Set(elems$8), 5000);
-      if ((x100 !== null)) {
-        var i$3 = $as_sci_Set($n(x100).T3__f__1);
-        var s$3 = $as_Lcaos_sos_SOS($n(x100).T3__f__2);
+      var this$139 = $n(e$15);
+      var elems$8 = $n($$x1).wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS.getArrayOf().constr)([this$139.project__sci_Set__Lmarge_syntax_RTS(this$139.Lmarge_syntax_FRTS__f_main)]));
+      var x99 = $n($$x3).minSOS__Lcaos_sos_SOS__sci_Set__I__T3($$x2, this$140.from__sc_IterableOnce__sci_Set(elems$8), 5000);
+      if ((x99 !== null)) {
+        var i$3 = $as_sci_Set($n(x99).T3__f__1);
+        var s$3 = $as_Lcaos_sos_SOS($n(x99).T3__f__2);
         var \u03b47$ = new $c_T2(i$3, s$3);
-        break matchResult32$1
+        break matchResult31$1
       };
-      throw new $c_s_MatchError(x100)
+      throw new $c_s_MatchError(x99)
     };
     var i$2$1 = $as_sci_Set($n(\u03b47$)._1__O());
     var s$2$2 = $as_Lcaos_sos_SOS($n(\u03b47$)._2__O());
-    var _3$3 = new $c_sjsr_AnonFunction1(((x$17) => {
-      var x$18 = $as_sci_Set(x$17);
-      var this$143 = $n($as_sc_IterableOnceOps($n(x$18).map__F1__O(new $c_sjsr_AnonFunction1(((_$21) => {
+    var _3$3 = new $c_sjsr_AnonFunction1(((x$16) => {
+      var x$17 = $as_sci_Set(x$16);
+      var this$142 = $n($as_sc_IterableOnceOps($n(x$17).map__F1__O(new $c_sjsr_AnonFunction1(((_$21) => {
         var _$21$1 = $as_Lmarge_syntax_RTS(_$21);
         return $n($n(_$21$1).Lmarge_syntax_RTS__f_inits).toString__T()
       })))));
-      return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$143, "", ",", "")
+      return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$142, "", ",", "")
     }));
     var _4$3 = new $c_sjsr_AnonFunction1(((_$22) => {
       var _$22$1 = $as_Lmarge_syntax_RTS$QName(_$22);
-      var this$144 = $n(_$22$1);
-      var this$145 = $n(this$144.Lmarge_syntax_RTS$QName__f_n);
-      return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$145, "", "/", "")
+      var this$143 = $n(_$22$1);
+      var this$144 = $n(this$143.Lmarge_syntax_RTS$QName__f_n);
+      return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$144, "", "/", "")
     }));
     return new $c_T4(i$2$1, s$2$2, _3$3, _4$3)
   })), 80);
-  var elems$9 = $n($$x48).wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$$x47, $$x46, $$x45, $$x43, $$x42, $$x41, $$x40, $$x39, $$x38, $$x35, $$x33, $$x29, $$x28, $$x21, $$x20, $$x19, $$x18, $$x13, $$x11, $$x7, new $c_T2("TS projection: minimal (up to trace-equivalence)", y$19)]));
+  var elems$9 = $n($$x51).wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$$x50, $$x49, $$x48, $$x46, $$x45, $$x44, $$x41, $$x40, $$x39, $$x36, $$x34, $$x29, $$x28, $$x21, $$x20, $$x19, $$x18, $$x13, $$x11, $$x7, new $c_T2("TS projection: minimal (up to trace-equivalence)", y$19)]));
   return $m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems$9)
 });
 $c_Lmarge_frontend_CaosConfig$.prototype.toggles__sci_Map = (function() {
@@ -27309,6 +27448,61 @@ function $isArrayOf_ju_UUID(obj, depth) {
 }
 function $asArrayOf_ju_UUID(obj, depth) {
   return (($isArrayOf_ju_UUID(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Ljava.util.UUID;", depth))
+}
+/** @constructor */
+function $c_Lmarge_backend_AnalyseLTS$Problems$() {
+  /*<skip>*/
+}
+$c_Lmarge_backend_AnalyseLTS$Problems$.prototype = new $h_O();
+$c_Lmarge_backend_AnalyseLTS$Problems$.prototype.constructor = $c_Lmarge_backend_AnalyseLTS$Problems$;
+/** @constructor */
+function $h_Lmarge_backend_AnalyseLTS$Problems$() {
+  /*<skip>*/
+}
+$h_Lmarge_backend_AnalyseLTS$Problems$.prototype = $c_Lmarge_backend_AnalyseLTS$Problems$.prototype;
+$c_Lmarge_backend_AnalyseLTS$Problems$.prototype.toString__T = (function() {
+  return "Problems"
+});
+$c_Lmarge_backend_AnalyseLTS$Problems$.prototype.$lessinit$greater$default$2__sci_Set = (function() {
+  var this$1 = $n($m_s_Predef$().s_Predef$__f_Set);
+  var elems = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS$QName.getArrayOf().constr)([]));
+  return this$1.from__sc_IterableOnce__sci_Set(elems)
+});
+$c_Lmarge_backend_AnalyseLTS$Problems$.prototype.$lessinit$greater$default$3__sci_Set = (function() {
+  var this$1 = $n($m_s_Predef$().s_Predef$__f_Set);
+  var elems = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_T3.getArrayOf().constr)([]));
+  return this$1.from__sc_IterableOnce__sci_Set(elems)
+});
+$c_Lmarge_backend_AnalyseLTS$Problems$.prototype.$lessinit$greater$default$4__sci_Set = (function() {
+  var this$1 = $n($m_s_Predef$().s_Predef$__f_Set);
+  var elems = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS.getArrayOf().constr)([]));
+  return this$1.from__sc_IterableOnce__sci_Set(elems)
+});
+$c_Lmarge_backend_AnalyseLTS$Problems$.prototype.$lessinit$greater$default$5__sci_Set = (function() {
+  var this$1 = $n($m_s_Predef$().s_Predef$__f_Set);
+  var elems = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([]));
+  return this$1.from__sc_IterableOnce__sci_Set(elems)
+});
+$c_Lmarge_backend_AnalyseLTS$Problems$.prototype.$lessinit$greater$default$6__sci_Set = (function() {
+  var this$1 = $n($m_s_Predef$().s_Predef$__f_Set);
+  var elems = $m_sr_ScalaRunTime$().wrapRefArray__AO__sci_ArraySeq(new ($d_Lmarge_syntax_RTS$QName.getArrayOf().constr)([]));
+  return this$1.from__sc_IterableOnce__sci_Set(elems)
+});
+var $d_Lmarge_backend_AnalyseLTS$Problems$ = new $TypeData().initClass({
+  Lmarge_backend_AnalyseLTS$Problems$: 0
+}, false, "marge.backend.AnalyseLTS$Problems$", {
+  Lmarge_backend_AnalyseLTS$Problems$: 1,
+  O: 1,
+  s_deriving_Mirror: 1,
+  s_deriving_Mirror$Product: 1
+});
+$c_Lmarge_backend_AnalyseLTS$Problems$.prototype.$classData = $d_Lmarge_backend_AnalyseLTS$Problems$;
+var $n_Lmarge_backend_AnalyseLTS$Problems$;
+function $m_Lmarge_backend_AnalyseLTS$Problems$() {
+  if ((!$n_Lmarge_backend_AnalyseLTS$Problems$)) {
+    $n_Lmarge_backend_AnalyseLTS$Problems$ = new $c_Lmarge_backend_AnalyseLTS$Problems$()
+  };
+  return $n_Lmarge_backend_AnalyseLTS$Problems$
 }
 function $s_Lmarge_syntax_FExp$__FTrue__Lmarge_syntax_FExp() {
   $m_Lmarge_syntax_FExp$();
@@ -31339,6 +31533,13 @@ $c_Lcaos_common_Multiset.prototype.toString__T = (function() {
   var x$1 = $f_sc_IterableOnceOps__mkString__T__T__T__T(this$2, "", "", "");
   return $n($$x2).dropRight$extension__T__I__T(x$1, 1)
 });
+$c_Lcaos_common_Multiset.prototype.filter__F1__Lcaos_common_Multiset = (function(pred) {
+  var data = $as_sci_Map($n(this.Lcaos_common_Multiset__f_data).filter__F1__O(new $c_sjsr_AnonFunction1(((kv) => {
+    var kv$1 = $as_T2(kv);
+    return $uZ($n(pred).apply__O__O($n(kv$1)._1__O()))
+  }))));
+  return new $c_Lcaos_common_Multiset(data)
+});
 $c_Lcaos_common_Multiset.prototype.add__O__Lcaos_common_Multiset = (function(act) {
   var $$x1 = this.Lcaos_common_Multiset__f_data;
   var y = ((1 + $uI($n(this.Lcaos_common_Multiset__f_data).getOrElse__O__F0__O(act, new $c_sjsr_AnonFunction0((() => 0))))) | 0);
@@ -34437,6 +34638,173 @@ function $m_ju_internal_GenericArrayOps$ShortArrayOps$() {
   };
   return $n_ju_internal_GenericArrayOps$ShortArrayOps$
 }
+/** @constructor */
+function $c_Lmarge_backend_AnalyseLTS$Problems(tooBig, unreachableStates, unreachableEdges, deadlocks, inconsistencies, multipleInits) {
+  this.Lmarge_backend_AnalyseLTS$Problems__f_tooBig = false;
+  this.Lmarge_backend_AnalyseLTS$Problems__f_unreachableStates = null;
+  this.Lmarge_backend_AnalyseLTS$Problems__f_unreachableEdges = null;
+  this.Lmarge_backend_AnalyseLTS$Problems__f_deadlocks = null;
+  this.Lmarge_backend_AnalyseLTS$Problems__f_inconsistencies = null;
+  this.Lmarge_backend_AnalyseLTS$Problems__f_multipleInits = null;
+  this.Lmarge_backend_AnalyseLTS$Problems__f_tooBig = tooBig;
+  this.Lmarge_backend_AnalyseLTS$Problems__f_unreachableStates = unreachableStates;
+  this.Lmarge_backend_AnalyseLTS$Problems__f_unreachableEdges = unreachableEdges;
+  this.Lmarge_backend_AnalyseLTS$Problems__f_deadlocks = deadlocks;
+  this.Lmarge_backend_AnalyseLTS$Problems__f_inconsistencies = inconsistencies;
+  this.Lmarge_backend_AnalyseLTS$Problems__f_multipleInits = multipleInits
+}
+$c_Lmarge_backend_AnalyseLTS$Problems.prototype = new $h_O();
+$c_Lmarge_backend_AnalyseLTS$Problems.prototype.constructor = $c_Lmarge_backend_AnalyseLTS$Problems;
+/** @constructor */
+function $h_Lmarge_backend_AnalyseLTS$Problems() {
+  /*<skip>*/
+}
+$h_Lmarge_backend_AnalyseLTS$Problems.prototype = $c_Lmarge_backend_AnalyseLTS$Problems.prototype;
+$c_Lmarge_backend_AnalyseLTS$Problems.prototype.productIterator__sc_Iterator = (function() {
+  return new $c_s_Product$$anon$1(this)
+});
+$c_Lmarge_backend_AnalyseLTS$Problems.prototype.hashCode__I = (function() {
+  var acc = (-889275714);
+  var hash = acc;
+  acc = $m_sr_Statics$().mix__I__I__I(hash, (-941230636));
+  var hash$1 = acc;
+  var data = (this.Lmarge_backend_AnalyseLTS$Problems__f_tooBig ? 1231 : 1237);
+  acc = $m_sr_Statics$().mix__I__I__I(hash$1, data);
+  var hash$2 = acc;
+  var x = this.Lmarge_backend_AnalyseLTS$Problems__f_unreachableStates;
+  var data$1 = $m_sr_Statics$().anyHash__O__I(x);
+  acc = $m_sr_Statics$().mix__I__I__I(hash$2, data$1);
+  var hash$3 = acc;
+  var x$1 = this.Lmarge_backend_AnalyseLTS$Problems__f_unreachableEdges;
+  var data$2 = $m_sr_Statics$().anyHash__O__I(x$1);
+  acc = $m_sr_Statics$().mix__I__I__I(hash$3, data$2);
+  var hash$4 = acc;
+  var x$2 = this.Lmarge_backend_AnalyseLTS$Problems__f_deadlocks;
+  var data$3 = $m_sr_Statics$().anyHash__O__I(x$2);
+  acc = $m_sr_Statics$().mix__I__I__I(hash$4, data$3);
+  var hash$5 = acc;
+  var x$3 = this.Lmarge_backend_AnalyseLTS$Problems__f_inconsistencies;
+  var data$4 = $m_sr_Statics$().anyHash__O__I(x$3);
+  acc = $m_sr_Statics$().mix__I__I__I(hash$5, data$4);
+  var hash$6 = acc;
+  var x$4 = this.Lmarge_backend_AnalyseLTS$Problems__f_multipleInits;
+  var data$5 = $m_sr_Statics$().anyHash__O__I(x$4);
+  acc = $m_sr_Statics$().mix__I__I__I(hash$6, data$5);
+  var hash$7 = acc;
+  return $m_sr_Statics$().finalizeHash__I__I__I(hash$7, 6)
+});
+$c_Lmarge_backend_AnalyseLTS$Problems.prototype.equals__O__Z = (function(x$0) {
+  if ((this === x$0)) {
+    return true
+  } else if ((x$0 instanceof $c_Lmarge_backend_AnalyseLTS$Problems)) {
+    var x$0$2 = $as_Lmarge_backend_AnalyseLTS$Problems(x$0);
+    if ((this.Lmarge_backend_AnalyseLTS$Problems__f_tooBig === $n(x$0$2).Lmarge_backend_AnalyseLTS$Problems__f_tooBig)) {
+      var x = this.Lmarge_backend_AnalyseLTS$Problems__f_unreachableStates;
+      var x$2 = $n(x$0$2).Lmarge_backend_AnalyseLTS$Problems__f_unreachableStates;
+      var $$x5 = ((x === null) ? (x$2 === null) : $n(x).equals__O__Z(x$2))
+    } else {
+      var $$x5 = false
+    };
+    if ($$x5) {
+      var x$3 = this.Lmarge_backend_AnalyseLTS$Problems__f_unreachableEdges;
+      var x$4 = $n(x$0$2).Lmarge_backend_AnalyseLTS$Problems__f_unreachableEdges;
+      var $$x4 = ((x$3 === null) ? (x$4 === null) : $n(x$3).equals__O__Z(x$4))
+    } else {
+      var $$x4 = false
+    };
+    if ($$x4) {
+      var x$5 = this.Lmarge_backend_AnalyseLTS$Problems__f_deadlocks;
+      var x$6 = $n(x$0$2).Lmarge_backend_AnalyseLTS$Problems__f_deadlocks;
+      var $$x3 = ((x$5 === null) ? (x$6 === null) : $n(x$5).equals__O__Z(x$6))
+    } else {
+      var $$x3 = false
+    };
+    if ($$x3) {
+      var x$7 = this.Lmarge_backend_AnalyseLTS$Problems__f_inconsistencies;
+      var x$8 = $n(x$0$2).Lmarge_backend_AnalyseLTS$Problems__f_inconsistencies;
+      var $$x2 = ((x$7 === null) ? (x$8 === null) : $n(x$7).equals__O__Z(x$8))
+    } else {
+      var $$x2 = false
+    };
+    if ($$x2) {
+      var x$9 = this.Lmarge_backend_AnalyseLTS$Problems__f_multipleInits;
+      var x$10 = $n(x$0$2).Lmarge_backend_AnalyseLTS$Problems__f_multipleInits;
+      var $$x1 = ((x$9 === null) ? (x$10 === null) : $n(x$9).equals__O__Z(x$10))
+    } else {
+      var $$x1 = false
+    };
+    if ($$x1) {
+      $n(x$0$2);
+      return true
+    } else {
+      return false
+    }
+  } else {
+    return false
+  }
+});
+$c_Lmarge_backend_AnalyseLTS$Problems.prototype.toString__T = (function() {
+  return $m_sr_ScalaRunTime$()._toString__s_Product__T(this)
+});
+$c_Lmarge_backend_AnalyseLTS$Problems.prototype.productArity__I = (function() {
+  return 6
+});
+$c_Lmarge_backend_AnalyseLTS$Problems.prototype.productPrefix__T = (function() {
+  return "Problems"
+});
+$c_Lmarge_backend_AnalyseLTS$Problems.prototype.productElement__I__O = (function(n) {
+  switch (n) {
+    case 0: {
+      return this.Lmarge_backend_AnalyseLTS$Problems__f_tooBig;
+      break
+    }
+    case 1: {
+      return this.Lmarge_backend_AnalyseLTS$Problems__f_unreachableStates;
+      break
+    }
+    case 2: {
+      return this.Lmarge_backend_AnalyseLTS$Problems__f_unreachableEdges;
+      break
+    }
+    case 3: {
+      return this.Lmarge_backend_AnalyseLTS$Problems__f_deadlocks;
+      break
+    }
+    case 4: {
+      return this.Lmarge_backend_AnalyseLTS$Problems__f_inconsistencies;
+      break
+    }
+    case 5: {
+      return this.Lmarge_backend_AnalyseLTS$Problems__f_multipleInits;
+      break
+    }
+    default: {
+      throw $ct_jl_IndexOutOfBoundsException__T__(new $c_jl_IndexOutOfBoundsException(), ("" + n))
+    }
+  }
+});
+$c_Lmarge_backend_AnalyseLTS$Problems.prototype.isEmpty__Z = (function() {
+  return ((((((!this.Lmarge_backend_AnalyseLTS$Problems__f_tooBig) && $n(this.Lmarge_backend_AnalyseLTS$Problems__f_unreachableStates).isEmpty__Z()) && $n(this.Lmarge_backend_AnalyseLTS$Problems__f_unreachableEdges).isEmpty__Z()) && $n(this.Lmarge_backend_AnalyseLTS$Problems__f_deadlocks).isEmpty__Z()) && $n(this.Lmarge_backend_AnalyseLTS$Problems__f_inconsistencies).isEmpty__Z()) && $n(this.Lmarge_backend_AnalyseLTS$Problems__f_multipleInits).isEmpty__Z())
+});
+function $as_Lmarge_backend_AnalyseLTS$Problems(obj) {
+  return (((obj instanceof $c_Lmarge_backend_AnalyseLTS$Problems) || (obj === null)) ? obj : $throwClassCastException(obj, "marge.backend.AnalyseLTS$Problems"))
+}
+function $isArrayOf_Lmarge_backend_AnalyseLTS$Problems(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lmarge_backend_AnalyseLTS$Problems)))
+}
+function $asArrayOf_Lmarge_backend_AnalyseLTS$Problems(obj, depth) {
+  return (($isArrayOf_Lmarge_backend_AnalyseLTS$Problems(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lmarge.backend.AnalyseLTS$Problems;", depth))
+}
+var $d_Lmarge_backend_AnalyseLTS$Problems = new $TypeData().initClass({
+  Lmarge_backend_AnalyseLTS$Problems: 0
+}, false, "marge.backend.AnalyseLTS$Problems", {
+  Lmarge_backend_AnalyseLTS$Problems: 1,
+  O: 1,
+  s_Equals: 1,
+  s_Product: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lmarge_backend_AnalyseLTS$Problems.prototype.$classData = $d_Lmarge_backend_AnalyseLTS$Problems;
 /** @constructor */
 function $c_Lmarge_syntax_FRTS(rts, fm, pk, main, equivs) {
   this.Lmarge_syntax_FRTS__f_rts = null;
@@ -57329,6 +57697,9 @@ $c_sc_SeqView$Sorted.prototype.head__O = (function() {
 $c_sc_SeqView$Sorted.prototype.headOption__s_Option = (function() {
   return $f_sc_IterableOps__headOption__s_Option(this)
 });
+$c_sc_SeqView$Sorted.prototype.filter__F1__O = (function(pred) {
+  return $f_sc_IterableOps__filter__F1__O(this, pred)
+});
 $c_sc_SeqView$Sorted.prototype.withFilter__F1__sc_WithFilter = (function(p) {
   return $ct_sc_IterableOps$WithFilter__sc_IterableOps__F1__(new $c_sc_IterableOps$WithFilter(), this, p)
 });
@@ -57491,6 +57862,9 @@ $c_sc_SeqView$Sorted$ReverseSorted.prototype.head__O = (function() {
 });
 $c_sc_SeqView$Sorted$ReverseSorted.prototype.headOption__s_Option = (function() {
   return $f_sc_IterableOps__headOption__s_Option(this)
+});
+$c_sc_SeqView$Sorted$ReverseSorted.prototype.filter__F1__O = (function(pred) {
+  return $f_sc_IterableOps__filter__F1__O(this, pred)
 });
 $c_sc_SeqView$Sorted$ReverseSorted.prototype.withFilter__F1__sc_WithFilter = (function(p) {
   return $ct_sc_IterableOps$WithFilter__sc_IterableOps__F1__(new $c_sc_IterableOps$WithFilter(), this, p)
@@ -63702,6 +64076,9 @@ $c_sci_LazyList.prototype.map__F1__O = (function(f) {
 $c_sci_LazyList.prototype.prepended__O__O = (function(elem) {
   return this.prepended__O__sci_LazyList(elem)
 });
+$c_sci_LazyList.prototype.filter__F1__O = (function(pred) {
+  return this.filter__F1__sci_LazyList(pred)
+});
 $c_sci_LazyList.prototype.appendedAll__sc_IterableOnce__O = (function(suffix) {
   return this.appendedAll__sc_IterableOnce__sci_LazyList(suffix)
 });
@@ -63947,6 +64324,9 @@ $c_sjsr_WrappedVarArgs.prototype.prepended__O__O = (function(elem) {
 });
 $c_sjsr_WrappedVarArgs.prototype.map__F1__O = (function(f) {
   return $f_sc_StrictOptimizedIterableOps__map__F1__O(this, f)
+});
+$c_sjsr_WrappedVarArgs.prototype.filter__F1__O = (function(pred) {
+  return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, false)
 });
 $c_sjsr_WrappedVarArgs.prototype.dropRight__I__O = (function(n) {
   return $f_sc_StrictOptimizedIterableOps__dropRight__I__O(this, n)
@@ -64844,6 +65224,9 @@ $c_sci_NumericRange.prototype.map__F1__O = (function(f) {
 $c_sci_NumericRange.prototype.flatMap__F1__O = (function(f) {
   return $f_sc_StrictOptimizedIterableOps__flatMap__F1__O(this, f)
 });
+$c_sci_NumericRange.prototype.filter__F1__O = (function(pred) {
+  return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, false)
+});
 $c_sci_NumericRange.prototype.dropRight__I__O = (function(n) {
   return $f_sc_StrictOptimizedIterableOps__dropRight__I__O(this, n)
 });
@@ -65183,6 +65566,9 @@ $c_sci_ArraySeq.prototype.distinctBy__F1__O = (function(f) {
 $c_sci_ArraySeq.prototype.flatMap__F1__O = (function(f) {
   return $f_sc_StrictOptimizedIterableOps__flatMap__F1__O(this, f)
 });
+$c_sci_ArraySeq.prototype.filter__F1__O = (function(pred) {
+  return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, false)
+});
 $c_sci_ArraySeq.prototype.canEqual__O__Z = (function(that) {
   return $f_sci_IndexedSeq__canEqual__O__Z(this, that)
 });
@@ -65411,6 +65797,9 @@ $c_sci_Vector.prototype.sorted__s_math_Ordering__O = (function(ord) {
 $c_sci_Vector.prototype.flatMap__F1__O = (function(f) {
   return $f_sc_StrictOptimizedIterableOps__flatMap__F1__O(this, f)
 });
+$c_sci_Vector.prototype.filter__F1__O = (function(pred) {
+  return this.filterImpl__F1__Z__sci_Vector(pred, false)
+});
 $c_sci_Vector.prototype.canEqual__O__Z = (function(that) {
   return $f_sci_IndexedSeq__canEqual__O__Z(this, that)
 });
@@ -65617,6 +66006,9 @@ $c_scm_ArraySeq.prototype.map__F1__O = (function(f) {
 });
 $c_scm_ArraySeq.prototype.flatMap__F1__O = (function(f) {
   return $f_sc_StrictOptimizedIterableOps__flatMap__F1__O(this, f)
+});
+$c_scm_ArraySeq.prototype.filter__F1__O = (function(pred) {
+  return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, false)
 });
 $c_scm_ArraySeq.prototype.dropRight__I__O = (function(n) {
   return $f_sc_StrictOptimizedIterableOps__dropRight__I__O(this, n)
@@ -67260,6 +67652,9 @@ $c_sci_List.prototype.isDefinedAt__O__Z = (function(x) {
 $c_sci_List.prototype.drop__I__O = (function(n) {
   return $p_sc_StrictOptimizedLinearSeqOps__loop$2__I__sc_LinearSeq__sc_LinearSeq(this, n, this)
 });
+$c_sci_List.prototype.filter__F1__O = (function(pred) {
+  return $p_sci_List__filterCommon__F1__Z__sci_List(this, pred, false)
+});
 $c_sci_List.prototype.flatMap__F1__O = (function(f) {
   return this.flatMap__F1__sci_List(f)
 });
@@ -67348,6 +67743,9 @@ $c_sci_Queue.prototype.map__F1__O = (function(f) {
 });
 $c_sci_Queue.prototype.flatMap__F1__O = (function(f) {
   return $f_sc_StrictOptimizedIterableOps__flatMap__F1__O(this, f)
+});
+$c_sci_Queue.prototype.filter__F1__O = (function(pred) {
+  return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, false)
 });
 $c_sci_Queue.prototype.dropRight__I__O = (function(n) {
   return $f_sc_StrictOptimizedIterableOps__dropRight__I__O(this, n)
@@ -68662,6 +69060,9 @@ function $h_scm_HashMap() {
   /*<skip>*/
 }
 $h_scm_HashMap.prototype = $c_scm_HashMap.prototype;
+$c_scm_HashMap.prototype.map__F1__sc_IterableOps = (function(f) {
+  return $f_sc_StrictOptimizedMapOps__map__F1__sc_IterableOps(this, f)
+});
 $c_scm_HashMap.prototype.concat__sc_IterableOnce__sc_IterableOps = (function(suffix) {
   return $f_sc_StrictOptimizedMapOps__concat__sc_IterableOnce__sc_IterableOps(this, suffix)
 });
@@ -68670,6 +69071,9 @@ $c_scm_HashMap.prototype.map__F1__O = (function(f) {
 });
 $c_scm_HashMap.prototype.flatMap__F1__O = (function(f) {
   return $f_sc_StrictOptimizedIterableOps__flatMap__F1__O(this, f)
+});
+$c_scm_HashMap.prototype.filter__F1__O = (function(pred) {
+  return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, false)
 });
 $c_scm_HashMap.prototype.dropRight__I__O = (function(n) {
   return $f_sc_StrictOptimizedIterableOps__dropRight__I__O(this, n)
@@ -72669,6 +73073,9 @@ $c_scm_ListBuffer.prototype.map__F1__O = (function(f) {
 $c_scm_ListBuffer.prototype.flatMap__F1__O = (function(f) {
   return $f_sc_StrictOptimizedIterableOps__flatMap__F1__O(this, f)
 });
+$c_scm_ListBuffer.prototype.filter__F1__O = (function(pred) {
+  return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, false)
+});
 $c_scm_ListBuffer.prototype.dropRight__I__O = (function(n) {
   return $f_sc_StrictOptimizedIterableOps__dropRight__I__O(this, n)
 });
@@ -73098,6 +73505,9 @@ $c_scm_ArrayBuffer.prototype.map__F1__O = (function(f) {
 $c_scm_ArrayBuffer.prototype.flatMap__F1__O = (function(f) {
   return $f_sc_StrictOptimizedIterableOps__flatMap__F1__O(this, f)
 });
+$c_scm_ArrayBuffer.prototype.filter__F1__O = (function(pred) {
+  return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, false)
+});
 $c_scm_ArrayBuffer.prototype.dropRight__I__O = (function(n) {
   return $f_sc_StrictOptimizedIterableOps__dropRight__I__O(this, n)
 });
@@ -73336,6 +73746,9 @@ $c_sjs_js_WrappedArray.prototype.appendedAll__sc_IterableOnce__O = (function(suf
 $c_sjs_js_WrappedArray.prototype.flatMap__F1__O = (function(f) {
   return $f_sc_StrictOptimizedIterableOps__flatMap__F1__O(this, f)
 });
+$c_sjs_js_WrappedArray.prototype.filter__F1__O = (function(pred) {
+  return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, false)
+});
 $c_sjs_js_WrappedArray.prototype.iterableFactory__sc_SeqFactory = (function() {
   return $m_sjs_js_WrappedArray$()
 });
@@ -73465,6 +73878,9 @@ $c_scm_ArrayDeque.prototype.map__F1__O = (function(f) {
 });
 $c_scm_ArrayDeque.prototype.flatMap__F1__O = (function(f) {
   return $f_sc_StrictOptimizedIterableOps__flatMap__F1__O(this, f)
+});
+$c_scm_ArrayDeque.prototype.filter__F1__O = (function(pred) {
+  return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, false)
 });
 $c_scm_ArrayDeque.prototype.dropRight__I__O = (function(n) {
   return $f_sc_StrictOptimizedIterableOps__dropRight__I__O(this, n)

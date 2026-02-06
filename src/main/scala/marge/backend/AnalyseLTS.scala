@@ -7,33 +7,69 @@ import caos.sos.SOS
 
 object AnalyseLTS:
 
+  /** Find possible problems in the RTS projection, such as deadlocks, unreachable states/transitions, and inconsistencies. */
+  def randomWalkPP(rx:RTS, max:Int=5000): String =
+    val (visited, nEdges, fired, probs) = randomWalk(rx, max)
+    s"Traversed $nEdges edges and visited ${visited.size} states. " +
+      problemsPP(probs, max.toString)
 
-  def randomWalk(rx:RTS, max:Int=5000): (Set[RTS],Int,Edges,List[String]) =
+  /** Pretty-print the problems found during analysis. */
+  def problemsPP(probs: Problems, max:String=""): String =
+    if probs.isEmpty then
+      s"No problems found."
+    else
+      s"Problems found:" +
+      (if probs.tooBig then s"\n- Reached limit of transitions $max" else "") +
+      (if probs.unreachableStates.nonEmpty then s"\n- Unreachable state(s): ${probs.unreachableStates.mkString(", ")}" else "") +
+      (if probs.unreachableEdges.nonEmpty then s"\n- Unreachable edge(s): ${Show(probs.unreachableEdges)}" else "") +
+      (if probs.deadlocks.nonEmpty then s"\n- Deadlock(s): ${probs.deadlocks.map(Show.simple).mkString(", ")}" else "") +
+      (if probs.inconsistencies.nonEmpty then s"\n- Inconsistencies: ${probs.inconsistencies.map(ss => s"${Show(ss._1)} => ${Show(ss._2)}").mkString("; ")}" else "") +
+      (if probs.multipleInits.nonEmpty then s"\n- Multiple initial states reached the same state: ${probs.multipleInits.mkString(", ")}" else "")
+
+  /** data structure to hold problems found during analysis */
+  case class Problems(
+    tooBig: Boolean = false,
+    unreachableStates: Set[State] = Set(),
+    unreachableEdges: Edges = Set(),
+    deadlocks: Set[RTS] = Set(),
+    inconsistencies: Set[(Edge,Set[Edge])] = Set(),
+    multipleInits: Set[State] = Set()
+  ) :
+    def isEmpty: Boolean =
+      !tooBig && unreachableStates.isEmpty && unreachableEdges.isEmpty &&
+        deadlocks.isEmpty && inconsistencies.isEmpty && multipleInits.isEmpty
+
+  /**
+    * Performs a random walk on the RTS, returning the set of visited states, number of edges traversed, set of fired edges, and any problems found (deadlocks, unreachable states/transitions, inconsistencies, etc).
+    *
+    * @param rx the RTS to analyze
+    * @param max maximum number of transitions to traverse
+    * @return a tuple containing the set of visited states, number of edges traversed, set of fired edges, and detected problems
+    */
+  def randomWalk(rx:RTS, max:Int=5000): (Set[RTS],Int,Edges,Problems) =
     val states = for (a,bs)<-rx.edgs.toSet; (b,_)<-bs; s<-Set(a,b) yield s
     def aux(next:Set[RTS], done:Set[RTS],
-            nEdges:Int, fired:Edges, probs:List[String],
-            limit:Int): (Set[RTS],Int,Edges,List[String]) =
+            nEdges:Int, fired:Edges, probs:Problems,
+            limit:Int): (Set[RTS],Int,Edges,Problems) =
       if limit <=0 then
         // error 1: too big
-        return (done,nEdges,fired, s"Reached limit - traversed +$max edges."::probs)
+        return (done,nEdges,fired, probs.copy(tooBig = true))
       next.headOption match
         case None =>
           val missingStates: Set[State] =
-            // (rx.inits.data.keySet ++ fired.map(_._2)).intersect(states) -- done.flatMap(_.inits.data.keySet)
             (for (a,dest)<-rx.edgs.toSet; (b,_)<-dest; s <- Set(a,b) yield s)
               -- done.flatMap(_.inits.data.keySet)
           val missingEdges: Edges =
             (for (a,dests)<-rx.edgs.toSet; (b,c)<-dests yield (a,b,c))
               -- fired
-          println(s"[AnalyseLTS] next: ${}: visited ${done.size} states, fired ${fired.size} edges.")
           if missingStates.isEmpty && missingEdges.isEmpty then
             (done, nEdges, fired, probs) // success
-          else
+          else // error 2: unreachable states/edges
             (done, nEdges, fired,
-              (if missingStates.nonEmpty // error 2: unreachable states
-               then List(s"Unreachable state(s): ${missingStates.mkString(",")}") else Nil) :::
-              (if missingEdges.nonEmpty  // error 3: unreachable edges
-                then List(s"Unreachable edge(s): ${Show(missingEdges)}") else Nil) ::: probs
+              probs.copy(
+                unreachableStates = probs.unreachableStates ++ missingStates,
+                unreachableEdges = probs.unreachableEdges ++ missingEdges
+              )
             )
         case Some(st) if done contains st =>
           aux(next-st,done,nEdges,fired,probs,limit)
@@ -41,34 +77,38 @@ object AnalyseLTS:
           val more = RTSSemantics.nextEdge(st)
           val nEdges2 = more.size
           val newEdges = more.map(_._1)
-          var incons = Set[String]()
-          var manyInits = Set[State]()
-//          var moreEdges: Edges = Set()
+          var incons = Set[(Edge,Set[Edge])]()
           for e<-newEdges do
-//            val (toAct,toDeact) = FRTSSemantics.toOnOff(e, st)
             val toAct   = Rel.get(e,st.on)
             val toDeact = Rel.get(e,st.off)
-//            val fromE = FRTSSemantics.from(e,st)
-//            moreEdges ++= fromE
             val shared = toAct.intersect(toDeact)
             if shared.nonEmpty then
-              //val triggers = FRTSSemantics.from(e,st) -- shared
-              incons = incons + s"activating and deactivating `${Show(shared)}` by `${Show(e)}`"
-            // val inits = st.inits.data.getOrElse(e._2,0) match
-            //   case n if n > 1 => Set(e._2)
-            //   case _ => Set.empty[State]
+              incons = incons + ((e,shared))
+          var manyInits = Set[State]()
           val inits = for (i,n) <- st.inits.data if n > 1 yield i            
           manyInits = manyInits ++ inits
+          // update probs
           var newProbs = probs
-          if more.isEmpty then newProbs ::= s"Deadlock found: ${Show.simple(st)}"
-          if incons.nonEmpty then newProbs ::= s"Found inconsistency: ${incons.mkString(", ")}"
-          if manyInits.nonEmpty then newProbs ::= s"Multiple initial states reached the same state ${manyInits.mkString(", ")}"
+          if more.isEmpty then  newProbs = newProbs.copy(deadlocks = newProbs.deadlocks + st)
+          if incons.nonEmpty then newProbs = newProbs.copy(inconsistencies = newProbs.inconsistencies ++ incons)
+          if manyInits.nonEmpty then newProbs = newProbs.copy(multipleInits = newProbs.multipleInits ++ manyInits)
           aux((next-st)++more.map(_._2), done+st, nEdges+nEdges2,fired++newEdges,newProbs,limit-nEdges2)
 
-    aux(Set(rx), Set(), 0, Set(), Nil, max)
+    aux(Set(rx), Set(), 0, Set(), Problems(), max)
 
 
   def sanify(rx:RTS): RTS = 
+    val (visited, nEdges, fired, probs) = randomWalk(rx)
+    val unreachStates = probs.unreachableStates
+    val unreachEdges = probs.unreachableEdges
+    // remove unreachable states and edges
+    rx.copy(
+      edgs = rx.edgs.filter(kv => !unreachStates.contains(kv._1))
+        .map(kv => (kv._1, kv._2.filter( (dst,act) => !unreachStates.contains(dst) && !unreachEdges.contains((kv._1, dst, act)) ))),
+      inits = rx.inits.filter( st => !unreachStates.contains(st) ),
+      act = rx.act.filter( e => !unreachStates.contains(e._1) && !unreachStates.contains(e._2) )
+    )
+
     // val (visited, passed, nEdges, complete) = SOS.traverseEdges(RTSSemantics, rx, max=5000)
     // if !complete then
     //   sys.error(s"[Sanity] traversal was not complete, visited ${visited.size} states and ${nEdges} edges.")
@@ -83,4 +123,3 @@ object AnalyseLTS:
     //     inits = rx.inits.filter( (st,_) => visited.contains(st) ),
     //     act = rx.act.filter( e => visited.contains(e._1) && visited.contains(e._2) )
     //   )
-    ???
