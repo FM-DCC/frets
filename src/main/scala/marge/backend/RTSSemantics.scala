@@ -34,7 +34,7 @@ object RTSSemantics extends SOS[Action,RTS]:
       val newInits = (rx.inits - st) + st2
       (st, st2, lbl) -> rx.copy(inits = newInits, act = newAct)
 
-  /** Interprets an RTS as an FTS by attaching a feature expression to each edge */
+  /** Interprets an FRTS as an FTS by attaching a feature expression to each edge */
   def asFTS(pk: Map[Edge,FExp]): SOS[(Action,FExp),RTS] =
     new SOS[(Action,FExp),RTS]:
       override def accepting(s: RTS): Boolean =
