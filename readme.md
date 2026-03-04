@@ -8,7 +8,7 @@ This project uses and the Caos's framework, placed at `lib/caos`. More informati
 
  - Caos' GitHub page: https://github.com/arcalab/CAOS
  - Caos' tutorial: https://arxiv.org/abs/2304.14901
- - Caos' demo video: https://youtu.be/Xcfn3zqpubw 
+ - Caos' demo video: https://youtu.be/Xcfn3zqpubw
 
 The project can also be included as a submodule, as explained in the documentation of Caos.
 
