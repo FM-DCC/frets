@@ -21,7 +21,7 @@ import caos.sos.BranchBisim
 /** Object used to configure which analysis appear in the browser */
 object CaosConfig extends Configurator[FRTS]:
 
-  val justTS: Boolean = true // whether to only show TS-related analyses
+  val justTS: Boolean = false // whether to only show TS-related analyses
 
   val name = "FRETS: Animator of Featured Reactive Transition Systems" +
     (if justTS then " (TS only version)" else "")
@@ -200,13 +200,13 @@ object CaosConfig extends Configurator[FRTS]:
    /** Description of the widgets that appear in the dashboard. */
   def widgetsFRTS = List(
 //     "View State (DB)" -> view[FRTS](_.toString, Text).expand,
-     htmlLeft[FRTS](s"""
-            |<button class="tgBtn onBt" id="frtsBtn">FRTS</button>
-            |<button class="tgBtn onBt" id="rtsBtn">RTS</button>
-            |<button class="tgBtn onBt" id="ftsBtn">FTS</button>
-            |<button class="tgBtn onBt" id="tsBtn">TS</button>
-            |<button class="tgBtn onBt" id="expr">Exprm</button>
-            |""".stripMargin),
+    //  htmlLeft[FRTS](s"""
+    //         |<button class="tgBtn onBt" id="frtsBtn">FRTS</button>
+    //         |<button class="tgBtn onBt" id="rtsBtn">RTS</button>
+    //         |<button class="tgBtn onBt" id="ftsBtn">FTS</button>
+    //         |<button class="tgBtn onBt" id="tsBtn">TS</button>
+    //         |<button class="tgBtn onBt" id="expr">Exprm</button>
+    //         |""".stripMargin),
      "View FRTS" -> view[FRTS](Show.apply, Text).moveTo(1),
      "View RTS projection" -> view[FRTS](x => Show(x.getRTS), Text).moveTo(1),
 // <script>
@@ -382,21 +382,36 @@ object CaosConfig extends Configurator[FRTS]:
     //    , Text),
    )
 
-  override val toggles: Map[String, Set[String]] =
-    if justTS then Map() else
-    Map(
-      "frtsBtn" -> (widgets.map(ex => ex._1).toSet.filter(_.startsWith("FRTS"))++
+    
+  override val toggles: List[Toggle] = if justTS then List() else List(
+    "FRTS" -> (widgets.map(ex => ex._1).toSet.filter(_.startsWith("FRTS"))++
             examples.map(_.name).toSet.filter(_.matches(".* FRTS.*")) - "Simple FRTS (w/o shortcuts)" ),
-      //"frtsBtn" -> (widgets.map(ex => ex._1).toSet.filter(_.startsWith("FRTS"))+"Parallel"),
-      "rtsBtn"  -> (widgets.map(ex => ex._1).toSet.filter(_.startsWith("RTS"))++
+      "RTS"  -> (widgets.map(ex => ex._1).toSet.filter(_.startsWith("RTS"))++
             examples.map(_.name).toSet.filter(_.matches(".* RTS.*")) ),
-      "ftsBtn"  -> (widgets.map(ex => ex._1).toSet.filter(_.startsWith("FTS"))++
+      "FTS"  -> (widgets.map(ex => ex._1).toSet.filter(_.startsWith("FTS"))++
             examples.map(_.name).toSet.filter(_.matches(".* FTS.*")) ),
-      "tsBtn"   -> (widgets.map(ex => ex._1).toSet.filter(_.startsWith("TS"))++
+      "TS"   -> (widgets.map(ex => ex._1).toSet.filter(_.startsWith("TS"))++
             examples.map(_.name).toSet.filter(_.matches(".* TS.*")) +
             "Ex.4: equivalences"),
-      "expr"   -> examples.toList.drop(18).map(_.name).toSet,
-    )
+      "Expr"   -> examples.toList.drop(18).map(_.name).toSet,
+  )
+  
+
+  // override val toggles: Map[String, Set[String]] =
+  //   if justTS then Map() else
+  //   Map(
+  //     "frtsBtn" -> (widgets.map(ex => ex._1).toSet.filter(_.startsWith("FRTS"))++
+  //           examples.map(_.name).toSet.filter(_.matches(".* FRTS.*")) - "Simple FRTS (w/o shortcuts)" ),
+  //     //"frtsBtn" -> (widgets.map(ex => ex._1).toSet.filter(_.startsWith("FRTS"))+"Parallel"),
+  //     "rtsBtn"  -> (widgets.map(ex => ex._1).toSet.filter(_.startsWith("RTS"))++
+  //           examples.map(_.name).toSet.filter(_.matches(".* RTS.*")) ),
+  //     "ftsBtn"  -> (widgets.map(ex => ex._1).toSet.filter(_.startsWith("FTS"))++
+  //           examples.map(_.name).toSet.filter(_.matches(".* FTS.*")) ),
+  //     "tsBtn"   -> (widgets.map(ex => ex._1).toSet.filter(_.startsWith("TS"))++
+  //           examples.map(_.name).toSet.filter(_.matches(".* TS.*")) +
+  //           "Ex.4: equivalences"),
+  //     "expr"   -> examples.toList.drop(18).map(_.name).toSet,
+  //   )
 
   //// Documentation below
 
