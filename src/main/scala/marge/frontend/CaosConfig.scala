@@ -251,6 +251,25 @@ object CaosConfig extends Configurator[FRTS]:
                     .map((p,i)=>s" ${i+1}. ${p.toList.sorted.mkString(", ")}${
                       if p==x.main then " [selected]" else ""}")
                     .mkString("\n"), Text),
+      "Products (projections)" -> ltsCustomLst((frts:FRTS) =>
+        frts.products
+          .toList.sortWith(_.size < _.size)
+          .map(p =>
+            val name = if frts.fm==FExp.FTrue then "" else
+                       if p.isEmpty then "(empty)" else
+                       p.toList.sorted.mkString(", ") +
+                       (if p==frts.main then " [selected]" else "")
+            val rts = AnalyseLTS.sanify(frts.project(p))
+            val ltsInfo = (Set(rts), RTSSemantics, x => Show.simpler(x), (_:Action).toString)
+            (name, ltsInfo)
+          )
+        ),
+      //   (
+      //   e.products.toList.sortWith(_.size < _.size).zipWithIndex.map(p => (p._2, AnalyseLTS.sanify(AnalyseLTS.project(e.getRTS, p._1)))).toMap,
+      //   RTSSemantics,
+      //   x => Show.simpler(x),//x.inits.toString,
+      //   _.toString)),
+      //  Text),
      "Possible problems of the (insane) RTS projection" -> view[FRTS](r=>AnalyseLTS.randomWalkPP(r.getRTS)
        , Text).expand,
      "Number of states and transitions"
