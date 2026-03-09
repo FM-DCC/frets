@@ -1,6 +1,6 @@
 # Animator of Featured Reactive Transition Systems (FReTS)
 
-Run a snapshot of this tool in https://fm-dcc.github.io/frets
+Run a snapshot of this tool at https://anonymous.4open.science/w/frets/.
 
 # Caos
 

@@ -21,23 +21,17 @@ object Show:
     (for (a, bcs) <- abc.toSet; b <- bcs yield s"${apply(a)}|${apply(b)}")
       .mkString(",")
 
-
-//  def apply(rx: RxGraph): String =
-//    s"[init]  ${rx.inits.mkString(",")}\n[act]   ${apply(rx.act)}\n[edges] ${
-//      showEdges(rx.edg)
-//    }\n[on]    ${showEdges(rx.on)}\n[off]   ${showEdges(rx.off)}"
-//
-//  def simple(rx:RxGraph): String =
-//    s"[at] ${rx.inits.mkString(",")} [active] ${apply(rx.act)}"
-
+  /** Pretty print an FRTS extended with aliases */
   def apply(rx: XFRTS): String =
     s"${apply(rx.f)}\n[xon] ${rx.xon}\n[xoff] ${rx.xoff}\n[aliases] ${rx.names.mkString(",")}"
 
+  /** Pretty print an FRTS */
   def apply(f: FRTS): String =
     s"${apply(f.rts)}\n[FM] ${apply(f.fm)}\n[FCond] ${
       f.pk.map(kv => apply(kv._1) + " -> " + apply(kv._2)).mkString("; ")}\n[Sel] ${
       f.main.mkString("{",",","}")}"
   
+  /** Pretty print a feature expression */
   def apply(fe: FExp): String = fe match
     case FTrue => "true"
     case Feat(n) => n
@@ -46,10 +40,11 @@ object Show:
     case FNot(e) => s"¬${applyP(e)}"
     case FImp(e1, e2) => s"${applyP(e1)} -> ${applyP(e2)}"
     case FEq(e1, e2) => s"${applyP(e1)} <-> ${applyP(e2)}"
-  def applyP(fe: FExp): String = fe match
+  private def applyP(fe: FExp): String = fe match
     case e: (FOr | FAnd | FImp | FEq) => s"(${apply(e)})"
     case _ => apply(fe)
 
+  /** Pretty print an DNF formula */
   def showDNF(dnf: Set[Set[Literal]]): String =
     if dnf.isEmpty then "False"
     else if dnf == Set(Set()) then "True"
@@ -58,18 +53,22 @@ object Show:
       .mkString(" & "))
       .mkString("\n")
 
+  /** Pretty print a guarded action */
   def apply(guarded: (Any, FExp)): String =
     if guarded._2==FExp.FTrue then
       guarded._1.toString else
       s"${guarded._1} if ${Show(guarded._2).replaceAll("¬","!")}"
 
+  /** Pretty print an RTS */
   def apply(rx: RTS): String =
     s"[init]  ${rx.inits}\n[act]   ${apply(rx.act)}\n[edges] ${
       showEdges(rx.edgs)
     }\n[on]    ${showReaction(rx.on)}\n[off]   ${showReaction(rx.off)}"
 
+  /** Pretty print an RTS with only the number of active edges */
   def simple(rx:RTS): String =
     s"[at] ${rx.inits} [active] ${apply(rx.act)}"
 
+  /** Pretty print an RTS with only the number of active edges (more compact) */
   def simpler(rx: RTS): String =
     s"${rx.inits}[${rx.act.size}]"

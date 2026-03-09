@@ -8,10 +8,8 @@ import marge.backend.*
 import marge.syntax.FExp.{FNot, Feat}
 import marge.syntax.FRTS.toMermaid
 import marge.syntax.RTS.{Action, Edge, QName}
-import marge.syntax.{FExp, FRTS, Parser, Show, Syntax}
-//import marge.syntax.Syntax.RxGraph
+import marge.syntax.{FExp, FRTS, Parser, Show}
 import marge.syntax.RTS
-import marge.backend.RxSemantics
 import caos.sos.Bisimulation
 import caos.sos.TraceEquiv
 import caos.sos.StrongBisim
@@ -32,24 +30,24 @@ object CaosConfig extends Configurator[FRTS]:
 
   /** Examples of programs that the user can choose from. The first is the default one. */
   val examples: Seq[Example] = (List(
-    "Ex.2: simple TS pr2" -> "// TS: Flatenned \"Simple FRTS\"\n// after selecting product 2,\n// with features f1 and f2,\n// and minimising it\ninit s0\ns0 --> sa: a \ns0 --> sb: b \nsa --> sab: b\nsb --> sab: a\nsb --> sb: b\nsab --> sab: b\nsb --> sc: c\nsab --> sc: c"
+    "Ex.2: simple TS pr2" -> "// TS: Projected \"Simple FRTS\"\n// after selecting product 2,\n// with features f1 and f2,\n// and minimising it\ninit s0\ns0 --> sa: a \ns0 --> sb: b \nsa --> sab: b\nsb --> sab: a\nsb --> sb: b\nsab --> sab: b\nsb --> sc: c\nsab --> sc: c"
       -> "Simple TS, obtained from the simple FRTS example after product 2, with features f1 and f2, and minimising it. Presented in Fig. 1 and Example 2 in the companion paper.",
-    "Ex.2: simple TS pr1" -> "// TS: Flatenned \"Simple FRTS\"\n// after selecting product 1,\n// with feature f1\ninit s0\ns0 --> s0a: a "
+    "Ex.2: simple TS pr1" -> "// TS: Projected \"Simple FRTS\"\n// after selecting product 1,\n// with feature f1\ninit s0\ns0 --> s0a: a "
       -> "Simple TS, obtained from the simple FRTS example after product 1, selecting feature f1. Presented in Fig. 1 and Example 2 in the companion paper.",
-    "Ex.3: vending TS" -> "// Flatenned TS to model a vending machine\n// from the vending FRTS after selecting\n// features S, T, and P.\ninit e1\nx1 --> x1: sodaRefill\nx1 --> x1: teaRefill\nx1 --> x2: pay\nx2 --> x3: change\nx3 --> x4: cancel\nx4 --> x1: return\nx3 --> x5: soda\nx3 --> x6: tea\nx5 --> x7: serve\nx6 --> x7: serve\nx7 --> x8: open\nx8 --> x9: take\nx9 --> x1: close\ny1 --> y2: pay\ny2 --> y3: change\ny3 --> y4: cancel\ny4 --> y1: return\ny3 --> y5: tea\ny5 --> y6: serve\ny6 --> y7: open\ny7 --> y8: take\ny8 --> y1: close\ny1 --> y1: teaRefill\nz1 --> z2: pay\nz2 --> z3: change\nz3 --> z4: cancel\nz4 --> z1: return\nz3 --> z5: soda\nz5 --> z6: serve\nz6 --> z7: open\nz7 --> z8: take\nz8 --> z1: close\nz1 --> z1: sodaRefill\ne7 --> e8: open\ne8 --> e9: take\ne9 --> e1: close\nx5 --> y6: serveSodaGone\nx6 --> z6: serveTeaGone\ny5 --> e7: serveTeaGone\nz5 --> e7: serveSodaGone\ne1 --> y1: teaRefill\ne1 --> z1: sodaRefill\ny1 --> x1: sodaRefill\nz1 --> x1: teaRefill\ne1 --> e2: pay\ne2 --> e3: change\ne3 --> e4: cancel\ne4 --> e1: return"
-      -> "TS obtained from flatenning the FRTS Vending example after the selecting product with features S and P. Presented in Fig. 2a and Example 3 in the companion paper.",
-    "Ex.3: vending TS (old)" -> "// Flatenned TS to model a vending machine\n// from the vending FRTS after selecting\n// features S, T, and P.\ninit e4\nx1 --> x2: pay\nx2 --> x3: change\nx3 --> x4: cancel\nx4 --> x1: return\nx3 --> x5: soda\nx3 --> x6: tea\nx5 --> x7: serve\nx6 --> x7: serve\nx7 --> x8: open\nx8 --> x9: take\nx9 --> x1: close\nx1 --> x1: sodaRefill\nx1 --> x1: teaRefill\ny1 --> y2: pay\ny2 --> y3: change\ny3 --> y4: cancel\ny4 --> y1: return\ny3 --> y5: tea\ny5 --> y6: serve\ny6 --> y7: open\ny7 --> y8: take\ny8 --> y1: close\ny1 --> y1: teaRefill\nz1 --> z2: pay\nz2 --> z3: change\nz3 --> z4: cancel\nz4 --> z1: return\nz3 --> z5: soda\nz5 --> z6: serve\nz6 --> z7: open\nz7 --> z8: take\nz8 --> z1: close\nz1 --> z1: sodaRefill\ne1 --> e2: open\ne2 --> e3: take\ne3 --> e4: close\nx5 --> y6: serveSodaGone\nx6 --> z6: serveTeaGone\ny5 --> e1: serveTeaGone\nz5 --> e1: serveSodaGone\ne4 --> y1: teaRefill\ne4 --> z1: sodaRefill\ny1 --> x1: sodaRefill\nz1 --> x1: teaRefill"
-      -> "TS obtained from flatenning the FRTS Vending example after the selecting product with features S and P. Presented in Fig. 2a and Example 3 in the companion paper.",
+    "Ex.3: vending TS" -> "// Projected TS to model a vending machine\n// from the vending FRTS after selecting\n// features S, T, and P.\ninit e1\nx1 --> x1: sodaRefill\nx1 --> x1: teaRefill\nx1 --> x2: pay\nx2 --> x3: change\nx3 --> x4: cancel\nx4 --> x1: return\nx3 --> x5: soda\nx3 --> x6: tea\nx5 --> x7: serve\nx6 --> x7: serve\nx7 --> x8: open\nx8 --> x9: take\nx9 --> x1: close\ny1 --> y2: pay\ny2 --> y3: change\ny3 --> y4: cancel\ny4 --> y1: return\ny3 --> y5: tea\ny5 --> y6: serve\ny6 --> y7: open\ny7 --> y8: take\ny8 --> y1: close\ny1 --> y1: teaRefill\nz1 --> z2: pay\nz2 --> z3: change\nz3 --> z4: cancel\nz4 --> z1: return\nz3 --> z5: soda\nz5 --> z6: serve\nz6 --> z7: open\nz7 --> z8: take\nz8 --> z1: close\nz1 --> z1: sodaRefill\ne7 --> e8: open\ne8 --> e9: take\ne9 --> e1: close\nx5 --> y6: serveSodaGone\nx6 --> z6: serveTeaGone\ny5 --> e7: serveTeaGone\nz5 --> e7: serveSodaGone\ne1 --> y1: teaRefill\ne1 --> z1: sodaRefill\ny1 --> x1: sodaRefill\nz1 --> x1: teaRefill\ne1 --> e2: pay\ne2 --> e3: change\ne3 --> e4: cancel\ne4 --> e1: return"
+      -> "TS obtained from projecting the FRTS Vending example after the selecting product with features S and P. Presented in Fig. 2a and Example 3 in the companion paper.",
+    "Ex.3: vending TS (old)" -> "// Projected TS to model a vending machine\n// from the vending FRTS after selecting\n// features S, T, and P.\ninit e4\nx1 --> x2: pay\nx2 --> x3: change\nx3 --> x4: cancel\nx4 --> x1: return\nx3 --> x5: soda\nx3 --> x6: tea\nx5 --> x7: serve\nx6 --> x7: serve\nx7 --> x8: open\nx8 --> x9: take\nx9 --> x1: close\nx1 --> x1: sodaRefill\nx1 --> x1: teaRefill\ny1 --> y2: pay\ny2 --> y3: change\ny3 --> y4: cancel\ny4 --> y1: return\ny3 --> y5: tea\ny5 --> y6: serve\ny6 --> y7: open\ny7 --> y8: take\ny8 --> y1: close\ny1 --> y1: teaRefill\nz1 --> z2: pay\nz2 --> z3: change\nz3 --> z4: cancel\nz4 --> z1: return\nz3 --> z5: soda\nz5 --> z6: serve\nz6 --> z7: open\nz7 --> z8: take\nz8 --> z1: close\nz1 --> z1: sodaRefill\ne1 --> e2: open\ne2 --> e3: take\ne3 --> e4: close\nx5 --> y6: serveSodaGone\nx6 --> z6: serveTeaGone\ny5 --> e1: serveTeaGone\nz5 --> e1: serveSodaGone\ne4 --> y1: teaRefill\ne4 --> z1: sodaRefill\ny1 --> x1: sodaRefill\nz1 --> x1: teaRefill"
+      -> "TS obtained from projecting the FRTS Vending example after the selecting product with features S and P. Presented in Fig. 2a and Example 3 in the companion paper.",
     "Ex.4: equivalences" -> "// TS to illustrate different\n// equivalences. States\n// p0 and q0 are trace\n// equivalent but not\n// bisimilar.\ninit p0\np0-->p1:a\np1-->p3:c\np1-->p2:b\n\ninit q0\nq0-->q1:a\nq1-->q3:c\nq0-->q2:a\nq2-->q3:b\n\ncheck Tr(p0) = Tr(s0)\ncheck p0 ~ s0"
       -> "RTS to illustrate different equivalences. States s0 and q0 are trace equivalent but not bisimilar. Presented in Example 4 in the companion paper.",
     "Ex.5: perm TS"
       -> "init s\ns --> sa: a\ns --> sb: b\ns --> sc: c\nsa --> sab: b\nsa --> sac: c\nsb --> sab: a\nsb --> sbc: c\nsc --> sac: a\nsc --> sbc: b\nsab --> sabc: c\nsac --> sabc: b\nsbc --> sabc: a"
       -> "TS that accepts all permutations of the actions a,b,c and their prefixes.",
     ):List[Example]) ++ (if justTS then Nil else List(
-      "Ex.6: simple FTS" -> "// FTS: Flatenned \"Simple FRTS\"\n// without selecting any product\ninit s0\ns0  --> sa:  a if f1\ns0  --> sb:  b if f2\nsa  --> sab: b if f2\nsb  --> sab: a if f1\nsb  --> sb:  b if f2\nsab --> sab: b if f2\nsb  --> sc:  c if f2\nsab --> sc:  c if f2\n\nfm f1\nselect f1,f2; // try also just \"f1\""
+      "Ex.6: simple FTS" -> "// FTS: Flattenned \"Simple FRTS\"\n// without selecting any product\ninit s0\ns0  --> sa:  a if f1\ns0  --> sb:  b if f2\nsa  --> sab: b if f2\nsb  --> sab: a if f1\nsb  --> sb:  b if f2\nsab --> sab: b if f2\nsb  --> sc:  c if f2\nsab --> sc:  c if f2\n\nfm f1\nselect f1,f2; // try also just \"f1\""
       -> "Simple FTS, obtained from the simple FRTS example without selecting any product. Presented in Fig. 1 and Example 6 in the companion paper.",
     "Ex.7: vending FTS" -> "init e4\nx1 --> x2: pay if P\nx2 --> x3: change\nx3 --> x4: cancel\nx4 --> x1: return\nx3 --> x5: soda\nx3 --> x6: tea\nx5 --> x7: serve\nx6 --> x7: serve\nx7 --> x8: open\nx8 --> x9: take\nx9 --> x1: close\nx1 --> x6: tea if !P\nx1 --> x5: soda if !P\nx1 --> x1: sodaRefill\nx1 --> x1: teaRefill\ny1 --> y2: pay if P\ny2 --> y3: change\ny3 --> y4: cancel\ny4 --> y1: return\ny3 --> y5: tea\ny5 --> y6: serve\ny6 --> y7: open\ny7 --> y8: take\ny8 --> y1: close\ny1 --> y5: tea if !P\ny1 --> y1: teaRefill\nz1 --> z2: pay if P\nz2 --> z3: change\nz3 --> z4: cancel\nz4 --> z1: return\nz3 --> z5: soda\nz5 --> z6: serve\nz6 --> z7: open\nz7 --> z8: take\nz8 --> z1: close\nz1 --> z5: soda if !P\nz1 --> z1: sodaRefill\ne1 --> e2: open\ne2 --> e3: take\ne3 --> e4: close\nx5 --> y6: serveSodaGone\nx6 --> z6: serveTeaGone\ny5 --> e1: serveTeaGone\nz5 --> e1: serveSodaGone\ne4 --> y1: teaRefill if T\ne4 --> z1: sodaRefill if S\ny1 --> x1: sodaRefill if S\nz1 --> x1: teaRefill if T\nfm S || T\nselect S,T,P;"
-      -> "FTS obtained from flatenning the FRTS Vending example before selecting any product. Presented in Fig. 2a and Example 7 in the companion paper.",
+      -> "FTS obtained from flattenning the FRTS Vending example before selecting any product. Presented in Fig. 2a and Example 7 in the companion paper.",
     "Ex.8: perm FTS"
       -> "// Action-permutation FTS, which \n// recognises the language given\n// by all perumations of {a,b,c}\n// and their prefixes. Feature selection\n// restrict the length of the TSs.\ninit s\ns --> sa: a     if f1\ns --> sb: b     if f1\ns --> sc: c     if f1\nsa --> sab: b   if f2\nsa --> sac: c   if f2\nsb --> sab: a   if f2\nsb --> sbc: c   if f2\nsc --> sac: a   if f2\nsc --> sbc: b   if f2\nsab --> sabc: c if f3\nsac --> sabc: b if f3\nsbc --> sabc: a if f3\nfm (f3 -> f2) && (f2 -> f1)\nselect f1,f2,f3;"
       -> "FTS that accepts all permutations of the actions a,b,c and their prefixes. Feature selection restricts the length of the TSs. Presented in Example 8 in the companion paper.",
@@ -57,7 +55,7 @@ object CaosConfig extends Configurator[FRTS]:
       -> "Simple RTS, obtained from the simple FRTS example after product 1, selecting feature f1. Presented in Fig. 1 and Example 9 in the companion paper.",
     "Ex.9: simple RTS pr2" -> "// RTS: Simple FRTS after\n// selecting product 2, with\n// features f1 and f2\ninit s0\ns0 --> s0: a \ns0 --> s0: b \ns0 --> s1: c disabled\na --x a\nb ->> c"
       -> "Simple RTS, obtained from the simple FRTS example after selecting product 2, with features f1 and f2. Presented in Fig. 1 and Example 9 in the companion paper.",
-    "Ex.10: simple TS non-min" -> "// TS: Flatenned \"Simple FRTS\"\n// after selecting product 2,\n// with features f1 and f2,\n// without minimising it\ninit s0\ns0 --> sa: a \ns0 --> sb: b \nsa --> sab: b\nsb --> sab: a\nsb --> sb: b\nsab --> sab: b\nsb --> sbc: c\nsab --> sabc: c"
+    "Ex.10: simple TS non-min" -> "// TS: Projected \"Simple FRTS\"\n// after selecting product 2,\n// with features f1 and f2,\n// without minimising it\ninit s0\ns0 --> sa: a \ns0 --> sb: b \nsa --> sab: b\nsb --> sab: a\nsb --> sb: b\nsab --> sab: b\nsb --> sbc: c\nsab --> sabc: c"
       -> "Simple TS, obtained from the simple FRTS example after product 1, selecting feature f1. Presented in Example 10 in the companion paper.",
     "Ex.11: vending RTS" -> "init s1\n// pay\ns1 --> s2: pay\ns4 --> s1: return\ns2 --> s3: change\ns3 --> s4: cancel\ns7 --> s8: open\ns8 --> s9: take\ns9 --> s1: close\n// soda\ns1 --> s1: sodaRefill\ns3 --> s5: soda\ns5 --> s7: serve\ns5 --> s7: serveSodaGone\nsodaRefill    ->> soda\nserveSodaGone --x soda\n// tea\ns1 --> s1: teaRefill\ns3 --> s6: tea\ns6 --> s7: serve\ns6 --> s7: serveTeaGone\nteaRefill    ->> tea\nserveTeaGone --x tea"
       -> "Vending machine, implemented using an RTS. Presented in Fig. 3a and Example 11 in the companion paper.",
@@ -68,7 +66,7 @@ object CaosConfig extends Configurator[FRTS]:
       -> "RTS that accepts all permutations of the actions a,b,c and their prefixes. Reactivity is used to disable multiple occurrences of each action. Presented in Example 12 in the companion paper.",
     "Ex.13 simple FRTS" -> "init s0\ns0 --> s0: a if f1\ns0 --> s0: b if f2\ns0 --> s1: c if f2 disabled\na --x a\nb ->> c\n\nfm f1\nselect f1,f2; // try also just \"f1\""
       -> "Simple illustrative example of an FRTS, used to motivate the core ideas. Presented in Fig. 1 and Example 13 in the companion paper.",
-    "Ex.14: simple FTS non-min" -> "// FTS: Flatenned \"Simple FRTS\"\n// without selecting any product\ninit s0\ns0  --> sa:  a if f1\ns0  --> sb:  b if f2\nsa  --> sab: b if f2\nsb  --> sab: a if f1\nsb  --> sb:  b if f2\nsab --> sab: b if f2\nsb  --> sbc:  c if f2\nsab --> sabc:  c if f2\n\nfm f1\nselect f1,f2; // try also just \"f1\""
+    "Ex.14: simple FTS non-min" -> "// FTS: Flattenned \"Simple FRTS\"\n// without selecting any product\ninit s0\ns0  --> sa:  a if f1\ns0  --> sb:  b if f2\nsa  --> sab: b if f2\nsb  --> sab: a if f1\nsb  --> sb:  b if f2\nsab --> sab: b if f2\nsb  --> sbc:  c if f2\nsab --> sabc:  c if f2\n\nfm f1\nselect f1,f2; // try also just \"f1\""
       -> "Simple FTS, obtained from the simple FRTS example without selecting any product, without minimising it. Presented in Example 14 in the companion paper.",
     "Ex.15: vending FRTS" -> "init s1\ns1 --> s1: sodaRefill if S\ns1 --> s1: teaRefill if T\ns1 --> s2: pay if P\ns1 --> s3: free if !P\ns2 --> s3: change\ns4 --> s1: return\ns3 --> s4: cancel\ns3 --> s5: soda if S disabled\ns3 --> s6: tea if T disabled\ns5 --> s7: serve\ns5 --> s7: serveSodaGone\ns6 --> s7: serve\ns6 --> s7: serveTeaGone\ns7 --> s8: open\ns8 --> s9: take\ns9 --> s1: close\n\nsodaRefill ->> soda\nteaRefill ->> tea\nserveSodaGone --x soda\nserveTeaGone --x tea\n\nfm S || T\nselect S,T,P; // just soda & payment"
       -> "FRTS version of the vending machine example, presented in Fig. 3b and Example 15 in the companion paper.",
@@ -111,7 +109,7 @@ object CaosConfig extends Configurator[FRTS]:
       -> "Experiments with multiple components.",
     "Vending comparison v1 (WiP)" -> "init e4\nx1 --> x2: pay if P\nx2 --> x3: change\nx3 --> x4: cancel\nx4 --> x1: return\nx3 --> x5: soda\nx3 --> x6: tea\nx5 --> x7: serve\nx6 --> x7: serve\nx7 --> x8: open\nx8 --> x9: take\nx9 --> x1: close\nx1 --> x6: tea if !P\nx1 --> x5: soda if !P\nx1 --> x1: sodaRefill\nx1 --> x1: teaRefill\ny1 --> y2: pay if P\ny2 --> y3: change\ny3 --> y4: cancel\ny4 --> y1: return\ny3 --> y5: tea\ny5 --> y6: serve\ny6 --> y7: open\ny7 --> y8: take\ny8 --> y1: close\ny1 --> y5: tea if !P\ny1 --> y1: teaRefill\nz1 --> z2: pay if P\nz2 --> z3: change\nz3 --> z4: cancel\nz4 --> z1: return\nz3 --> z5: soda\nz5 --> z6: serve\nz6 --> z7: open\nz7 --> z8: take\nz8 --> z1: close\nz1 --> z5: soda if !P\nz1 --> z1: sodaRefill\ne1 --> e2: open\ne2 --> e3: take\ne3 --> e4: close\nx5 --> y6: serveSodaGone\nx6 --> z6: serveTeaGone\ny5 --> e1: serveTeaGone\nz5 --> e1: serveSodaGone\ne4 --> y1: teaRefill if T\ne4 --> z1: sodaRefill if S\ny1 --> x1: sodaRefill if S\nz1 --> x1: teaRefill if T\n\n\ninit s1\n[sr]s1 --> s1: sodaRefill if S\n[tr]s1 --> s1: teaRefill if T\n[py1]s1 --> s2a: pay if P disabled\n[py2]s1 --> s2b: pay if P disabled\ns4 --> s1: return\ns2a --> s3: change\ns2b --> s3: change\ns3 --> s4: cancel\n[sd]s3 --> s5: soda if S disabled\n[te]s3 --> s6: tea  if T disabled\ns1 --> s5: soda if !P disabled\ns1 --> s6: tea  if !P disabled\ns5 --> s7: serve\n[sg]s5 --> s7: serveSodaGone\ns6 --> s7: serve\n[tg]s6 --> s7: serveTeaGone\ns7 --> s8: open\ns8 --> s9: take\ns9 --> s1: close\nsr ->> sd\ntr ->> te\nsg --x sd\ntg --x te\nsr ->> py1\ntr ->> py2\nsg --x py1\ntg --x py2\n\nfm S || T\nselect S,T,P;\n\ncheck e4 ~ s1"
       -> "Comparison between the vending machine example modelled as an FRTS and as an RTS. Presented in Fig. 3 and Example 16 in the companion paper.",
-    "Vending comparison v2 (WiP)" -> "init s1\n[sr] s1 --> s1: sodaRefill if S\n[tr] s1 --> s1: teaRefill if T\ns1 --> s2: pay if P\ns1 --> s3: free if !P\ns2 --> s3: change\ns4 --> s1: return\ns3 --> s4: cancel\n[sd] s3 --> s5: soda if S disabled\n[te] s3 --> s6: tea if T disabled\ns5 --> s7: serve\n[sg] s5 --> s7: serveSodaGone\ns6 --> s7: serve\n[tg] s6 --> s7: serveTeaGone\ns7 --> s8: open\ns8 --> s9: take\ns9 --> s1: close\n\nsr ->> sd\ntr ->> te\nsg --x sd\ntg --x te\n\nfm S || T\nselect S,T,P; // just soda & payment\n\n\n\n// Flatenned TS to model a vending machine\n// from the vending FRTS after selecting\n// features S, T, and P.\n//init e1\nx1 --> x1: sodaRefill\nx1 --> x1: teaRefill\nx1 --> x2: pay\nx2 --> x3: change\nx3 --> x4: cancel\nx4 --> x1: return\nx3 --> x5: soda\nx3 --> x6: tea\nx5 --> x7: serve\nx6 --> x7: serve\nx7 --> x8: open\nx8 --> x9: take\nx9 --> x1: close\ny1 --> y2: pay\ny2 --> y3: change\ny3 --> y4: cancel\ny4 --> y1: return\ny3 --> y5: tea\ny5 --> y6: serve\ny6 --> y7: open\ny7 --> y8: take\ny8 --> y1: close\ny1 --> y1: teaRefill\nz1 --> z2: pay\nz2 --> z3: change\nz3 --> z4: cancel\nz4 --> z1: return\nz3 --> z5: soda\nz5 --> z6: serve\nz6 --> z7: open\nz7 --> z8: take\nz8 --> z1: close\nz1 --> z1: sodaRefill\ne7 --> e8: open\ne8 --> e9: take\ne9 --> e1: close\nx5 --> y6: serveSodaGone\nx6 --> z6: serveTeaGone\ny5 --> e7: serveTeaGone\nz5 --> e7: serveSodaGone\ne1 --> y1: teaRefill\ne1 --> z1: sodaRefill\ny1 --> x1: sodaRefill\nz1 --> x1: teaRefill\ne1 --> e2: pay\ne2 --> e3: change\ne3 --> e4: cancel\ne4 --> e1: return\n\ncheck e1 ~ s1"
+    "Vending comparison v2 (WiP)" -> "init s1\n[sr] s1 --> s1: sodaRefill if S\n[tr] s1 --> s1: teaRefill if T\ns1 --> s2: pay if P\ns1 --> s3: free if !P\ns2 --> s3: change\ns4 --> s1: return\ns3 --> s4: cancel\n[sd] s3 --> s5: soda if S disabled\n[te] s3 --> s6: tea if T disabled\ns5 --> s7: serve\n[sg] s5 --> s7: serveSodaGone\ns6 --> s7: serve\n[tg] s6 --> s7: serveTeaGone\ns7 --> s8: open\ns8 --> s9: take\ns9 --> s1: close\n\nsr ->> sd\ntr ->> te\nsg --x sd\ntg --x te\n\nfm S || T\nselect S,T,P; // soda & tea & payment\n\n\n\n// Projected TS to model a vending machine\n// from the vending FRTS after selecting\n// features S, T, and P.\n//init e1\nx1 --> x1: sodaRefill\nx1 --> x1: teaRefill\nx1 --> x2: pay\nx2 --> x3: change\nx3 --> x4: cancel\nx4 --> x1: return\nx3 --> x5: soda\nx3 --> x6: tea\nx5 --> x7: serve\nx6 --> x7: serve\nx7 --> x8: open\nx8 --> x9: take\nx9 --> x1: close\ny1 --> y2: pay\ny2 --> y3: change\ny3 --> y4: cancel\ny4 --> y1: return\ny3 --> y5: tea\ny5 --> y6: serve\ny6 --> y7: open\ny7 --> y8: take\ny8 --> y1: close\ny1 --> y1: teaRefill\nz1 --> z2: pay\nz2 --> z3: change\nz3 --> z4: cancel\nz4 --> z1: return\nz3 --> z5: soda\nz5 --> z6: serve\nz6 --> z7: open\nz7 --> z8: take\nz8 --> z1: close\nz1 --> z1: sodaRefill\ne7 --> e8: open\ne8 --> e9: take\ne9 --> e1: close\nx5 --> y6: serveSodaGone\nx6 --> z6: serveTeaGone\ny5 --> e7: serveTeaGone\nz5 --> e7: serveSodaGone\ne1 --> y1: teaRefill\ne1 --> z1: sodaRefill\ny1 --> x1: sodaRefill\nz1 --> x1: teaRefill\ne1 --> e2: pay\ne2 --> e3: change\ne3 --> e4: cancel\ne4 --> e1: return\n\ncheck e1 ~ s1"
       -> "Comparison between the vending machine example modelled as an FRTS and as an RTS. Presented in Fig. 3 and Example 16 in the companion paper.",
     // "Vending (FRTS)" -> "init s1\ns1 --> s1: sodaRefill\ns1 --> s1: teaRefill\ns1 --> s2: pay\ns4 --> s1: return\ns2 --> s3: change\ns3 --> s4: cancel\ns3 --> s5: soda\ns3 --> s6: tea\ns5 --> s7: serve\ns5 --> s7: serveSodaGone\ns6 --> s7: serve\ns6 --> s7: serveTeaGone\ns7 --> s8: open\ns8 --> s9: take\ns9 --> s1: close\n\nsodaRefill ->> soda\nteaRefill ->> tea\nserveSodaGone --x soda\nserveTeaGone --x tea"
     //   -> "Experiment from the ongoing paper",
@@ -227,7 +225,7 @@ object CaosConfig extends Configurator[FRTS]:
 //     "experiment2" -> view[FRTS](x => test.map(_.products(Set("a","b"))).mkString("\n"), Text).expand,
      "FRTS: draw" -> view[FRTS](g => toMermaid(g), Mermaid).expand,
      "RTS projection: Step-by-step" -> steps((e:FRTS)=>AnalyseLTS.sanify(AnalyseLTS.sanify(e.getRTS)), RTSSemantics, RTS.toMermaid, _.show, Mermaid).expand,
-     "TS projection: flattened" -> lts((e:FRTS)=>e.getRTS,
+     "TS projection" -> lts((e:FRTS)=>e.getRTS,
        RTSSemantics,
        x => Show.simpler(x),//x.inits.toString,
        _.toString),
@@ -318,12 +316,12 @@ object CaosConfig extends Configurator[FRTS]:
          simpleEdges
        } simple transition(s)\n${
          reactions
-       } (de)activation transition(s)\n== Flattened TS projection (size: ${
+       } (de)activation transition(s)\n== TS projection (size: ${
          if !done then ">2000" else st.size + eds
        }) ==\n" +
          (if !done then s"Stopped after traversing 2000 states"
          else s"${st.size} state(s)\n$eds transition(s)") +
-         s"\n== Flattened TS projection as minimal DFA (size: ${
+         s"\n== TS projection as minimal DFA (size: ${
            if !doneMin then ">2000" else stMin.size + edsMin
          }) ==\n" +
          (if !doneMin then s"Stopped after traversing 2000 states"
@@ -353,7 +351,7 @@ object CaosConfig extends Configurator[FRTS]:
      //     "Step-by-step DB (simpler)" -> steps((e:FRTS)=>e, FRTSSemantics, FRTS.toMermaidPlain, _.show, Text).expand,
      // "RTS projection: Step-by-step (txt)" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, Show.apply, _.show, Text),
      ////     "Step-by-step (debug)" -> steps((e:RxGraph)=>e, Program2.RxSemantics, RxGraph.toMermaid, _.show, Text),
-     "TS projection: flattened (verbose)" -> lts((e:FRTS)=>e.getRTS,
+     "TS projection (verbose)" -> lts((e:FRTS)=>e.getRTS,
        RTSSemantics,
        x => Show.simple(x),//x.inits.toString,
        _.toString),
@@ -481,22 +479,22 @@ object CaosConfig extends Configurator[FRTS]:
         "</pre>" +
         "<p> where <code>feature_expression</code> is a boolean expression over features, and " +
         "<code>feature-names*</code> is a comma-separated list of features chosen for the current product.</p>"),
-    "TS projection: flattened" -> "More information on the TS visualization" ->
-      """<p>This widget depicts the flattened projection for the selected product of the given FRTS.</p>
+    "TS projection" -> "More information on the TS visualization" ->
+      """<p>This widget depicts the projection for the selected product of the given FRTS.</p>
         |
         |<p>The names of the states include both the original name in the given FRTS and a number
         |indicating the number of active transitions. E.g., <code>s0[2]</code> represents
         |the state <code>s0</code> in the FRTS with 2 active transitions. Note that this name is not
         |unique. To see the list of all active transitions, which provides unique names,
-        |please use the widget "TS: flattened (verbose)." </p>
+        |please use the widget "TS projection (verbose)". </p>
         |""".stripMargin,
-    "TS projection: flatenned (verbose)" -> "More information on the TS visualization" ->
-      """<p>This widget depicts the flattened projection for the selected product of the given FRTS.</p>
+    "TS projection (verbose)" -> "More information on the TS visualization" ->
+      """<p>This widget depicts the projection for the selected product of the given FRTS.</p>
         |
         |<p>The names of the states include both the original name in the given FRTS and a list
         |of all active transitions. E.g., <code>s0[{a,b}]</code> represents
         |the state <code>s0</code> in the FRTS with 2 active transitions, one labelled <code>a</code> and another labelled <code>b</code>.
-        | Note that this name is unique. To see a simpler name, please use the widget "TS: flattened". </p>
+        | Note that this name is unique. To see a simpler name, please use the widget "TS projection". </p>
         |""".stripMargin,
     "FTS: deterministic" -> "More information on how to determinise the FTS" ->
       """We use a modified version of the subset construction algorithm to determinise the FTS,
@@ -562,7 +560,7 @@ object CaosConfig extends Configurator[FRTS]:
       |<a target="_blank" href="https://www.mcrl2.org/web/user_manual/language_reference/mcrl2.html">
       |https://www.mcrl2.org/web/user_manual/language_reference/mcrl2.html</a></p>
       |
-      |<p> This translation is not modular, i.e., the RTS projection if flatenned into a single transition system
+      |<p> This translation is not modular, i.e., the RTS projection is encoded as single transition system
       |before being translated into mCRL2. We are investigating a modular approach, encoding the activation/deactivation
       |of transitions by parallel processes.</p>
       |
