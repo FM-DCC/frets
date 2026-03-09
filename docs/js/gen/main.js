@@ -23179,23 +23179,23 @@ function $c_Lmarge_frontend_CaosConfig$() {
   var self = this.Lmarge_frontend_CaosConfig$__f_languageName;
   var self$1 = new $c_T2(self, "More information on the syntax of Reactive Graph");
   var $$x18 = new $c_T2(self$1, "A Feature Reactive Transition System is a transition system where transitions can be <ul><li>enabled or disabled at compile time based on feature expressions.<li>enabled or disabled at runtime based reactions.</li></ul>The syntax for defining an FRTS is illustrated by the following example: <pre>init &lt;initial-state&gt;\n// Add two lablelled transitions with a feature expression (optional)\n&lt;source-state&gt;  --&gt; &lt;target-state&gt; by &lt;action&gt; if &lt;feature-expression&gt;\n&lt;source-state&gt;  --&gt; &lt;target-state&gt; by &lt;action&gt; disabled // starts disabled\n// (add more transitions)\n\n// Enable an transition action2 when action1 is performed\n&lt;action1&gt; -&gt; &lt;action2&gt;\n\n// Disable an transition action2 when action1 is performed\n&lt;action1&gt; --x &lt;action2&gt;\n// Define a feature model as a constraint over feature names\nfm &lt;feature-expression&gt;\n// Select a set of features to be used in the analsyses\nselect &lt;feature-names*&gt;;</pre><p> where <code>feature_expression</code> is a boolean expression over features, and <code>feature-names*</code> is a comma-separated list of features chosen for the current product.</p>");
-  var self$2 = new $c_T2("TS projection", "More information on the TS visualization");
+  var self$2 = new $c_T2("TS projection unfolded", "More information on the TS visualization");
   $m_sc_StringOps$();
   var y$5 = $m_sc_StringOps$().stripMargin$extension__T__C__T("<p>This widget depicts the projection for the selected product of the given FRTS.</p>\n        |\n        |<p>The names of the states include both the original name in the given FRTS and a number\n        |indicating the number of active transitions. E.g., <code>s0[2]</code> represents\n        |the state <code>s0</code> in the FRTS with 2 active transitions. Note that this name is not\n        |unique. To see the list of all active transitions, which provides unique names,\n        |please use the widget \"TS projection (verbose)\". </p>\n        |", 124);
   var $$x17 = new $c_T2(self$2, y$5);
   var self$3 = new $c_T2("TS projection (verbose)", "More information on the TS visualization");
   $m_sc_StringOps$();
-  var y$6 = $m_sc_StringOps$().stripMargin$extension__T__C__T("<p>This widget depicts the projection for the selected product of the given FRTS.</p>\n        |\n        |<p>The names of the states include both the original name in the given FRTS and a list\n        |of all active transitions. E.g., <code>s0[{a,b}]</code> represents\n        |the state <code>s0</code> in the FRTS with 2 active transitions, one labelled <code>a</code> and another labelled <code>b</code>.\n        | Note that this name is unique. To see a simpler name, please use the widget \"TS projection\". </p>\n        |", 124);
+  var y$6 = $m_sc_StringOps$().stripMargin$extension__T__C__T("<p>This widget depicts the projection for the selected product of the given FRTS.</p>\n        |\n        |<p>The names of the states include both the original name in the given FRTS and a list\n        |of all active transitions. E.g., <code>s0[{a,b}]</code> represents\n        |the state <code>s0</code> in the FRTS with 2 active transitions, one labelled <code>a</code> and another labelled <code>b</code>.\n        | Note that this name is unique. To see a simpler name, please use the widget \"TS projection unfolded\". </p>\n        |", 124);
   var $$x16 = new $c_T2(self$3, y$6);
-  var self$4 = new $c_T2("FTS: deterministic", "More information on how to determinise the FTS");
+  var self$4 = new $c_T2("FTS unfolded: deterministic", "More information on how to determinise the FTS");
   $m_sc_StringOps$();
-  var y$7 = $m_sc_StringOps$().stripMargin$extension__T__C__T("We use a modified version of the subset construction algorithm to determinise the FTS,\n        |where we also take into account the feature expressions associated with the transitions.\n        |The resulting deterministic FTS is not minimal, and can be further minimised using the widget \"FTS projection: minimal (up to trace-equivalence)\". ", 124);
+  var y$7 = $m_sc_StringOps$().stripMargin$extension__T__C__T("We use a modified version of the subset construction algorithm to determinise the FTS,\n        |where we also take into account the feature expressions associated with the transitions.\n        |The resulting deterministic FTS is not minimal, and can be further minimised using the widget \"FTS projection unfolded: minimal (up to trace-equivalence)\". ", 124);
   var $$x15 = new $c_T2(self$4, y$7);
-  var self$5 = new $c_T2("TS projection: deterministic", "More information on how to determinise the TS");
+  var self$5 = new $c_T2("TS projection unfolded: deterministic", "More information on how to determinise the TS");
   $m_sc_StringOps$();
-  var y$8 = $m_sc_StringOps$().stripMargin$extension__T__C__T("We use the subset construction algorithm to determinise the TS, where each state in the resulting\n        |TS corresponds to a set of states in the original TS. The resulting deterministic TS is not minimal,\n        |and can be further minimised using the widget \"TS projection: minimal (up to trace-equivalence)\".", 124);
+  var y$8 = $m_sc_StringOps$().stripMargin$extension__T__C__T("We use the subset construction algorithm to determinise the TS, where each state in the resulting\n        |TS corresponds to a set of states in the original TS. The resulting deterministic TS is not minimal,\n        |and can be further minimised using the widget \"TS projection unfolded: minimal (up to trace-equivalence)\".", 124);
   var $$x14 = new $c_T2(self$5, y$8);
-  var self$6 = new $c_T2("TS projection: minimal (up to trace-equivalence)", "More information on how to mininmise the TS)");
+  var self$6 = new $c_T2("TS projection unfolded: minimal (up to trace-equivalence)", "More information on how to mininmise the TS)");
   $m_sc_StringOps$();
   var y$9 = $m_sc_StringOps$().stripMargin$extension__T__C__T("We use Hopcroft's algorithm to find and merge indistinguishable states\n        |(<a href=\"https://en.wikipedia.org/wiki/DFA_minimization#Hopcroft's_algorithm\">https://en.wikipedia.org/wiki/DFA_minimization</a>),\n        |based on partition refinement of the underlying equivalence class.\n        |This notion of indistinguishable relies on trace-equivalence and not on bisimilarity.", 124);
   var $$x13 = new $c_T2(self$6, y$9);
@@ -23619,7 +23619,7 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsFRTS__sci_List = (function() {
     var this$19 = $n(this$18.Lmarge_syntax_RTS$QName__f_n);
     return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$19, "", "/", "")
   })), 80);
-  var $$x43 = new $c_T2("TS projection", y$4);
+  var $$x43 = new $c_T2("TS projection unfolded", y$4);
   var y$5 = $m_Lcaos_frontend_Configurator$().ltsCustom__F1__I__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e$3$1) => {
     var e$4 = $as_Lmarge_syntax_FRTS(e$3$1);
     var this$22 = $n($m_s_Predef$().s_Predef$__f_Set);
@@ -23645,7 +23645,7 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsFRTS__sci_List = (function() {
     }));
     return new $c_T4(_1, _2, _3, _4)
   })), 80);
-  var $$x42 = new $c_T2("FTS: flattened", y$5);
+  var $$x42 = new $c_T2("FTS unfolded", y$5);
   var y$6 = $m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((x$3$1) => {
     var x$7 = $as_Lmarge_syntax_FRTS(x$3$1);
     var this$29 = $n($n(x$7).Lmarge_syntax_FRTS__f_main);
@@ -23730,7 +23730,7 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsFRTS__sci_List = (function() {
       return new $c_T2(name, ltsInfo)
     })))
   })), 80);
-  var $$x38 = new $c_T2("Products (projections)", y$7);
+  var $$x38 = new $c_T2("Products (unfolded)", y$7);
   var this$62 = $n($m_Lcaos_frontend_Configurator$().view__F1__Lcaos_view_ViewType__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((r) => {
     var r$1 = $as_Lmarge_syntax_FRTS(r);
     var $$x35 = $m_Lmarge_backend_AnalyseLTS$();
@@ -23877,7 +23877,7 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsFRTS__sci_List = (function() {
     var ftstates$2 = $as_sci_Set($n(\u03b44$).T3__f__1);
     var ftedges$2 = $uI($n(\u03b44$).T3__f__2);
     $uZ($n(\u03b44$).T3__f__3);
-    return (((((((((((((((((((((((((((("== FRTS (size: " + ((((frstates + fsimpleEdges) | 0) + freactions) | 0)) + ") ==\n") + frstates) + " state(s) \n") + fsimpleEdges) + " simple transition(s)\n") + freactions) + " (de)activation transition(s)\n== FTS (size: ") + (($n(ftstates$2).size__I() + ftedges$2) | 0)) + ")==\n") + $n(ftstates$2).size__I()) + " state(s) \n") + ftedges$2) + " transition(s)\n== RTS projection (size: ") + ((((rstates + simpleEdges) | 0) + reactions) | 0)) + ") ==\n") + rstates) + " state(s)\n") + simpleEdges) + " simple transition(s)\n") + reactions) + " (de)activation transition(s)\n== TS projection (size: ") + ((!done$2) ? ">2000" : (($n(st$2).size__I() + eds$2) | 0))) + ") ==\n") + ((!done$2) ? "Stopped after traversing 2000 states" : ((($n(st$2).size__I() + " state(s)\n") + eds$2) + " transition(s)"))) + ("\n== TS projection as minimal DFA (size: " + ((!doneMin) ? ">2000" : (($n(stMin$2).size__I() + edsMin$2) | 0)))) + ") ==\n") + ((!doneMin) ? "Stopped after traversing 2000 states" : ((($n(stMin$2).size__I() + " state(s)\n") + edsMin$2) + " transition(s)")))
+    return (((((((((((((((((((((((((((("== FRTS (size: " + ((((frstates + fsimpleEdges) | 0) + freactions) | 0)) + ") ==\n") + frstates) + " state(s) \n") + fsimpleEdges) + " simple transition(s)\n") + freactions) + " (de)activation transition(s)\n== FTS (size: ") + (($n(ftstates$2).size__I() + ftedges$2) | 0)) + ")==\n") + $n(ftstates$2).size__I()) + " state(s) \n") + ftedges$2) + " transition(s)\n== RTS projection (size: ") + ((((rstates + simpleEdges) | 0) + reactions) | 0)) + ") ==\n") + rstates) + " state(s)\n") + simpleEdges) + " simple transition(s)\n") + reactions) + " (de)activation transition(s)\n== TS projection unfolded (size: ") + ((!done$2) ? ">2000" : (($n(st$2).size__I() + eds$2) | 0))) + ") ==\n") + ((!done$2) ? "Stopped after traversing 2000 states" : ((($n(st$2).size__I() + " state(s)\n") + eds$2) + " transition(s)"))) + ("\n== TS projection unfolded as minimal DFA (size: " + ((!doneMin) ? ">2000" : (($n(stMin$2).size__I() + edsMin$2) | 0)))) + ") ==\n") + ((!doneMin) ? "Stopped after traversing 2000 states" : ((($n(stMin$2).size__I() + " state(s)\n") + edsMin$2) + " transition(s)")))
   })), $m_Lcaos_view_Text$());
   var $$x34 = new $c_T2("Number of states and transitions", y$9);
   var $$x29 = $m_Lcaos_frontend_Configurator$().html__T__T2("<h2>Other functionalities</h2>");
@@ -24085,7 +24085,7 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsFRTS__sci_List = (function() {
     }));
     return new $c_T4(_1$2, _2$2, _3$2, _4$2)
   })), 80);
-  var $$x13 = new $c_T2("FTS: deterministic", y$17);
+  var $$x13 = new $c_T2("FTS unfolded: deterministic", y$17);
   var y$18 = $m_Lcaos_frontend_Configurator$().ltsCustom__F1__I__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e$10$1) => {
     var e$13 = $as_Lmarge_syntax_FRTS(e$10$1);
     matchResult30$1: {
@@ -24122,7 +24122,7 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsFRTS__sci_List = (function() {
     }));
     return new $c_T4(i$2, s$2$1, _3$3, _4$3)
   })), 80);
-  var $$x11 = new $c_T2("FTS: minimal (up to trace-equivalence)", y$18);
+  var $$x11 = new $c_T2("FTS unfolded: minimal (up to trace-equivalence)", y$18);
   var $$x6 = $m_Lcaos_frontend_Configurator$();
   var $$x4 = new $c_sjsr_AnonFunction1(((e$11$1) => {
     var e$14 = $as_Lmarge_syntax_FRTS(e$11$1);
@@ -24146,7 +24146,7 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsFRTS__sci_List = (function() {
     var this$149 = $n(this$148.Lmarge_syntax_RTS$QName__f_n);
     return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$149, "", "/", "")
   })), 80);
-  var $$x7 = new $c_T2("TS projection: deterministic", y$19);
+  var $$x7 = new $c_T2("TS projection unfolded: deterministic", y$19);
   var y$20 = $m_Lcaos_frontend_Configurator$().ltsCustom__F1__I__Lcaos_frontend_widgets_WidgetInfo(new $c_sjsr_AnonFunction1(((e$12$1) => {
     var e$15 = $as_Lmarge_syntax_FRTS(e$12$1);
     matchResult31$1: {
@@ -24184,7 +24184,7 @@ $c_Lmarge_frontend_CaosConfig$.prototype.widgetsFRTS__sci_List = (function() {
     }));
     return new $c_T4(i$2$1, s$2$2, _3$4, _4$4)
   })), 80);
-  var elems$10 = $n($$x52).wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$$x51, $$x50, $$x48, $$x47, $$x46, $$x43, $$x42, $$x41, $$x38, $$x36, $$x34, $$x29, $$x28, $$x21, $$x20, $$x19, $$x18, $$x13, $$x11, $$x7, new $c_T2("TS projection: minimal (up to trace-equivalence)", y$20)]));
+  var elems$10 = $n($$x52).wrapRefArray__AO__sci_ArraySeq(new ($d_T2.getArrayOf().constr)([$$x51, $$x50, $$x48, $$x47, $$x46, $$x43, $$x42, $$x41, $$x38, $$x36, $$x34, $$x29, $$x28, $$x21, $$x20, $$x19, $$x18, $$x13, $$x11, $$x7, new $c_T2("TS projection unfolded: minimal (up to trace-equivalence)", y$20)]));
   return $m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems$10)
 });
 $c_Lmarge_frontend_CaosConfig$.prototype.toggles__sci_List = (function() {

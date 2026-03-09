@@ -225,11 +225,11 @@ object CaosConfig extends Configurator[FRTS]:
 //     "experiment2" -> view[FRTS](x => test.map(_.products(Set("a","b"))).mkString("\n"), Text).expand,
      "FRTS: draw" -> view[FRTS](g => toMermaid(g), Mermaid).expand,
      "RTS projection: Step-by-step" -> steps((e:FRTS)=>AnalyseLTS.sanify(AnalyseLTS.sanify(e.getRTS)), RTSSemantics, RTS.toMermaid, _.show, Mermaid).expand,
-     "TS projection" -> lts((e:FRTS)=>e.getRTS,
+     "TS projection unfolded" -> lts((e:FRTS)=>e.getRTS,
        RTSSemantics,
        x => Show.simpler(x),//x.inits.toString,
        _.toString),
-     "FTS: flattened" ->
+     "FTS unfolded" ->
        ltsCustom((e:FRTS)=> (
          Set(e.rts),
          RTSSemantics.asFTS(e.pk),
@@ -251,7 +251,7 @@ object CaosConfig extends Configurator[FRTS]:
                     .map((p,i)=>s" ${i+1}. ${p.toList.sorted.mkString(", ")}${
                       if p==x.main then " [selected]" else ""}")
                     .mkString("\n"), Text),
-      "Products (projections)" -> ltsCustomLst((frts:FRTS) =>
+      "Products (unfolded)" -> ltsCustomLst((frts:FRTS) =>
         frts.products
           .toList.sortWith(_.size < _.size)
           .map(p =>
@@ -316,12 +316,12 @@ object CaosConfig extends Configurator[FRTS]:
          simpleEdges
        } simple transition(s)\n${
          reactions
-       } (de)activation transition(s)\n== TS projection (size: ${
+       } (de)activation transition(s)\n== TS projection unfolded (size: ${
          if !done then ">2000" else st.size + eds
        }) ==\n" +
          (if !done then s"Stopped after traversing 2000 states"
          else s"${st.size} state(s)\n$eds transition(s)") +
-         s"\n== TS projection as minimal DFA (size: ${
+         s"\n== TS projection unfolded as minimal DFA (size: ${
            if !doneMin then ">2000" else stMin.size + edsMin
          }) ==\n" +
          (if !doneMin then s"Stopped after traversing 2000 states"
@@ -379,19 +379,19 @@ object CaosConfig extends Configurator[FRTS]:
              s"act\n  ${e.getRTS.edgs.flatMap(x=>x._2.map(y => clean(y._2.toString))).mkString(",")};\n" +
              s"proc\n${procs.toSet.mkString("\n")}"
          ,Text),
-     "FTS: deterministic" -> ltsCustom((e:FRTS)=>
+     "FTS unfolded: deterministic" -> ltsCustom((e:FRTS)=>
        (Set(Set(e.rts)),
         FinAut.detSOS(RTSSemantics.asFTS(e.pk)) , 
         x => x.map(_.inits.toString).mkString(","),
         Show(_))),
-     "FTS: minimal (up to trace-equivalence)" -> ltsCustom((e:FRTS)=>
+     "FTS unfolded: minimal (up to trace-equivalence)" -> ltsCustom((e:FRTS)=>
          val (i,s,_) = FinAut.minSOS(RTSSemantics.asFTS(e.pk),Set(e.getRTS))
          (i,s, x => x.map(_.inits.toString).mkString(","), Show(_))),
-     "TS projection: deterministic" -> lts((e:FRTS)=>
+     "TS projection unfolded: deterministic" -> lts((e:FRTS)=>
        Set(e.getRTS), FinAut.detSOS(RTSSemantics),
        x => x.map(_.inits.toString).mkString(","),
        _.toString),
-     "TS projection: minimal (up to trace-equivalence)" -> ltsCustom(
+     "TS projection unfolded: minimal (up to trace-equivalence)" -> ltsCustom(
        (e:FRTS)=>
          val (i,s,_) = FinAut.minSOS(RTSSemantics,Set(e.getRTS))
          (i,s, x => x.map(_.inits.toString).mkString(","), _.toString)),
@@ -479,7 +479,7 @@ object CaosConfig extends Configurator[FRTS]:
         "</pre>" +
         "<p> where <code>feature_expression</code> is a boolean expression over features, and " +
         "<code>feature-names*</code> is a comma-separated list of features chosen for the current product.</p>"),
-    "TS projection" -> "More information on the TS visualization" ->
+    "TS projection unfolded" -> "More information on the TS visualization" ->
       """<p>This widget depicts the projection for the selected product of the given FRTS.</p>
         |
         |<p>The names of the states include both the original name in the given FRTS and a number
@@ -494,17 +494,17 @@ object CaosConfig extends Configurator[FRTS]:
         |<p>The names of the states include both the original name in the given FRTS and a list
         |of all active transitions. E.g., <code>s0[{a,b}]</code> represents
         |the state <code>s0</code> in the FRTS with 2 active transitions, one labelled <code>a</code> and another labelled <code>b</code>.
-        | Note that this name is unique. To see a simpler name, please use the widget "TS projection". </p>
+        | Note that this name is unique. To see a simpler name, please use the widget "TS projection unfolded". </p>
         |""".stripMargin,
-    "FTS: deterministic" -> "More information on how to determinise the FTS" ->
+    "FTS unfolded: deterministic" -> "More information on how to determinise the FTS" ->
       """We use a modified version of the subset construction algorithm to determinise the FTS,
         |where we also take into account the feature expressions associated with the transitions.
-        |The resulting deterministic FTS is not minimal, and can be further minimised using the widget "FTS projection: minimal (up to trace-equivalence)". """.stripMargin,
-    "TS projection: deterministic" -> "More information on how to determinise the TS" ->
+        |The resulting deterministic FTS is not minimal, and can be further minimised using the widget "FTS projection unfolded: minimal (up to trace-equivalence)". """.stripMargin,
+    "TS projection unfolded: deterministic" -> "More information on how to determinise the TS" ->
       """We use the subset construction algorithm to determinise the TS, where each state in the resulting
         |TS corresponds to a set of states in the original TS. The resulting deterministic TS is not minimal,
-        |and can be further minimised using the widget "TS projection: minimal (up to trace-equivalence)".""".stripMargin,
-    "TS projection: minimal (up to trace-equivalence)" -> "More information on how to mininmise the TS)"
+        |and can be further minimised using the widget "TS projection unfolded: minimal (up to trace-equivalence)".""".stripMargin,
+    "TS projection unfolded: minimal (up to trace-equivalence)" -> "More information on how to mininmise the TS)"
       ->
       """We use Hopcroft's algorithm to find and merge indistinguishable states
         |(<a href="https://en.wikipedia.org/wiki/DFA_minimization#Hopcroft's_algorithm">https://en.wikipedia.org/wiki/DFA_minimization</a>),
