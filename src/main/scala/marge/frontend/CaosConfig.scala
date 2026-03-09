@@ -59,8 +59,10 @@ object CaosConfig extends Configurator[FRTS]:
       -> "Simple RTS, obtained from the simple FRTS example after selecting product 2, with features f1 and f2. Presented in Fig. 1 and Example 9 in the companion paper.",
     "Ex.10: simple TS non-min" -> "// TS: Flatenned \"Simple FRTS\"\n// after selecting product 2,\n// with features f1 and f2,\n// without minimising it\ninit s0\ns0 --> sa: a \ns0 --> sb: b \nsa --> sab: b\nsb --> sab: a\nsb --> sb: b\nsab --> sab: b\nsb --> sbc: c\nsab --> sabc: c"
       -> "Simple TS, obtained from the simple FRTS example after product 1, selecting feature f1. Presented in Example 10 in the companion paper.",
-    "Ex.11: vending RTS" -> "init s1\ns1 --> s1: sodaRefill\ns1 --> s1: teaRefill\ns1 --> s2: pay\ns4 --> s1: return\ns2 --> s3: change\ns3 --> s4: cancel\ns3 --> s5: soda\ns3 --> s6: tea\ns5 --> s7: serve\ns5 --> s7: serveSodaGone\ns6 --> s7: serve\ns6 --> s7: serveTeaGone\ns7 --> s8: open\ns8 --> s9: take\ns9 --> s1: close\nsodaRefill ->> soda\nteaRefill ->> tea\nserveSodaGone --x soda\nserveTeaGone --x tea"
+    "Ex.11: vending RTS" -> "init s1\n// pay\ns1 --> s2: pay\ns4 --> s1: return\ns2 --> s3: change\ns3 --> s4: cancel\ns7 --> s8: open\ns8 --> s9: take\ns9 --> s1: close\n// soda\ns1 --> s1: sodaRefill\ns3 --> s5: soda\ns5 --> s7: serve\ns5 --> s7: serveSodaGone\nsodaRefill    ->> soda\nserveSodaGone --x soda\n// tea\ns1 --> s1: teaRefill\ns3 --> s6: tea\ns6 --> s7: serve\ns6 --> s7: serveTeaGone\nteaRefill    ->> tea\nserveTeaGone --x tea"
       -> "Vending machine, implemented using an RTS. Presented in Fig. 3a and Example 11 in the companion paper.",
+    "Ex.11: vending RTS (3 drinks)" -> "init s1\n// pay\ns1 --> s2: pay\ns4 --> s1: return\ns2 --> s3: change\ns3 --> s4: cancel\ns7 --> s8: open\ns8 --> s9: take\ns9 --> s1: close\n// soda\ns1 --> s1: sodaRefill\ns3 --> s5: soda\ns5 --> s7: serve\ns5 --> s7: serveSodaGone\nsodaRefill    ->> soda\nserveSodaGone --x soda\n// tea\ns1 --> s1: teaRefill\ns3 --> s6: tea\ns6 --> s7: serve\ns6 --> s7: serveTeaGone\nteaRefill    ->> tea\nserveTeaGone --x tea\n// coffee\ns1 --> s1: coffeeRefill\ns3 --> s6cf: coffee\ns6cf --> s7: serve\ns6cf --> s7: serveCoffeeGone\ncoffeeRefill    ->> coffee\nserveCoffeeGone --x coffee"
+      -> "Vending machine, implemented using an RTS. Variation with 3 drinks of the vending machine example, presented in Fig. 3a and Example 11 in the companion paper.",
     "Ex.12: perm RTS"
       -> "// Action-permutation RTS, which \n// recognises the language given\n// by all perumations of {a,b,c}\n// and their subsets. Variation that\n// exploits reactivity to forbid\n// multiple occurrences of each action\ninit s\ns --> s: a\ns --> s: b\ns --> s: c\na --x a\nb --x b\nc --x c"
       -> "RTS that accepts all permutations of the actions a,b,c and their prefixes. Reactivity is used to disable multiple occurrences of each action. Presented in Example 12 in the companion paper.",
@@ -135,7 +137,7 @@ object CaosConfig extends Configurator[FRTS]:
          rstates + simpleEdges
        }) ==\n${
          rstates
-       }state(s)\n${
+       } state(s)\n${
          simpleEdges
        } transition(s)"+
        s"\n== TS as a minimal DFA (size: ${
@@ -412,7 +414,7 @@ object CaosConfig extends Configurator[FRTS]:
       "TS"   -> (widgets.map(ex => ex._1).toSet.filter(_.startsWith("TS"))++
             examples.map(_.name).toSet.filter(_.matches(".* TS.*")) +
             "Ex.4: equivalences"),
-      "Expr"   -> examples.toList.drop(18).map(_.name).toSet,
+      "Expr"   -> examples.toList.drop(19).map(_.name).toSet,
   )
   
 
