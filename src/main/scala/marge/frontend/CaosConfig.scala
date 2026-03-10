@@ -6,7 +6,7 @@ import caos.sos.{FinAut, SOS}
 import caos.view.*
 import marge.backend.*
 import marge.syntax.FExp.{FNot, Feat}
-import marge.syntax.FRTS.toMermaid
+import marge.syntax.Mermaid.*
 import marge.syntax.RTS.{Action, Edge, QName}
 import marge.syntax.{FExp, FRTS, Parser, Show}
 import marge.syntax.RTS
@@ -122,7 +122,7 @@ object CaosConfig extends Configurator[FRTS]:
      "Possible problems of the TS" -> check[FRTS](r=>
        val p = AnalyseLTS.randomWalk(r.getRTS)._4.copy(deadlocks = Set())
        if p.isEmpty then List() else  List(AnalyseLTS.problemsPP(p).replaceAll("\n","</br>"))),
-     "Step-by-step" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, RTS.toMermaid, _.show, Mermaid).expand,
+     "Step-by-step" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, RTStoMermaid, _.show, Mermaid).expand,
      "Number of states and transitions"
        -> view((frts:FRTS) => {
        val rts = frts.getRTS
@@ -207,8 +207,8 @@ object CaosConfig extends Configurator[FRTS]:
     //         |<button class="tgBtn onBt" id="tsBtn">TS</button>
     //         |<button class="tgBtn onBt" id="expr">Exprm</button>
     //         |""".stripMargin),
-     "View FRTS" -> view[FRTS](Show.apply, Text).moveTo(1),
-     "View RTS projection" -> view[FRTS](x => Show(x.getRTS), Text).moveTo(1),
+     "Inspect (before projection)" -> view[FRTS](Show.apply, Text).moveTo(1),
+     "Inspect (after projection)" -> view[FRTS](x => Show(x.getRTS), Text).moveTo(1),
 // <script>
 //   const button = document.getElementById("tttoggleBtn");
 
@@ -223,13 +223,13 @@ object CaosConfig extends Configurator[FRTS]:
      // "View debug (complx)" -> view[RxGraph](RxGraph.toMermaid, Text).expand,
 //     "experiment" -> view[FRTS](x => test.map(_.dnf).mkString("\n"), Text).expand,
 //     "experiment2" -> view[FRTS](x => test.map(_.products(Set("a","b"))).mkString("\n"), Text).expand,
-     "FRTS: draw" -> view[FRTS](g => toMermaid(g), Mermaid).expand,
-     "RTS projection: Step-by-step" -> steps((e:FRTS)=>AnalyseLTS.sanify(AnalyseLTS.sanify(e.getRTS)), RTSSemantics, RTS.toMermaid, _.show, Mermaid).expand,
-     "TS projection unfolded" -> lts((e:FRTS)=>e.getRTS,
+     "View system" -> view[FRTS](g => RTStoMermaid(g.rts)(using g.pk), Mermaid).expand,
+     "Run (R)TS projection (step-by-step)" -> steps((e:FRTS)=>AnalyseLTS.sanify(AnalyseLTS.sanify(e.getRTS)), RTSSemantics, RTStoMermaid, _.show, Mermaid).expand,
+     "Project & unfold (TS)" -> lts((e:FRTS)=>e.getRTS,
        RTSSemantics,
        x => Show.simpler(x),//x.inits.toString,
        _.toString),
-     "FTS unfolded" ->
+     "Unfold & do not project (FTS)" ->
        ltsCustom((e:FRTS)=> (
          Set(e.rts),
          RTSSemantics.asFTS(e.pk),
@@ -238,7 +238,7 @@ object CaosConfig extends Configurator[FRTS]:
            if ae._2==FExp.FTrue
            then ae._1.toString
            else s"${ae._1} if ${Show(ae._2)}")),
-     "Products (feature combinations)" -> view[FRTS](x =>
+     "Products (list)" -> view[FRTS](x =>
                   val sel = x.main.toList.sorted.mkString(", ")
 //                  "== FM to DNF ==\n" +
 //                  Show.showDNF(x.fm.dnf) +
@@ -251,7 +251,21 @@ object CaosConfig extends Configurator[FRTS]:
                     .map((p,i)=>s" ${i+1}. ${p.toList.sorted.mkString(", ")}${
                       if p==x.main then " [selected]" else ""}")
                     .mkString("\n"), Text),
-      "Products (unfolded)" -> ltsCustomLst((frts:FRTS) =>
+      "Products (folded)" -> viewMerms(
+        (frts:FRTS) =>
+          frts.products
+            .toList.sortWith(_.size < _.size)
+            .map(p =>
+              val name = if frts.fm==FExp.FTrue then "" else
+                         if p.isEmpty then "(empty)" else
+                         p.toList.sorted.mkString(", ") +
+                         (if p==frts.main then " [selected]" else "")
+              val rts = AnalyseLTS.sanify(frts.project(p))
+              val rtsMerm = RTStoMermaid(rts)
+              (name, rtsMerm)
+            )
+      ),
+      "Products (unfolded)" -> ltsCustomMany((frts:FRTS) =>
         frts.products
           .toList.sortWith(_.size < _.size)
           .map(p =>
@@ -270,7 +284,7 @@ object CaosConfig extends Configurator[FRTS]:
       //   x => Show.simpler(x),//x.inits.toString,
       //   _.toString)),
       //  Text),
-     "Possible problems of the (insane) RTS projection" -> view[FRTS](r=>AnalyseLTS.randomWalkPP(r.getRTS)
+     "Possible problems after projection (insane RTS)" -> view[FRTS](r=>AnalyseLTS.randomWalkPP(r.getRTS)
        , Text).expand,
      "Number of states and transitions"
        -> view((frts:FRTS) => {
@@ -329,7 +343,7 @@ object CaosConfig extends Configurator[FRTS]:
      },
        Text),
      html("<h2>Other functionalities</h2>"),
-     "Check properties (TS projection)" -> view[FRTS](e =>
+     "Check properties (after unfolding and projecting)" -> view[FRTS](e =>
         val rts = e.getRTS
         if e.equivs.isEmpty then
           "No equivalence properties to check.\nUse the 'check' keyword in the RTS definition to add properties." +
@@ -345,17 +359,18 @@ object CaosConfig extends Configurator[FRTS]:
                             rts.copy(inits = Multiset()+p._2),RTSSemantics,RTSSemantics))
           .mkString("\n\n")
        , Text),
-     "RTS projection: Step-by-step (insane)" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, RTS.toMermaid, _.show, Mermaid),
-     "RTS projection: Step-by-step (hiding (de)activations)" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, RTS.toMermaidPlain, _.show, Mermaid),
+     "Insane (R)TS projection" -> view((e:FRTS)=>RTStoMermaid(e.getRTS),Mermaid),
+                                  //steps((e:FRTS)=>e.getRTS, RTSSemantics, RTStoMermaid, _.show, Mermaid),
+     "Run RTS projection (hiding reactions)" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, RTStoMermaidPlain, _.show, Mermaid),
      //     "Step-by-step DB" -> steps((e:FRTS)=>e, FRTSSemantics, FRTS.toMermaid, _.show, Text).expand,
      //     "Step-by-step DB (simpler)" -> steps((e:FRTS)=>e, FRTSSemantics, FRTS.toMermaidPlain, _.show, Text).expand,
      // "RTS projection: Step-by-step (txt)" -> steps((e:FRTS)=>e.getRTS, RTSSemantics, Show.apply, _.show, Text),
      ////     "Step-by-step (debug)" -> steps((e:RxGraph)=>e, Program2.RxSemantics, RxGraph.toMermaid, _.show, Text),
-     "TS projection (verbose)" -> lts((e:FRTS)=>e.getRTS,
+     "Project & unfold (TS verbose)" -> lts((e:FRTS)=>e.getRTS,
        RTSSemantics,
        x => Show.simple(x),//x.inits.toString,
        _.toString),
-     "TS projection: as mCRL2" ->
+     "Project & unfold (TS as mCRL2)" ->
        view((e:FRTS)=>
            var seed = 0;
            var rtsid = Map[RTS,Int]()
@@ -379,19 +394,19 @@ object CaosConfig extends Configurator[FRTS]:
              s"act\n  ${e.getRTS.edgs.flatMap(x=>x._2.map(y => clean(y._2.toString))).mkString(",")};\n" +
              s"proc\n${procs.toSet.mkString("\n")}"
          ,Text),
-     "FTS unfolded: deterministic" -> ltsCustom((e:FRTS)=>
+     "Unfold & do not project & determinise" -> ltsCustom((e:FRTS)=>
        (Set(Set(e.rts)),
         FinAut.detSOS(RTSSemantics.asFTS(e.pk)) , 
         x => x.map(_.inits.toString).mkString(","),
         Show(_))),
-     "FTS unfolded: minimal (up to trace-equivalence)" -> ltsCustom((e:FRTS)=>
+     "Unfold & do not project & minimise (up to trace-equivalence)" -> ltsCustom((e:FRTS)=>
          val (i,s,_) = FinAut.minSOS(RTSSemantics.asFTS(e.pk),Set(e.getRTS))
          (i,s, x => x.map(_.inits.toString).mkString(","), Show(_))),
-     "TS projection unfolded: deterministic" -> lts((e:FRTS)=>
+     "Unfold & project & determinise" -> lts((e:FRTS)=>
        Set(e.getRTS), FinAut.detSOS(RTSSemantics),
        x => x.map(_.inits.toString).mkString(","),
        _.toString),
-     "TS projection unfolded: minimal (up to trace-equivalence)" -> ltsCustom(
+     "Unfold & project & minimise (up to trace-equivalence)" -> ltsCustom(
        (e:FRTS)=>
          val (i,s,_) = FinAut.minSOS(RTSSemantics,Set(e.getRTS))
          (i,s, x => x.map(_.inits.toString).mkString(","), _.toString)),
@@ -403,16 +418,30 @@ object CaosConfig extends Configurator[FRTS]:
 
     
   override val toggles: List[Toggle] = if justTS then List() else List(
-    "FRTS" -> (widgets.map(ex => ex._1).toSet.filter(_.startsWith("FRTS"))++
-            examples.map(_.name).toSet.filter(_.matches(".* FRTS.*")) - "Simple FRTS (w/o shortcuts)" ),
-      "RTS"  -> (widgets.map(ex => ex._1).toSet.filter(_.startsWith("RTS"))++
-            examples.map(_.name).toSet.filter(_.matches(".* RTS.*")) ),
-      "FTS"  -> (widgets.map(ex => ex._1).toSet.filter(_.startsWith("FTS"))++
-            examples.map(_.name).toSet.filter(_.matches(".* FTS.*")) ),
-      "TS"   -> (widgets.map(ex => ex._1).toSet.filter(_.startsWith("TS"))++
-            examples.map(_.name).toSet.filter(_.matches(".* TS.*")) +
-            "Ex.4: equivalences"),
-      "Expr"   -> examples.toList.drop(19).map(_.name).toSet,
+    "FRTS" -> (examples.map(_.name).toSet.filter(_.matches(".* FRTS.*")) -
+               "Simple FRTS (w/o shortcuts)" ++
+               Set("Inspect (after projection)", "Unfold & do not project (FTS)",
+                   "Unfold & do not project & determinise",
+                   "Project & unfold (TS)", "Project & unfold (TS verbose)",
+                   "Products (list)", "Products (folded)", "Products (unfolded)",
+                   "Insane (R)TS projection", "Run RTS projection (hiding reactions)",
+                   "Unfold & do not project & minimise (up to trace-equivalence)"
+      )),
+      "FTS"  -> (examples.map(_.name).toSet.filter(_.matches(".* FTS.*")) ++
+                 Set("Inspect (after projection)", "Unfold & do not project (FTS)",
+                   "Unfold & do not project & determinise",
+                   "Project & unfold (TS)", "Project & unfold (TS verbose)",
+                   "Products (list)", "Products (folded)", "Products (unfolded)",
+                   "Insane (R)TS projection",
+                   "Unfold & do not project & minimise (up to trace-equivalence)"
+      )),
+      "RTS"  -> (examples.map(_.name).toSet.filter(_.matches(".* RTS.*"))++
+                 Set("Run RTS projection (hiding reactions)",
+                 "Project & unfold (TS)", "Project & unfold (TS verbose)"
+      )),
+      "TS"   -> (examples.map(_.name).toSet.filter(_.matches(".* TS.*")) +
+                 "Ex.4: equivalences"),
+      "+Examples"   -> examples.toList.drop(19).map(_.name).toSet -> false,
   )
   
 
@@ -479,64 +508,24 @@ object CaosConfig extends Configurator[FRTS]:
         "</pre>" +
         "<p> where <code>feature_expression</code> is a boolean expression over features, and " +
         "<code>feature-names*</code> is a comma-separated list of features chosen for the current product.</p>"),
-    "TS projection unfolded" -> "More information on the TS visualization" ->
-      """<p>This widget depicts the projection for the selected product of the given FRTS.</p>
+    "Inspect (before projection)" -> "More information on the FRTS structure" ->
+      """<p>This widget shows the structure of the given FRTS, including its states, transitions, and feature model.</p>
         |
-        |<p>The names of the states include both the original name in the given FRTS and a number
-        |indicating the number of active transitions. E.g., <code>s0[2]</code> represents
-        |the state <code>s0</code> in the FRTS with 2 active transitions. Note that this name is not
-        |unique. To see the list of all active transitions, which provides unique names,
-        |please use the widget "TS projection (verbose)". </p>
+        |<p>Use this widget to inspect the original F(R)TS before applying any projectio. For a more visual representation, please use the widget "View system".</p>
         |""".stripMargin,
-    "TS projection (verbose)" -> "More information on the TS visualization" ->
-      """<p>This widget depicts the projection for the selected product of the given FRTS.</p>
+    "Inspect (after projection)" -> "More information on the RTS structure" ->
+      """<p>This widget shows the structure of the (R)TS obtained from projecting the selected set of features from the given FRTS, including its states and transitions.</p>
         |
-        |<p>The names of the states include both the original name in the given FRTS and a list
-        |of all active transitions. E.g., <code>s0[{a,b}]</code> represents
-        |the state <code>s0</code> in the FRTS with 2 active transitions, one labelled <code>a</code> and another labelled <code>b</code>.
-        | Note that this name is unique. To see a simpler name, please use the widget "TS projection unfolded". </p>
+        |<p>Use this widget to inspect the (R)TS projection of the given FRTS. For a more visual representation, please use the widget "Run (R)TS projection (step-by-step)".</p>
         |""".stripMargin,
-    "FTS unfolded: deterministic" -> "More information on how to determinise the FTS" ->
-      """We use a modified version of the subset construction algorithm to determinise the FTS,
-        |where we also take into account the feature expressions associated with the transitions.
-        |The resulting deterministic FTS is not minimal, and can be further minimised using the widget "FTS projection unfolded: minimal (up to trace-equivalence)". """.stripMargin,
-    "TS projection unfolded: deterministic" -> "More information on how to determinise the TS" ->
-      """We use the subset construction algorithm to determinise the TS, where each state in the resulting
-        |TS corresponds to a set of states in the original TS. The resulting deterministic TS is not minimal,
-        |and can be further minimised using the widget "TS projection unfolded: minimal (up to trace-equivalence)".""".stripMargin,
-    "TS projection unfolded: minimal (up to trace-equivalence)" -> "More information on how to mininmise the TS)"
-      ->
-      """We use Hopcroft's algorithm to find and merge indistinguishable states
-        |(<a href="https://en.wikipedia.org/wiki/DFA_minimization#Hopcroft's_algorithm">https://en.wikipedia.org/wiki/DFA_minimization</a>),
-        |based on partition refinement of the underlying equivalence class.
-        |This notion of indistinguishable relies on trace-equivalence and not on bisimilarity.""".stripMargin,
-    "TS projection: trace-equivalent states" -> "More information on how to minimise the TS)"
-      ->
-      """We use Hopcroft's algorithm to find indistinguishable states
-      |(<a href="https://en.wikipedia.org/wiki/DFA_minimization#Hopcroft's_algorithm">https://en.wikipedia.org/wiki/DFA_minimization</a>),
-      |based on partition refinement of the underlying equivalence class.
-      |This notion of indistinguishable relies on trace-equivalence and not on bisimilarity.""".stripMargin,
-    "TS projection: as mCRL2" -> "More information on the mCRL2 syntax"
-      -> mCRL2doc("the RTS projection of the given FRTS"),
-    "As mCRL2" -> "More information on the mCRL2 syntax"
-      -> mCRL2doc("the given TS"),
-    "Possible problems of the (insane) RTS projection" -> "More information on the random walk and possible problems here" ->
-      """<p>This widget performs a random walk on the RTS projection of the given FRTS, checking for potential problems such as deadlocks, livelocks, and nondeterministic choices.</p>
+    "View system" -> "More information on the visualization of the system" ->
+      """<p>This widget shows a visual representation of the input (F)(R)TS without any projection or unfolding.</p>
         |
-        |<p>The RTS being analysed is before removing unreachable states and edges, to help idenfify potential problems.</p>
-        |
-        |<p>For more information on the possible problems that can be detected, please refer to
-        |the companion paper submitted to VARS 2026.</p>
+        |<p>TS, RTS, and FTS are particular cases of FRTS without some structural elements, such as reactions or features.</p>
         |""".stripMargin,
-    "Check properties (TS projection)" -> "More information on the properties that can be checked here" ->
-      """<p>Use the <code>check</code> keyword in the RTS definition to add properties to check. For example:</p>
-        <pre>
-        check Tr(s0) = Tr(q0) // check trace equivalence
-        check s0 ~ q0         // check bisimilarity
-        </pre>""",
-    "RTS projection: Step-by-step" -> "More information on the operational rules used here" ->
+    "Run (R)TS projection (step-by-step)" -> "More information on the operational rules used here" ->
       """<p>This widget shows the step-by-step application of the operational rules
-        |used to generate the RTS projection of the given FRTS.</p>
+        |used to generate the (R)TS projection of the given F(R)TS.</p>
         |
         |<p>At each step, each of the applicable rules can be selected
         |and applied to generate new states and transitions. The process continues
@@ -545,11 +534,96 @@ object CaosConfig extends Configurator[FRTS]:
         |<p>For more information on the operational rules used here, please refer to
         |the companion paper submitted to VARS 2026.</p>
         |""".stripMargin,
-    "FRTS: draw" -> "More information on the FRTS visualization" ->
-      """<p>This widget depicts the given FRTS.</p>
+      "Project & unfold (TS)" -> "More information on the TS visualization" ->
+      """<p>This widget depicts the projection for the selected product of the given F(R)TS.</p>
         |
-        |<p>TS, RTS, and FTS are particular cases of FRTS without some structural elements, such as reactions or features.</p>
+        |<p>The names of the states include both the original name in the given F(R)TS and a number
+        |indicating the number of active transitions. E.g., <code>s0[2]</code> represents
+        |the state <code>s0</code> in the F(R)TS with 2 active transitions. Note that this name is not
+        |unique. To see the list of all active transitions, which provides unique names,
+        |please use the widget "TS projection (verbose)". </p>
         |""".stripMargin,
+    "Project & unfold (TS verbose)" -> "More information on the TS visualization" ->
+      """<p>This widget depicts the projection for the selected product of the given F(R)TS.</p>
+        |
+        |<p>The names of the states include both the original name in the given F(R)TS and a list
+        |of all active transitions. E.g., <code>s0[{a,b}]</code> represents
+        |the state <code>s0</code> in the F(R)TS with 2 active transitions, one labelled <code>a</code> and another labelled <code>b</code>.
+        | Note that this name is unique. To see a simpler name, please use the widget "Project & unfold (TS)". </p>
+        |""".stripMargin,
+    "Products (list)" -> "More information on how to compute the products" ->
+      """We compute the products by first computing the DNF of the feature model, and then
+         extracting the product combinations from the DNF. For more information on how to compute the DNF,
+         please refer to the companion paper submitted to VARS 2026.""".stripMargin,
+    "Products (folded)" -> "More information on how to compute the products and visualise them" ->
+      """We compute the products by first computing the DNF of the feature model, and then
+         extracting the product combinations from the DNF.
+
+         This widget shows a visual representation of the projected (R)TS for each product, where states are named by their original name in the given F(R)TS and transitions are not labelled with their feature expressions. For the unfolded version, please use the widget "Products (unfolded)".
+         
+         For more information on how to compute the DNF,
+         please refer to the companion paper submitted to VARS 2026.
+         <p> For visualisation, we show a simplified version of the projected RTS for each product, where states are named by their original name in the given F(R)TS and transitions are not labelled with their feature expressions. For a more detailed visualisation, please use the widget "Products (unfolded)". """.stripMargin,
+    "Products (unfolded)" -> "More information on how to compute the products and visualise them" ->
+        """We compute the products by first computing the DNF of the feature model, and then
+         extracting the product combinations from the DNF.
+
+         This widget shows a visual representation of the projected (R)TS for each product after unfolding its behaviour, where states are named by their original name in the given F(R)TS and a list of all active transitions. For a simpler version, please use the widget "Products (folded)".
+         
+         For more information on how to compute the DNF,
+         please refer to the companion paper submitted to VARS 2026.
+         <p> For visualisation, we show a detailed version of the projected RTS for each product, where states are named by their original name in the given F(R)TS and a list of all active transitions. For a simpler visualisation, please use the widget "Products (folded)". """.stripMargin,
+    "Possible problems after projection (insane RTS)" -> "More information on the random walk and possible problems here" ->
+      """<p>This widget performs a random walk on the RTS projection of the given FRTS, checking for potential problems such as deadlocks, inconsistencies, livelocks, and unreachable states/edges.</p>
+        |
+        |<p>The RTS being analysed is before removing unreachable states and edges, to help idenfify potential problems.</p>
+        |
+        |<p>For more information on the possible problems that can be detected, please refer to
+        |the companion paper submitted to VARS 2026.</p>
+        |""".stripMargin,
+    "Insane (R)TS projection" -> "More information on the projection before making the result sane" ->
+      """<p>This widget projects the selected product into an (R)TS without making it sane, i.e., without removing unreachable states and edges.</p>
+        |
+        |<p>For more information on the possible problems that can be detected, please refer to
+        |the companion paper submitted to VARS 2026.</p>
+        |""".stripMargin,
+    "Run RTS projection (hiding reactions)" -> "More information on the projection hiding reactions" ->
+      """<p>This widget is a variation of the widget "Run (R)TS projection (step-by-step)", where the reactions are hidden in the visualization to make it simpler.</p>
+        |""".stripMargin,
+    "Unfold & do not project & determinise" -> "More information on how to determinise the FTS" ->
+      """We use a modified version of the subset construction algorithm to determinise the FTS,
+        |where we also take into account the feature expressions associated with the transitions.
+        |The resulting deterministic FTS is not minimal, and can be further minimised using the widget "FTS projection unfolded: minimal (up to trace-equivalence)". """.stripMargin,
+    "Unfold & project & determinise" -> "More information on how to determinise the TS" ->
+      """We use the subset construction algorithm to determinise the TS, where each state in the resulting
+        |TS corresponds to a set of states in the original TS. The resulting deterministic TS is not minimal,
+        |and can be further minimised using the widget "TS projection unfolded: minimal (up to trace-equivalence)".""".stripMargin,
+    "Unfold & project & minimise (up to trace-equivalence)" -> "More information on how to mininmise the TS)"
+      ->
+      """<p>We use Hopcroft's algorithm to find and merge indistinguishable states
+        |(<a href="https://en.wikipedia.org/wiki/DFA_minimization#Hopcroft's_algorithm">https://en.wikipedia.org/wiki/DFA_minimization</a>),
+        |based on partition refinement of the underlying equivalence class.</p>
+        |
+        |<p>This notion of indistinguishability relies on trace-equivalence and not on bisimilarity.</p>""".stripMargin,
+    "Unfold & do not project & minimise (up to trace-equivalence)" -> "More information on how to minimise the TS)"
+      ->
+      """<p>We use Hopcroft's algorithm to find and merge indistinguishable states
+      |(<a href="https://en.wikipedia.org/wiki/DFA_minimization#Hopcroft's_algorithm">https://en.wikipedia.org/wiki/DFA_minimization</a>),
+      |based on partition refinement of the underlying equivalence class.</p>
+      |
+      |<p>This version does not project; instead it uses the expressions in the labels as part of the label (using syntactic equality).</p>
+      |
+      |<p>This notion of indistinguishability relies on trace-equivalence and not on bisimilarity.</p>""".stripMargin,
+    "TS projection: as mCRL2" -> "More information on the mCRL2 syntax"
+      -> mCRL2doc("the RTS projection of the given FRTS"),
+    "Project & unfold (TS as mCRL2)" -> "More information on the mCRL2 syntax"
+      -> mCRL2doc("the given TS"),
+    "Check properties (after unfolding and projecting)" -> "More information on the properties that can be checked here" ->
+      """<p>Use the <code>check</code> keyword in the RTS definition to add properties to check. For example:</p>
+        <pre>
+        check Tr(s0) = Tr(q0) // check trace equivalence
+        check s0 ~ q0         // check bisimilarity
+        </pre>""",
   )
 
   def mCRL2doc(from:String): String =

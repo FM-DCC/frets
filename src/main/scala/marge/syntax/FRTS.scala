@@ -1,7 +1,7 @@
 package marge.syntax
 
 import marge.syntax.FExp.{FTrue, Literal}
-import marge.syntax.RTS.{Edge, QName, toMermaid, State}
+import marge.syntax.RTS.{Edge, QName, State}
 import marge.backend.Rel.{Rel, add, join}
 
 case class FRTS(rts: RTS,
@@ -57,8 +57,5 @@ case class FRTS(rts: RTS,
   }
 
 
-object FRTS:
-  def toMermaid(f: FRTS): String =
-    RTS.toMermaid(f.rts)(using f.pk)
 
 

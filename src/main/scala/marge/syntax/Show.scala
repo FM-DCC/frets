@@ -67,8 +67,14 @@ object Show:
 
   /** Pretty print an RTS with only the number of active edges */
   def simple(rx:RTS): String =
-    s"[at] ${rx.inits} [active] ${apply(rx.act)}"
+    if rx.off.isEmpty && rx.on.isEmpty then
+      s"${rx.inits}"
+    else
+      s"[at] ${rx.inits} [active] ${apply(rx.act)}"
 
   /** Pretty print an RTS with only the number of active edges (more compact) */
   def simpler(rx: RTS): String =
-    s"${rx.inits}[${rx.act.size}]"
+    if rx.off.isEmpty && rx.on.isEmpty then
+      s"${rx.inits}"
+    else
+      s"${rx.inits}[${rx.act.size}]"
