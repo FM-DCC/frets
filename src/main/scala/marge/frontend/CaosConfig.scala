@@ -541,7 +541,7 @@ object CaosConfig extends Configurator[FRTS]:
         |indicating the number of active transitions. E.g., <code>s0[2]</code> represents
         |the state <code>s0</code> in the F(R)TS with 2 active transitions. Note that this name is not
         |unique. To see the list of all active transitions, which provides unique names,
-        |please use the widget "TS projection (verbose)". </p>
+        |please use the widget "Project & unfold (TS verbose)". </p>
         |""".stripMargin,
     "Project & unfold (TS verbose)" -> "More information on the TS visualization" ->
       """<p>This widget depicts the projection for the selected product of the given F(R)TS.</p>
@@ -550,6 +550,16 @@ object CaosConfig extends Configurator[FRTS]:
         |of all active transitions. E.g., <code>s0[{a,b}]</code> represents
         |the state <code>s0</code> in the F(R)TS with 2 active transitions, one labelled <code>a</code> and another labelled <code>b</code>.
         | Note that this name is unique. To see a simpler name, please use the widget "Project & unfold (TS)". </p>
+        |""".stripMargin,
+    "Unfold & do not project (FTS)" -> "More information on the FTS visualization" ->
+      """<p>This widget depicts the unfolding of the given F(R)TS without projection, which corresponds to an FTS.</p>
+        |
+        |<p>The names of the states include both the original name in the given F(R)TS and a list
+        |of all active transitions. E.g., <code>s0[{a,b}]</code> represents
+        |the state <code>s0</code> in the F(R)TS with 2 active transitions, one labelled <code>a</code> and another labelled <code>b</code>.
+        | Note that this name is not unique.</p>
+        |
+        |<p>The names on the transitions include the feature expressions associated with each transition, and no product is selected. </p>
         |""".stripMargin,
     "Products (list)" -> "More information on how to compute the products" ->
       """We compute the products by first computing the DNF of the feature model, and then
@@ -624,6 +634,14 @@ object CaosConfig extends Configurator[FRTS]:
         check Tr(s0) = Tr(q0) // check trace equivalence
         check s0 ~ q0         // check bisimilarity
         </pre>""",
+    "Number of states and transitions" -> "More information on the size of the systems" ->
+      """<p>This widget shows the number of states and transitions in the given F(R)TS,
+          its (R)TS projection, and its TS projection after unfolding. For the unfolded TS projection,
+          it also shows the number of states and transitions after minimisation up to trace-equivalence.</p>
+        |
+        |<p>For more information on the possible problems that can be detected, please refer to
+        |the companion paper submitted to VARS 2026.</p>
+        |""".stripMargin,
   )
 
   def mCRL2doc(from:String): String =
